@@ -1,11 +1,12 @@
 import numpy as np
-import Metric.py as me
-import Lens.py as le
-import Clust.py as cl
-import Grapher.py as gr
+import Metric as me
+import Lens as le
+import Bins as bi
+import Clust as cl
+import Grapher as gr
 
 class Mapper:
-	#behövs default på metric
+	#behovs default pa metric
 	def __init__(self,cloud,metric,lens,bins,overlap,clust):
 
 		self.cloud = cloud
@@ -13,19 +14,24 @@ class Mapper:
 		
 		self.metric = me.Metric(metric)
 		self.lens = le.Lens(lens,self.metric)
-		self.clust = cl.Clust(clust)
+		self.clust = cl.Clust(clust,self.metric)
 
-		self.bins = bins
 		self.overlap = overlap
+		self.bins = bi.Bins(bins,self.overlap)
 		
+		#self.filteredcloud ar en array[2][n] forsta indexet ar punkten
+		#andra indexet ar vardet pa punkten i filtret
+		#self.filteredcloud ar sorterad efter i storleksordning efter 			
+		#filtrets skalar
+		self.filteredcloud = self.lens.filtered(self.cloud)
 		
-		#filtered cloud är en array[2][n] första indexet är punkten
-		#andra indexet är värdet på punkten i filtret
-		#self.filteredcloud är sorterad efter i storleksordning efter 			#filtrets skalär
-		self.filteredcloud = self.lens.filter(self.cloud)
+		#self.binnedfilteredcloud ar en array[2][n] forsta indexet ar punkten
+		#andra indexet ar index som sager hur punkten ar binnad
+		self.binnedfilteredcloud = self.bins.makebins(self.filteredcloud)
 		
-		
-		
+		#self.clusteredcloud ar en array[2][n] forsta indexet ar punkten
+		#andra indexet ar en lista med klustren som punkten tillhor
+		self.clusteredcloud = self.clust.makeclustering(self.binnedfilteredcloud)
 		
 
 
@@ -42,12 +48,10 @@ class Mapper:
 		self.bins = bins
 
 	def mclust(self,clust):
-		self.clust = clust
+		self.clust = cl.Clust(clust)
+
 
 
 	#Denna funktion visar mapper"bilden"
 	def visualize(self):
-		
-
-
-
+		gr.Grapher(self.clusteredcloud)
