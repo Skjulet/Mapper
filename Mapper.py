@@ -6,32 +6,37 @@ import Clust as cl
 import Grapher as gr
 
 class Mapper:
-	#behovs default pa metric
+	#default values may be needed
 	def __init__(self,cloud,metric,lens,bins,overlap,clust):
 
 		self.cloud = cloud
 
-		
 		self.metric = me.Metric(metric)
-		self.lens = le.Lens(lens,self.metric)
+		
+		self.bins = bins
+		self.overlap = overlap
+
+		self.lens = le.Lens(lens,self.metric,self.bins,self.overlap)
 		self.clust = cl.Clust(clust,self.metric)
 
-		self.overlap = overlap
-		self.bins = bi.Bins(bins,self.overlap)
-		
-		#self.filteredcloud ar en array[2][n] forsta indexet ar punkten
-		#andra indexet ar vardet pa punkten i filtret
-		#self.filteredcloud ar sorterad efter i storleksordning efter 			
-		#filtrets skalar
+		'''
+		self.filteredcloud is an array[3][n] the first index is the index of
+		the first point in self.cloud ie if we consider 
+		self.filteredcloud[1,b], then self.filteredcloud[1,b] corresponds to
+		the point self.cloud(:,self.filteredcloud[1,b])
+		the second index is the value the filter assigns to the point
+		the third index describes binning
+		self.filteredcloud is sorted after the size of the filters scalar
+		the filteredcloud is also binned
+		'''		
 		self.filteredcloud = self.lens.filtered(self.cloud)
 		
-		#self.binnedfilteredcloud ar en array[2][n] forsta indexet ar punkten
-		#andra indexet ar index som sager hur punkten ar binnad
-		self.binnedfilteredcloud = self.bins.makebins(self.filteredcloud)
-		
-		#self.clusteredcloud ar en array[2][n] forsta indexet ar punkten
-		#andra indexet ar en lista med klustren som punkten tillhor
-		self.clusteredcloud = self.clust.makeclustering(self.binnedfilteredcloud)
+		'''
+		#self.clusteredcloud is an array[2][n] the first index is a point
+		#the second index is a list with the clusters the point is in
+		'''
+	#this may be changed/rethought
+		self.clusteredcloud = self.clust.makeclustering(self.filteredcloud)
 		
 
 
@@ -52,6 +57,6 @@ class Mapper:
 
 
 
-	#Denna funktion visar mapper"bilden"
+	#This function shows the mapper visualization
 	def visualize(self):
 		gr.Grapher(self.clusteredcloud)
