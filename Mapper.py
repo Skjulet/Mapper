@@ -13,12 +13,15 @@ class Mapper:
 
 		self.metric = me.Metric(metric)
 		
-		self.bins = bins
 		self.overlap = overlap
 
-		self.lens = le.Lens(lens,self.metric,self.bins,self.overlap)
-		self.clust = cl.Clust(clust,self.metric)
+		self.bins = bi.Bins(bins, self.overlap, equalize = True)
+		
 
+		self.lens = le.Lens(lens,self.metric,self.bins)
+		self.clust = cl.Clust(clust,self.metric)
+		
+		#fix comment
 		'''
 		self.filteredcloud is an array[3][n] the first index is the index of
 		the first point in self.cloud ie if we consider 
@@ -30,7 +33,8 @@ class Mapper:
 		the filteredcloud is also binned
 		'''		
 		self.filteredcloud = self.lens.filtered(self.cloud)
-		
+
+		#fix comment
 		'''
 		#self.clusteredcloud is an array[2][n] the first index is a point
 		#the second index is a list with the clusters the point is in
