@@ -10,26 +10,28 @@ class Lens:
 		self.filter = fi.Filters(self.lens)
 		self.cloud = None
 		self.filteredcloud = None
-
+	'''
+	filtered  applies filter from Filters.py, sorts on filter variable and places the points into bins.
+	'''
 	def filtered(self,cloud):
 		self.cloud = cloud
 		#filteredcloud is sorted after filter size.
 		self.filteredcloud = self.filterpoint()
-
-		self.filteredcloud = self.bins.applybins(self.filteredcloud)
-		print(self.filteredcloud)
-#this function is tested, filter function needed
-	def filterpoint(self):
-
-		#cloud.shape gives (x,y) where x is number of rows and y is columns
-		self.filteredcloud = np.vstack([range(0,self.cloud.shape[1]), np.zeros(self.cloud.shape[1])])
-	
-
-		#insert a filter here
 		
+		#bins and adds a column of binning data
+		self.filteredcloud = self.bins.applybins(self.filteredcloud)
+		
+		return self.filteredcloud
+
+	#SECTION BELOW TESTED
+	'''
+	the function filterpoint applies the filter specified as self.lens to each point in the cloud
+	'''
+	def filterpoint(self):
+		
+		#creates filter for each point
 		self.filteredcloud = self.filter.applyfilter(self.cloud)
 
-		#ends here
 
 		#sorts the filtered clouds on filter variable
 		temporaryfiltered = np.zeros((self.filteredcloud.shape[1],self.filteredcloud.shape[0]))
@@ -40,10 +42,5 @@ class Lens:
 		self.filteredcloud = temporaryfiltered
 
 		return self.filteredcloud
-		
-	def binning(self):
-		pass
-	
-			
 		
 		

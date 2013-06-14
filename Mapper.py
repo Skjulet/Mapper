@@ -7,7 +7,8 @@ import Grapher as gr
 
 class Mapper:
 	#default values may be needed
-	def __init__(self,cloud,metric,lens,bins,overlap,clust):
+	def __init__(self,cloud,metric,lens,bins,overlap,clust,debugmode = False):
+		
 
 		self.cloud = cloud
 
@@ -21,6 +22,11 @@ class Mapper:
 		self.lens = le.Lens(lens,self.metric,self.bins)
 		self.clust = cl.Clust(clust,self.metric)
 		
+		self.debugmode = debugmode
+		if self.debugmode == True:
+			print("Mapper is now running in debug mode")	
+			print()	
+
 		#fix comment
 		'''
 		self.filteredcloud is an array[3][n] the first index is the index of
@@ -33,14 +39,22 @@ class Mapper:
 		the filteredcloud is also binned
 		'''		
 		self.filteredcloud = self.lens.filtered(self.cloud)
+		if self.debugmode == True:
+			print("Printing self.filteredcloud in the Mapper object:")
+			print(self.filteredcloud)	
 
 		#fix comment
 		'''
-		#self.clusteredcloud is an array[2][n] the first index is a point
-		#the second index is a list with the clusters the point is in
+		self.clusteredcloud is an array[2][n] the first index is a point
+		the second index is a list with the clusters the point is in
 		'''
 	#this may be changed/rethought
 		self.clusteredcloud = self.clust.makeclustering(self.filteredcloud)
+
+
+		if self.debugmode == True:
+			print("Printing self.clusteredcloud in the Mapper object:")
+			print(self.clusteredcloud)	
 		
 
 

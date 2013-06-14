@@ -5,4 +5,6 @@ class Clust:
 		self.clust = clust
 		self.metric = metric
 	def makeclustering(self,binnedfilteredcould):
-		pass
+		#print("Prints the binnedfilteredcloud:")
+		#print(binnedfilteredcould)
+		
