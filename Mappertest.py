@@ -19,9 +19,9 @@ A = np.vstack([range(0,cloud.shape[1]), np.random.sample(cloud.shape[1])])
 
 #print(max(A[1,:])) 
 #print(A[1,:]) 
-'''
-a = le.Lens(lens,metric,bins)
-a.filtered(cloud)
-print()
+
+'''a = (1,2)
+print(a)
+print(a[1])
 '''
 
