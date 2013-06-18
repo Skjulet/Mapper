@@ -9,7 +9,7 @@ class Lens:
 		self.lens = lens
 		self.metric = metric
 		self.bins = bins
-		self.filter = fi.Filters(self.lens,self.debugmode)
+		self.filter = fi.Filters(self.lens,self.metric,self.debugmode)
 		self.cloud = None
 		self.filteredcloud = None
 	'''

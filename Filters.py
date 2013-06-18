@@ -3,7 +3,8 @@ import Metric as me
 from scipy.spatial import distance
 
 class Filters:
-	def __init__(self,filtertype,debugmode = False):
+	def __init__(self,filtertype,metric,debugmode = False):
+		self.metric=metric
 		self.filtertype = filtertype
 
 	def applyfilter(self,cloud):
@@ -11,7 +12,7 @@ class Filters:
 			return np.column_stack((range(0,cloud.shape[0]), np.random.sample(cloud.shape[0])))
 
 		elif self.filtertype == 'Semantic':
-			D = distance.squareform(distance.pdist(cloud, metric='cosine'))
+			D = distance.squareform(distance.pdist(cloud, metric=self.metric.getmetric()))
 			values = np.zeros(len(cloud))
 			for n, row in enumerate(D):
 			    D[n][row.argmin()]=np.inf
@@ -24,4 +25,5 @@ class Filters:
 			return np.column_stack((range(0,cloud.shape[0]), values))
 		else:
 			pass
+
 

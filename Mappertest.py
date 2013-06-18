@@ -23,7 +23,7 @@ def SLcluster(data,eps):
 worddata = np.load('npy_files/easygoing_neighbors.npy')
 labeldata = np.load('npy_files/easygoing_neighborswords.npy')
 cloud = worddata
-metric = 'Euclidean'
+metric = 'cosine'
 lens = 'Semantic'
 bins = 5
 overlap = 0.9
@@ -35,7 +35,13 @@ testobjekt = ma.Mapper(cloud,metric,lens,bins,overlap,clust,eps,debugmode = Fals
 
 testobjekt.addlabels(labeldata)
 
-
 testobjekt.visualize()
 
+'''
+NEXT STEP: 
+(1) CREATE CLUSTER ARRAY
+(2) INSERTION OF PROPERTIES MADE EASY
 
+(*) Separate clusterdata, binningdata etc
+(*) incorporate graphing + clustering into binning
+'''

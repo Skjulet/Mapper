@@ -64,7 +64,7 @@ class Clust:
 	def SLcluster(self,data, eps):
 		X = data
 
-		Y = distance.pdist(X, metric='cosine')
+		Y = distance.pdist(X, metric=self.metric.getmetric())
 		Y = Y / np.max(Y)
 		Y[Y<0] = 0
 

@@ -52,6 +52,7 @@ class Mapper:
 			print("In Mapper__init__: Printing self.clusteredcloud:")
 			print(self.clusteredcloud)
 		
+		
 
 
 	def mmetric(self,metric):
@@ -77,11 +78,14 @@ class Mapper:
 
 	#This function shows the mapper visualization
 	def visualize(self):
+
 		self.grapherobject = gr.Grapher(self.cloud,self.clusteredcloud,self.labels,self.properties,True)
 
-		#self.grapherobject.makegraph()
-		#self.grapherobject.makegraph()
-		nx.write_graphml(self.grapherobject.makegraph(), 'graph_files/' + 'TestGraph' + '.graphml')
+		G = self.grapherobject.makegraph()
+		for number in range(0,len(G.nodes(data=True))):
+			print(G.nodes(data=True)[number][0])
+		print(G.nodes(data=True)[0])
+		#nx.write_graphml(self.grapherobject.makegraph(), 'graph_files/' + 'TestGraph' + '.graphml')
 
 
 
