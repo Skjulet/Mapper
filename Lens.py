@@ -3,11 +3,13 @@ import Metric as me
 import Filters as fi
 
 class Lens:
-	def __init__(self,lens,metric,bins):
+	def __init__(self,lens,metric,bins,debugmode = False):
+		self.debugmode = debugmode
+
 		self.lens = lens
 		self.metric = metric
 		self.bins = bins
-		self.filter = fi.Filters(self.lens)
+		self.filter = fi.Filters(self.lens,self.debugmode)
 		self.cloud = None
 		self.filteredcloud = None
 	'''
@@ -15,9 +17,18 @@ class Lens:
 	'''
 	def filtered(self,cloud):
 		self.cloud = cloud
+
+		if self.debugmode == True:
+			print("In Lens.filtered: The cloud itself:")
+			print(self.cloud)
+
 		#filteredcloud is sorted after filter size.
 		self.filteredcloud = self.filterpoint()
-		
+
+		if self.debugmode == True:
+			print("In Lens.filtered: cloud after filter + sorting")
+			print(self.filteredcloud)
+
 		#bins and adds a column of binning data
 		self.filteredcloud = self.bins.applybins(self.filteredcloud)
 		
@@ -31,16 +42,19 @@ class Lens:
 		
 		#creates filter for each point
 		self.filteredcloud = self.filter.applyfilter(self.cloud)
-
+		if self.debugmode == True:
+			print("In Lens.filterpoint: Cloud after added filthers:")
+			print(self.filteredcloud)
+		
 
 		#sorts the filtered clouds on filter variable
-		temporaryfiltered = np.zeros((self.filteredcloud.shape[1],self.filteredcloud.shape[0]))
+		temporaryfiltered = np.zeros((self.filteredcloud.shape[0],self.filteredcloud.shape[1]))
 		countvar = 0
-		for index in np.lexsort((self.filteredcloud[0],self.filteredcloud[1])):
-			temporaryfiltered[countvar] = self.filteredcloud[:,index]
+		for index in np.lexsort((self.filteredcloud[:,0],self.filteredcloud[:,1])):
+			temporaryfiltered[countvar] = self.filteredcloud[index,:]
 			countvar = countvar+1
 		self.filteredcloud = temporaryfiltered
-
+		
 		return self.filteredcloud
 		
 		

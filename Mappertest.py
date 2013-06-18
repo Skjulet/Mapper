@@ -1,27 +1,41 @@
 import numpy as np
 import Mapper as ma
 import Lens as le
+from scipy.spatial import distance
+from scipy.cluster.hierarchy import linkage
+from scipy.cluster.hierarchy import fcluster
 
-	
-cloud = np.ones((2,20))
+def SLcluster(data,eps):
+    X = data
+    
+    Y = distance.pdist(X, metric='euclidean')
+    Y = Y / np.max(Y)
+    Y[Y<0] = 0
+    
+    Z = linkage(Y,'complete')
+    
+    labels = fcluster(Z,t=eps,criterion='distance')
+    
+    return labels
+
+
+
+worddata = np.load('npy_files/easygoing_neighbors.npy')
+labeldata = np.load('npy_files/easygoing_neighborswords.npy')
+cloud = worddata
 metric = 'Euclidean'
-lens = 'Test'
+lens = 'Semantic'
 bins = 5
-overlap = 0.5
-clust = 'SingleLinkage'
-testobjekt = ma.Mapper(cloud,metric,lens,bins,overlap,clust,debugmode = True)
+overlap = 0.9
+clust = 'CompleteLinkage'
+eps = 0.92
+testobjekt = ma.Mapper(cloud,metric,lens,bins,overlap,clust,eps,debugmode = False)
 
 
-#print(cloud[:,1], cloud.shape)
-A = np.random.sample(cloud.shape[1])
-A = np.vstack([range(0,cloud.shape[1]), np.random.sample(cloud.shape[1])])
+
+testobjekt.addlabels(labeldata)
 
 
-#print(max(A[1,:])) 
-#print(A[1,:]) 
+testobjekt.visualize()
 
-'''a = (1,2)
-print(a)
-print(a[1])
-'''
 
