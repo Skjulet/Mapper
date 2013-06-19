@@ -53,7 +53,14 @@ class Mapper:
 			print(self.clusteredcloud)
 		
 		
+		#A PIECE OF TEST CODE
 
+		#self.grapherobject = gr.Grapher(self.cloud,self.clusteredcloud,self.labels,self.properties,True)
+		#G = self.grapherobject.TESTmakegraph()
+
+		#print(G.nodes(data=True)[0])
+		#print(G.edges(data=True)[0:5])
+		#TEST CODE ENDS HERE !
 
 	def mmetric(self,metric):
 		self.metric = me.Metric(metric,self.debugmode)
@@ -85,6 +92,7 @@ class Mapper:
 		for number in range(0,len(G.nodes(data=True))):
 			print(G.nodes(data=True)[number][0])
 		print(G.nodes(data=True)[0])
+		print(G.edges(data=True)[0:5])
 		#nx.write_graphml(self.grapherobject.makegraph(), 'graph_files/' + 'TestGraph' + '.graphml')
 
 

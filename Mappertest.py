@@ -31,17 +31,15 @@ clust = 'CompleteLinkage'
 eps = 0.92
 testobjekt = ma.Mapper(cloud,metric,lens,bins,overlap,clust,eps,debugmode = False)
 
-
-
 testobjekt.addlabels(labeldata)
 
 testobjekt.visualize()
 
 '''
-NEXT STEP: 
-(1) CREATE CLUSTER ARRAY
-(2) INSERTION OF PROPERTIES MADE EASY
-
-(*) Separate clusterdata, binningdata etc
-(*) incorporate graphing + clustering into binning
+B = [2,3]
+A = np.empty(2)
+print(B)
+A = np.row_stack((A,B))
+print(A)
 '''
+
