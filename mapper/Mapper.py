@@ -141,14 +141,14 @@ class Mapper:
         self.Properties_dict = np.column_stack((self.Properties_dict,
                                                 Properties_npArray))
 
-    def visualize(self):
+    def visualize(self, DirectoryPath_str, FileName_str):
         '''This function saves the graph in a map in .graphml format
         '''
 
 
         pass
-	#nx.write_graphml(self.GrapherObject_gr.GetGraph(), 'graph_files/' +\
-	#'TestGraph' + '.graphml')
+	#nx.write_graphml(self.GrapherObject_gr.GetGraph(), DirectoryPath_str +\
+	#FileName_str + '.graphml')
 
 
 
