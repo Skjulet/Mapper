@@ -85,14 +85,15 @@ class Mapper:
 		print(G.edges(data=True)[0:5])
 
 	def AddFilterToGraph(self):
-		
+		pass
+
 	def addproperties(self,properties,PropertiesName):
 		self.properties = np.column_stack((self.properties, properties))
 
 
 	#This function saves the graph in graph_files/ in .graphml format
 	def visualize(self):
-		
+		pass
 		
 		#nx.write_graphml(self.grapherobject.GetGraph(), 'graph_files/' + 'TestGraph' + '.graphml')
 
