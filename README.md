@@ -35,12 +35,12 @@ Styleguide:
         
         Use implied line continuation:
             Good:
-            def mapper(self,beard,kilt,
-                        shoes,horde,cat):
+            def mapper(self,beard_str,kilt_str,
+                        shoes_int,horse_str,cat_str):
                 math.random()
             Bad:
-            def mapper(self,beard,kilt
-                ,shoes,horde,cat):
+            def mapper(self,beard_str,kilt_str
+                ,shoes_int,horse_str,cat_str):
                 math.random()
                 
     Blank lines:
@@ -113,9 +113,9 @@ Styleguide:
             They should start with a # and a single space.
             
             Inline comments are unnecessary if they state the obvious. Don't do this:
-                x = x + 1    # Increment x
+                x_int = x_int + 1    # Increment x
             But sometimes, this is useful:
-                x = x + 1    # Compensate for border
+                x_int = x_int + 1    # Compensate for border
         Documentation Strings:
             '''This is a documentation string
             '''
@@ -125,11 +125,11 @@ Styleguide:
             that describes what the method does. This comment should appear after the def line.
         
     Naming Conventions:
-        All Variable, CONSTANT and function_name names should be informative.
+        All Variable_str, CONSTANT_str and function_name names should be informative.
             
-        Style used for Variables is CapitalizedWordsStr.
+        Style used for Variables is CapitalizedWords_str, that is VariableName followed by _type.
         
-        CONSTANTS use capital letters only.
+        CONSTANTS_str use capital letters only.
         
         Functions use lower_case_with_underscores.
             mixedCase is allowed only in contexts where that's already the prevailing style 
@@ -139,9 +139,10 @@ Styleguide:
             
         All variables and CONSTANTS end with the variable type.
         The following types are used:
-            Str for string
-            Int for integer
-            Flt for float
+            str for string
+            int for integer
+            flt for float
+            bol for boolean
                 
     General Rules:
         Code should be written in a way that does not disadvantage other implementations of 
