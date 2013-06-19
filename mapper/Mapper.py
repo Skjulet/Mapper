@@ -1,5 +1,5 @@
 '''Mapper.py is the main object that executes the mapper algorithm and
-distributes the steps in the algorithm to several other classes (the ones
+distributes the steps in the algorithm to several other classes the ones
 imported last.
 '''
 import numpy as np
