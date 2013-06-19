@@ -49,27 +49,29 @@ class Mapper:
         self.Properties_dict = None
         self.Labels_npArray = None
 
-        #Filters cloud on the lenses filter
-        self.filteredcloud = \
+        #Bins and filters cloud on the lenses filter
+        self.BFPointCloud_npArray = \
         self.LensObject_le.filtered(self.PointCloud_npArray)
         if self.DebugMode_bol == True:
-             print("In Mapper__init__: Printing self.filteredcloud in the\
-             Mapper object:")
-             print(self.filteredcloud)	
+             print("In Mapper__init__: Printing self.BFPointCloud_npArray in\
+             the Mapper object:")
+             print(self.BFPointCloud_npArray)	
 
         #clusters the cloud
-        self.clusteredcloud = \
-        self.ClustObject_cl.TESTmakeclustering(self.filteredcloud)
+        self.ClusteredPointCloud_npArray = \
+        self.ClustObject_cl.TESTmakeclustering(self.BFPointCloud_npArray)
 
 
         if self.DebugMode_bol == True:
-            print("In Mapper__init__: Printing self.clusteredcloud:")
-            print(self.clusteredcloud)
+            print("In Mapper__init__: Printing\
+            self.ClusteredPointCloud_npArray:")
+            print(self.ClusteredPointCloud_npArray)
 
 
         #creates a graph from the self.PointCloud_npArray and clustering data
         self.GrapherObject_gr = gr.Grapher(self.PointCloud_npArray, 
-                                    self.clusteredcloud, self.DebugMode_bol)
+                                    self.ClusteredPointCloud_npArray,
+                                    self.DebugMode_bol)
         self.GrapherObject_gr.makegraph()
 
     def mmetric(self, MetricName_str):
@@ -118,9 +120,9 @@ class Mapper:
 
         self.Labels_npArray = Labels_npArray
         self.GrapherObject_gr.addlabels(self.Labels_npArray)
-        G = self.GrapherObject_gr.GetGraph()
-        print(G.nodes(data=True)[0])
-        print(G.edges(data=True)[0:5])
+        G_graph = self.GrapherObject_gr.GetGraph()
+        print(G_graph.nodes(data=True)[0])
+        print(G_graph.edges(data=True)[0:5])
 
     def AddFilterToGraph(self):
         '''Function that adds meaned filter values to the nodes in the graph
