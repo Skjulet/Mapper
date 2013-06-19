@@ -104,7 +104,7 @@ class Mapper:
         '''
 
 
-        self.Clust_str = cl.Clust(PointCloud_npArray, Clust_str,
+        self.Clust_str = cl.Clust(self.PointCloud_npArray, Clust_str,
                                 self.Metric_me, self.DebugMode_bol)
 
     def addlabels(self, Labels_npArray):
