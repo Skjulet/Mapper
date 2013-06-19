@@ -8,9 +8,9 @@ class Lens:
     def __init__(self, Lens_str, Metric_me, BINS_int, DebugMode_bol=False):
         self.debugmode = DebugMode_bol
         
-        self.lens = lens
-        self.metric = metric
-        self.bins = bins
+        self.lens = Lens_str
+        self.metric = Metric_me
+        self.bins = BINS_int
         self.filter = fi.Filters(self.lens, self.metric, self.debugmode)
         self.cloud = None
         self.filteredcloud = None
