@@ -1,77 +1,105 @@
+'''
+'''
 import numpy as np
 from scipy.spatial import distance
 from scipy.cluster.hierarchy import linkage
 from scipy.cluster.hierarchy import fcluster
 
 class Clust:
-	def __init__(self,cloud,clust,eps,metric,debugmode = False):
-		self.debugmode = debugmode
-		
-		self.cloud = cloud
-		self.clust = clust
-		self.eps = eps
-		self.metric = metric
-		self.binnedfilteredcould = None
-		self.size = len(cloud)
-	
-	def TESTmakeclustering(self,binnedfilteredcould):
-		self.binnedfilteredcould = binnedfilteredcould
-		if self.debugmode == True:
-			print("In clust.TESTmakeclustering:Data to be clustered:")
-			print(self.binnedfilteredcould)
+    def __init__(self, PointCloud_npArray, ClusterAlgorithm_str, EPS_flt,
+                 Metric_me, DebugMode_bol=False):
+        '''
+        '''
+        
+        
+        self.DebugMode_bol = DebugMode_bol
+        
+        self.PointCloud_npArray = PointCloud_npArray
+        self.ClusterAlgorithm_str = ClusterAlgorithm_str
+        self.EPS_flt = EPS_flt
+        self.Metric_me = Metric_me
+        self.BFPointCloud_npArray = None
+        self.size = len(PointCloud_npArray)
+    
+    def TESTmakeclustering(self, BFPointCloud_npArray):
+        '''
+        '''
+        
+        
+        self.BFPointCloud_npArray = BFPointCloud_npArray
+        if self.DebugMode_bol == True:
+            print("In clust.TESTmakeclustering:Data to be clustered:")
+            print(self.BFPointCloud_npArray)
+    
+        firstbin = [self.BFPointCloud_npArray[0,0]]
 
-		firstbin = [self.binnedfilteredcould[0,0]]
-		
-		secondbin = []
-		for index in range(1,len(self.binnedfilteredcould)):
-			
-			if self.binnedfilteredcould[index,2] == 2:
-				firstbin = firstbin + [self.binnedfilteredcould[index,0]]
-				secondbin = secondbin + [self.binnedfilteredcould[index,0]]
-			elif self.binnedfilteredcould[index,2] == 1 and self.binnedfilteredcould[index-1,2] == 2:
-				self.createclusters(firstbin,index)
-				firstbin = secondbin
-				firstbin = firstbin + [self.binnedfilteredcould[index,0]]
-				secondbin = []	
-			elif self.binnedfilteredcould[index,2] == 1 and self.binnedfilteredcould[index-1,2] == 1:
-				firstbin = firstbin + [self.binnedfilteredcould[index,0]]
-		
-		index = index +1
-		self.createclusters(firstbin,index)
-		
-		return self.binnedfilteredcould
+        secondbin = []
+        for index in range(1,len(self.BFPointCloud_npArray)):
 
-	def createclusters(self,points,loopnumber):
-		if self.debugmode == True:
-			print("In clust.createclusters:")
-			print(points)
-		
-		#gives each cluster unique index
-		if self.binnedfilteredcould.shape[1] == 3:
-			maxclust = 0
-		else:
-			maxclust = max(self.binnedfilteredcould[:,-1])
+            if self.BFPointCloud_npArray[index,2] == 2:
+                firstbin = firstbin + [self.BFPointCloud_npArray[index,0]]
+                secondbin = secondbin + [self.BFPointCloud_npArray[index,0]]
+            elif self.BFPointCloud_npArray[index,2] == 1 \
+                            and self.BFPointCloud_npArray[index-1,2] == 2:
+                self.createclusters(firstbin,index)
+                firstbin = secondbin
+                firstbin = firstbin + [self.BFPointCloud_npArray[index,0]]
+                secondbin = []	
+            elif self.BFPointCloud_npArray[index,2] == 1 \
+                            and self.BFPointCloud_npArray[index-1,2] == 1:
+                firstbin = firstbin + [self.BFPointCloud_npArray[index,0]]
 
-		a = np.append(np.ones(loopnumber-len(points))*(-2),[x+maxclust for x in self.clusteringmethod(self.cloud[points,:])])
+        index = index +1
+        self.createclusters(firstbin,index)
 
-		self.binnedfilteredcould = np.column_stack((self.binnedfilteredcould, np.append(a,np.ones(self.size-loopnumber)*(-2))))
-		
+        return self.BFPointCloud_npArray
+    
+    def createclusters(self, points, loopnumber):
+        '''
+        '''
+        
+        
+        if self.DebugMode_bol == True:
+            print("In clust.createclusters:")
+            print(points)
 
-	def clusteringmethod(self,cloud):
-		if self.clust == 'CompleteLinkage':
-			return self.SLcluster( cloud, self.eps)
+        #gives each cluster unique index
+        if self.BFPointCloud_npArray.shape[1] == 3:
+            maxclust = 0
+        else:
+            maxclust = max(self.BFPointCloud_npArray[:,-1])
+    
+        a = np.append(np.ones(loopnumber-len(points))*(-2),
+                      [x+maxclust for x in 
+                       self.clusteringmethod(
+                        self.PointCloud_npArray[points,:])])
+    
+        self.BFPointCloud_npArray = np.column_stack(
+                            (self.BFPointCloud_npArray,
+                             np.append(a,np.ones(self.size-loopnumber)*(-2))))
 
-
-	def SLcluster(self,data, eps):
-		X = data
-
-		Y = distance.pdist(X, metric=self.metric.getmetric())
-		Y = Y / np.max(Y)
-		Y[Y<0] = 0
-
-		Z = linkage(Y,'complete')
-
-		labels = fcluster(Z,t=eps,criterion='distance')
-
-		return labels
-
+    def clusteringmethod(self, PointCloud_npArray):
+        '''
+        '''
+        
+        
+        if self.ClusterAlgorithm_str == 'CompleteLinkage':
+            return self.SLcluster( PointCloud_npArray, self.EPS_flt)
+    
+    
+    def SLcluster(self, data, EPS_flt):
+        '''
+        '''
+        
+        
+        X = data
+    
+        Y = distance.pdist(X, metric=self.Metric_me.getmetric())
+        Y = Y / np.max(Y)
+        Y[Y<0] = 0
+    
+        Z = linkage(Y,'complete')
+    
+        labels = fcluster(Z,t=EPS_flt,criterion='distance')
+    
+        return labels
