@@ -14,8 +14,9 @@ import Grapher as gr
 
 
 class Mapper:
-    def __init__(self, PointCloud_npArray, Metric_me, Lens_str, BINS_int,
-                OVERLAP_flt, Clust_str, EPS_flt, DebugMode_bol = False):
+    def __init__(self, PointCloud_npArray, MetricName_str, LensName_str,
+                BINNUMBER_int, OVERLAP_flt, ClusterAlgorithm_str,
+                EPS_flt, DebugMode_bol = False):
         '''The Mapper object is initiated with a set PointCloud_npArray and
         dependes on several other variables (see above)
         '''
@@ -23,33 +24,34 @@ class Mapper:
 
         self.DebugMode_bol = DebugMode_bol
         if self.DebugMode_bol == True:
-            print("In Mapper__init__: Mapper is now running in debug mode")	
+            print("In Mapper__init__: Mapper is now running in debug mode")
             print()	
 
 
         self.PointCloud_npArray = PointCloud_npArray
 
-        self.Metric_me = me.Metric(Metric_me,self.DebugMode_bol)
+        self.MetricObject_me = me.Metric(MetricName_str,self.DebugMode_bol)
 
         self.Equalize_bol = True
         self.OVERLAP_flt = OVERLAP_flt
-        self.BINS_int = bi.Bins(BINS_int, self.OVERLAP_flt,
+        self.BinsObjebt_bi = bi.Bins(BINNUMBER_int, self.OVERLAP_flt,
                                 self.Equalize_bol, self.DebugMode_bol)	
-        self.Lens_str = le.Lens(Lens_str, self.Metric_me,
-                                self.BINS_int, DebugMode_bol)
+        self.LensObject_le = le.Lens(LensName_str, self.MetricObject_me,
+                                self.BinsObjebt_bi, DebugMode_bol)
 
         self.EPS_flt = EPS_flt
-        self.Clust_str = cl.Clust(self.PointCloud_npArray, 
-                                Clust_str, self.EPS_flt, 
-                                self.Metric_me, self.DebugMode_bol)
+        self.ClustObject_cl = cl.Clust(self.PointCloud_npArray, 
+                                ClusterAlgorithm_str, self.EPS_flt, 
+                                self.MetricObject_me, self.DebugMode_bol)
 
         self.Coloring_npArray = None
         self.GrapherObject_gr = None
-        self.properties = None
+        self.Properties_dict = None
         self.Labels_npArray = None
 
         #Filters cloud on the lenses filter
-        self.filteredcloud = self.Lens_str.filtered(self.PointCloud_npArray)
+        self.filteredcloud = \
+        self.LensObject_le.filtered(self.PointCloud_npArray)
         if self.DebugMode_bol == True:
              print("In Mapper__init__: Printing self.filteredcloud in the\
              Mapper object:")
@@ -57,7 +59,7 @@ class Mapper:
 
         #clusters the cloud
         self.clusteredcloud = \
-        self.Clust_str.TESTmakeclustering(self.filteredcloud)
+        self.ClustObject_cl.TESTmakeclustering(self.filteredcloud)
 
 
         if self.DebugMode_bol == True:
@@ -70,20 +72,20 @@ class Mapper:
                                     self.clusteredcloud, self.DebugMode_bol)
         self.GrapherObject_gr.makegraph()
 
-    def mmetric(self, Metric_me):
-        '''Function that modifies the self.Metric_me object
+    def mmetric(self, MetricName_str):
+        '''Function that modifies the self.MetricObject_me object
         '''
 
 
-        self.Metric_me = me.Metric(Metric_me, self.DebugMode_bol)
+        self.MetricObject_me = me.Metric(MetricName_str, self.DebugMode_bol)
 
-    def mlens(self, Lens_str):
-        '''Function that modifies the self.Lens_str object
+    def mlens(self, LensName_str):
+        '''Function that modifies the self.LensObject_le object
         '''
 
 
-        self.Lens_str = le.Lens(Lens_str, self.Metric_me,
-                                self.BINS_int, self.DebugMode_bol)
+        self.LensObject_le = le.Lens(LensName_str, self.MetricObject_me,
+                                self.BinsObjebt_bi, self.DebugMode_bol)
 
     def moverlap(self, OVERLAP_flt):
         '''Function that modifies the self.OVERLAP_flt object
@@ -92,20 +94,21 @@ class Mapper:
 
         self.OVERLAP_flt = OVERLAP_flt
 
-    def mbins(self, BINS_int):
-        '''Function that modifies the self.BINS_int object
+    def mbins(self, BINNUMBER_int):
+        '''Function that modifies the self.BinsObjebt_bi object
         '''
 
 
-        self.BINS_int = BINS_int
+        self.BinsObjebt_bi = BINNUMBER_int
 
-    def mclust(self, Clust_str):
-        '''Function that modifies the self.Clust_str object
+    def mclust(self, ClusterAlgorithm_str):
+        '''Function that modifies the self.ClustObject_cl object
         '''
 
 
-        self.Clust_str = cl.Clust(self.PointCloud_npArray, Clust_str,
-                                self.Metric_me, self.DebugMode_bol)
+        self.ClustObject_cl = cl.Clust(self.PointCloud_npArray, 
+                                ClusterAlgorithm_str, self.MetricObject_me,
+                                self.DebugMode_bol)
 
     def addlabels(self, Labels_npArray):
         '''Function that adds Labels_npArray to the graph in
@@ -127,13 +130,14 @@ class Mapper:
 
         pass
 
-    def addproperties(self, properties, PropertiesName_str):
+    def addproperties(self, Properties_npArray, PropertiesName_str):
         '''Function that adds meaned properties values to the nodes in the
         graph in self.GrapherObject_gr
         '''
 
 
-        self.properties = np.column_stack((self.properties, properties))
+        self.Properties_dict = np.column_stack((self.Properties_dict,
+                                                Properties_npArray))
 
     def visualize(self):
         '''This function saves the graph in a map in .graphml format
