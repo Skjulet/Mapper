@@ -7,10 +7,10 @@ import Mapper as ma
 
 
 
-WordData_npArray = np.load('/afs/nada.kth.se/home/0/u15yzzg0/Desktop/'
-    + 'Mapper_Data_Files/npy_files/easygoing_neighbors.npy')
-LabelData_npArray = np.load('/afs/nada.kth.se/home/0/u15yzzg0/Desktop/'
-    + 'Mapper_Data_Files/npy_files/easygoing_neighborswords.npy')
+WordData_npArray = np.load('/afs/nada.kth.se/home/0/u15yzzg0/Desktop/\
+Mapper_Data_Files/npy_files/easygoing_neighbors.npy')
+LabelData_npArray = np.load('/afs/nada.kth.se/home/0/u15yzzg0/Desktop/\
+Mapper_Data_Files/npy_files/easygoing_neighborswords.npy')
 Cloud_npArray = WordData_npArray
 
 Metric_str = 'cosine'
@@ -19,10 +19,10 @@ BINS_int = 5
 OVERLAP_flt = 0.9
 Clust_str = 'CompleteLinkage'
 EPS_flt = 0.92
-DebugMode_bol = False
+
 
 testobjekt_ma = ma.Mapper(Cloud_npArray,Metric_str,Lens_str,BINS_int,
-    OVERLAP_flt,Clust_str,EPS_flt,DebugMode_bol)
+    OVERLAP_flt,Clust_str,EPS_flt,DebugMode_bol = False)
 
 testobjekt_ma.addlabels(LabelData_npArray)
 
