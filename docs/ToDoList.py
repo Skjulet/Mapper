@@ -2,11 +2,10 @@
 Work to be done:
 
 Short term:
-(H)Naming conventions!!
+(H)Rewrite all code according to the style guide in README.md!!
+(*) ADD COMMENTS TO APPROPIATE WORK
 
 (M) INSERTION OF other PROPERTIES
-
-(*) ADD COMMENTS TO APPROPIATE WORK
 
 
 Middle term:
