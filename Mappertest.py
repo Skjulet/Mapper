@@ -33,7 +33,7 @@ testobjekt = ma.Mapper(cloud,metric,lens,bins,overlap,clust,eps,debugmode = Fals
 
 testobjekt.addlabels(labeldata)
 
-testobjekt.visualize()
+#testobjekt.visualize()
 
 '''
 B = [2,3]

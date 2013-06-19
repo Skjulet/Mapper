@@ -54,14 +54,14 @@ class Mapper:
 		
 		
 		#A PIECE OF TEST CODE
-
-		#self.grapherobject = gr.Grapher(self.cloud,self.clusteredcloud,self.labels,self.properties,True)
-		#G = self.grapherobject.TESTmakegraph()
-
-		#print(G.nodes(data=True)[0])
-		#print(G.edges(data=True)[0:5])
+		self.grapherobject = gr.Grapher(self.cloud,self.clusteredcloud,self.debugmode)
+		
+		self.grapherobject.makegraph()
+		G = self.grapherobject.GetGraph()
+		print(G.nodes(data=True)[0])
+		print(G.edges(data=True)[0:5])
 		#TEST CODE ENDS HERE !
-
+		
 	def mmetric(self,metric):
 		self.metric = me.Metric(metric,self.debugmode)
 
@@ -79,21 +79,18 @@ class Mapper:
 
 	def addlabels(self,labels):
 		self.labels = labels
+		self.grapherobject.addlabels(self.labels)
+		G = self.grapherobject.GetGraph()
+		print(G.nodes(data=True)[0])
+		print(G.edges(data=True)[0:5])
 
 	def addproperties(self,properties):
 		self.properties = np.column_stack((self.properties, properties))
 
-	#This function shows the mapper visualization
+
+	#This function saves the graph in graph_files/ in .graphml format
 	def visualize(self):
-
-		self.grapherobject = gr.Grapher(self.cloud,self.clusteredcloud,self.labels,self.properties,True)
-
-		G = self.grapherobject.makegraph()
-		for number in range(0,len(G.nodes(data=True))):
-			print(G.nodes(data=True)[number][0])
-		print(G.nodes(data=True)[0])
-		print(G.edges(data=True)[0:5])
-		#nx.write_graphml(self.grapherobject.makegraph(), 'graph_files/' + 'TestGraph' + '.graphml')
+		nx.write_graphml(self.grapherobject.GetGraph(), 'graph_files/' + 'TestGraph' + '.graphml')
 
 
 

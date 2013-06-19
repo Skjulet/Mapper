@@ -1,6 +1,8 @@
 import numpy as np
 import Metric as me
 from scipy.spatial import distance
+import Filter_Functions as ff
+
 
 class Filters:
 	def __init__(self,filtertype,metric,debugmode = False):
