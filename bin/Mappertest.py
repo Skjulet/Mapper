@@ -1,9 +1,14 @@
+import os, sys, inspect
 import numpy as np
-import Mapper as ma
-import Lens as le
 from scipy.spatial import distance
 from scipy.cluster.hierarchy import linkage
 from scipy.cluster.hierarchy import fcluster
+
+import Mapper as ma
+import Lens as le
+
+
+
 
 def SLcluster(data,eps):
     X = data
