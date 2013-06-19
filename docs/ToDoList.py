@@ -3,7 +3,8 @@ Work to be done:
 
 Short term:
 (H)Naming conventions!!
-(M) INSERTION OF PROPERTIES MADE EASY
+
+(M) INSERTION OF other PROPERTIES
 
 (*) ADD COMMENTS TO APPROPIATE WORK
 
@@ -19,7 +20,9 @@ Middle term:
 Long term:
 (H)Implement a user interface
 (H) save calculation heavy data in file or RAM etc.
+
 (H) Save project file/session with configurations
+
 (M) Parrallellisering
 (*)Optimize parameter choice (epsilons,bins,overlap, etc.)
 (*) Support for big files (?)
