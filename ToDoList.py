@@ -2,7 +2,7 @@
 Work to be done:
 
 Short term:
-
+(H)Naming conventions!!
 (M) INSERTION OF PROPERTIES MADE EASY
 
 (*) ADD COMMENTS TO APPROPIATE WORK

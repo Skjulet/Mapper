@@ -9,6 +9,7 @@ class Filters:
 
 	def applyfilter(self,cloud):
 		if self.filtertype == 'Test':
+			
 			return np.column_stack((range(0,cloud.shape[0]), np.random.sample(cloud.shape[0])))
 
 		elif self.filtertype == 'Semantic':
