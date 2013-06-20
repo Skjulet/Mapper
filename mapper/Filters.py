@@ -9,7 +9,7 @@ class Filters:
 		self.metric=metric
 		self.filtertype = filtertype
 
-	def applyfilter(self,cloud):
+	def apply_filter(self,cloud):
 		if self.filtertype == 'Test':
 			
 			return np.column_stack((range(0,cloud.shape[0]), np.random.sample(cloud.shape[0])))

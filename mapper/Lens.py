@@ -1,11 +1,15 @@
 ''' The lens class applies the chosen lens to the point cloud data.
 '''
+
+
 import numpy as np
+
 import Metric as me
 import Filters as fi
 
+
 class Lens:
-    def __init__(self, LensName_str, Metric_me, BinObject_be,
+    def __init__(self, LensName_str, MetricObject_me, BinsObject_bi,
                  DebugMode_bol=False):
         '''The Lens object is initiated with a set with four arguments.
         '''
@@ -14,17 +18,19 @@ class Lens:
         self.DebugMode_bol = DebugMode_bol
         
         self.LensName_str = LensName_str
-        self.Metric_me = Metric_me
-        self.BinObject_be = BinObject_be
-        self.FilterObject_fi = fi.Filters(self.LensName_str, self.Metric_me,
-                                          self.DebugMode_bol)
+        self.MetricObject_me = MetricObject_me
+        self.BinsObject_bi = BinsObject_bi
+        self.FiltersObject_fi = fi.Filters(self.LensName_str, 
+                                    self.MetricObject_me, self.DebugMode_bol)
         self.PointCloud_npArray = None
-        self.FilteredPointCloud_npArray = None
+        
+        #self.BFPointCloud_npArray works towards becoming a binned and
+        #filtered point cloud throughout the algorithm.
+        self.BFPointCloud_npArray = None
   
     def filter_point_cloud(self,PointCloud_npArray):
-        ''' filtered  applies filter from Filters.py, sorts on filter
-        variable and places the points into bins.
-        '''
+        '''filter_point_cloud  applies filter from Filters.py, sorts on
+        filter variable and places the points into bins.  '''
         
         
         self.PointCloud_npArray = PointCloud_npArray
@@ -33,36 +39,49 @@ class Lens:
             print("In Lens.filtered: The PointCloud_npArray itself:")
             print(self.PointCloud_npArray)
 
-        #FilteredPointCloud_npArray is sorted after filter size.
-        self.FilteredPointCloud_npArray = self.filterpoint()
+        #self.BFPointCloud_npArray is filtered and sorted after filter
+        #size.
+        self.filter_and_sort_points()
 
         if self.DebugMode_bol == True:
-            print("In Lens.filtered: PointCloud_npArray after filter + sorting")
-            print(self.FilteredPointCloud_npArray)
+            print("In Lens.filtered: PointCloud_npArray \
+                    after filter + sorting")
+            print(self.BFPointCloud_npArray)
 
-        #bins and adds a column of binning data
-        self.FilteredPointCloud_npArray = self.BinObject_be.applybins(self.FilteredPointCloud_npArray)
+        #The self.BinsObject_bi.applybins function adds binning data to
+        #the self.BFPointCloud_npArray as a new column.
+        self.BFPointCloud_npArray = \
+            self.BinsObject_bi.apply_bins(self.BFPointCloud_npArray)
         
-        return self.FilteredPointCloud_npArray
+        return self.BFPointCloud_npArray
 
-    def filterpoint(self):
-        ''' The function filterpoint applies the filter specified as
-        self.lens to each point in the PointCloud_npArray.
+    def filter_and_sort_points(self):
+        '''filter_points applies the filter specified as
+        LensName_str to each point in the self.PointCloud_npArray and
+        sorts self.BFPointCloud_npArray after each points filter size.
         '''
         
         
-        #creates filter for each point
-        self.FilteredPointCloud_npArray = self.FilterObject_fi.applyfilter(self.PointCloud_npArray)
+        #Creates filter value for each point.
+        self.BFPointCloud_npArray = \
+            self.FiltersObject_fi.apply_filter(self.PointCloud_npArray)
         if self.DebugMode_bol == True:
             print("In Lens.filterpoint: Cloud after added filthers:")
-            print(self.FilteredPointCloud_npArray)
+            print(self.BFPointCloud_npArray)
         
-        #sorts the filtered PointCloud_npArrays on filter variable
-        temporaryfiltered = np.zeros((self.FilteredPointCloud_npArray.shape[0],self.FilteredPointCloud_npArray.shape[1]))
-        countvar = 0
-        for index in np.lexsort((self.FilteredPointCloud_npArray[:,0],self.FilteredPointCloud_npArray[:,1])):
-            temporaryfiltered[countvar] = self.FilteredPointCloud_npArray[index,:]
-            countvar = countvar+1
-        self.FilteredPointCloud_npArray = temporaryfiltered
-        
-        return self.FilteredPointCloud_npArray
+        #Sorts self.BFPointCloud_npArray on filter value.
+        TemporaryFiltered_npArray = np.zeros((
+                self.BFPointCloud_npArray.shape[0], 
+                self.BFPointCloud_npArray.shape[1]))
+        CountVariable_int = 0
+        for Index_flt in np.lexsort((self.BFPointCloud_npArray[:,0],
+                                    self.BFPointCloud_npArray[:,1])):
+            TemporaryFiltered_npArray[CountVariable_int] = \
+            self.BFPointCloud_npArray[Index_flt, :]
+            CountVariable_int = CountVariable_int + 1
+        self.BFPointCloud_npArray = TemporaryFiltered_npArray
+
+
+
+
+
