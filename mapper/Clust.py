@@ -1,5 +1,6 @@
-'''
-'''
+'''A class that clusters the points in each bin, depending on 
+clustering algorithm and the EPS_flt parameter.  '''
++
 import numpy as np
 from scipy.spatial import distance
 from scipy.cluster.hierarchy import linkage
@@ -7,9 +8,10 @@ from scipy.cluster.hierarchy import fcluster
 
 class Clust:
     def __init__(self, PointCloud_npArray, ClusterAlgorithm_str, EPS_flt,
-                 Metric_me, DebugMode_bol=False):
-        '''
-        '''
+                 MetricObject_me, DebugMode_bol=False):
+        '''Initiates the object with a PointCloud_npArray, a clustering
+        algorithm and an EPS_flt value. The clustering is different 
+        depending on the given metric in the MetricObject_me.  '''
         
         
         self.DebugMode_bol = DebugMode_bol
@@ -17,13 +19,13 @@ class Clust:
         self.PointCloud_npArray = PointCloud_npArray
         self.ClusterAlgorithm_str = ClusterAlgorithm_str
         self.EPS_flt = EPS_flt
-        self.Metric_me = Metric_me
+        self.Metric_me = MetricObject_me
         self.BFPointCloud_npArray = None
         self.size = len(PointCloud_npArray)
-    
+        
     def create_clustering(self, BFPointCloud_npArray):
-        '''
-        '''
+        '''Creates clustering from each bin given in the binning data 
+        of BFPointCloud_npArray.  '''
         
         
         self.BFPointCloud_npArray = BFPointCloud_npArray
@@ -53,7 +55,7 @@ class Clust:
         self.createclusters(firstbin,index)
 
         return self.BFPointCloud_npArray
-    
+
     def createclusters(self, points, loopnumber):
         '''
         '''

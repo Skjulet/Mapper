@@ -1,5 +1,7 @@
 '''A class that handles the metric for the mapper algorithm.
 '''
+
+
 import numpy as np
 
 from scipy.spatial import distance

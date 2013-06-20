@@ -2,6 +2,9 @@
 Work to be done:
 
 Short term:
+    (H) Code fixed after style conventions for Mapper.py, Lens.py,
+        Bins.py, Filters.py, Metric.py and Mappertest.py. Clust.py,
+        and Grapher.py needs code fixed.
     (H) ArielArielAriel ArielAriel Ariel --> fixa variabelnamn i 
         Filters.py.
     (H) Rewrite all code according to the style guide in README.md!!
