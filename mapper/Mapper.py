@@ -29,7 +29,7 @@ class Mapper:
 
         self.PointCloud_npArray = PointCloud_npArray
 
-        self.MetricObject_me = me.Metric(MetricName_str,self.DebugMode_bol)
+        self.MetricObject_me = me.Metric(MetricName_str, self.DebugMode_bol)
 
         self.Equalize_bol = True
         self.OVERLAP_flt = OVERLAP_flt
