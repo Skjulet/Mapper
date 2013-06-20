@@ -21,7 +21,7 @@ class Clust:
         self.BFPointCloud_npArray = None
         self.size = len(PointCloud_npArray)
     
-    def TESTmakeclustering(self, BFPointCloud_npArray):
+    def create_clustering(self, BFPointCloud_npArray):
         '''
         '''
         

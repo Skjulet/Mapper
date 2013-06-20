@@ -11,10 +11,10 @@ class Grapher:
 		self.GraphIndexArray = []
 		self.EdgeIndexArray = []
 
-	def GetGraph(self):
+	def get_graph(self):
 		return self.TheGraph
 
-	def makegraph(self):
+	def crete_graph(self):
 
 		if self.debugmode == True:
 			print("In Grapher.TESTmakegraph:Data to be graphed:")
@@ -61,7 +61,7 @@ class Grapher:
 			usededges.add((AnEdge[0],AnEdge[1]))
 		
 
-	def addlabels(self,labels):
+	def add_labels(self,labels):
 
 		clusters = set()
 		usededges = set()

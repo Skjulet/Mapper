@@ -21,7 +21,7 @@ class Lens:
         self.PointCloud_npArray = None
         self.FilteredPointCloud_npArray = None
   
-    def filtered(self,PointCloud_npArray):
+    def filter_point_cloud(self,PointCloud_npArray):
         ''' filtered  applies filter from Filters.py, sorts on filter
         variable and places the points into bins.
         '''

@@ -1,7 +1,8 @@
 '''Mapper.py is the main object that executes the mapper algorithm and
-distributes the steps in the algorithm to several other classes the ones
-imported last.
-'''
+distributes the steps in the algorithm to several other classes the 
+ones imported last.  '''
+
+
 import numpy as np
 
 import networkx as nx
@@ -17,16 +18,14 @@ class Mapper:
     def __init__(self, PointCloud_npArray, MetricName_str, LensName_str,
                 BINNUMBER_int, OVERLAP_flt, ClusterAlgorithm_str,
                 EPS_flt, DebugMode_bol = False):
-        '''The Mapper object is initiated with a set PointCloud_npArray and
-        dependes on several other variables (see above)
-        '''
+        '''The Mapper object is initiated with a set PointCloud_npArray
+        and dependes on several other variables (see above).  '''
 
 
         self.DebugMode_bol = DebugMode_bol
         if self.DebugMode_bol == True:
             print("In Mapper__init__: Mapper is now running in debug mode")
             print()	
-
 
         self.PointCloud_npArray = PointCloud_npArray
 
@@ -49,39 +48,38 @@ class Mapper:
         self.Properties_dict = None
         self.Labels_npArray = None
 
-        #Bins and filters cloud on the lenses filter
+        #Bins and filters cloud on the lenses filter.
         self.BFPointCloud_npArray = \
-        self.LensObject_le.filtered(self.PointCloud_npArray)
+        self.LensObject_le.filter_point_cloud(self.PointCloud_npArray)
         if self.DebugMode_bol == True:
              print("In Mapper__init__: Printing self.BFPointCloud_npArray in\
              the Mapper object:")
              print(self.BFPointCloud_npArray)	
 
-        #clusters the cloud
+        #Clusters the cloud.
         self.ClusteredPointCloud_npArray = \
-        self.ClustObject_cl.TESTmakeclustering(self.BFPointCloud_npArray)
-
+        self.ClustObject_cl.create_clustering(self.BFPointCloud_npArray)
 
         if self.DebugMode_bol == True:
             print("In Mapper__init__: Printing\
             self.ClusteredPointCloud_npArray:")
             print(self.ClusteredPointCloud_npArray)
 
-
-        #creates a graph from the self.PointCloud_npArray and clustering data
+        #Creates a graph from the self.PointCloud_npArray and
+        #clustering data.
         self.GrapherObject_gr = gr.Grapher(self.PointCloud_npArray, 
                                     self.ClusteredPointCloud_npArray,
                                     self.DebugMode_bol)
-        self.GrapherObject_gr.makegraph()
+        self.GrapherObject_gr.crete_graph()
 
-    def mmetric(self, MetricName_str):
+    def change_metric(self, MetricName_str):
         '''Function that modifies the self.MetricObject_me object
         '''
 
 
         self.MetricObject_me = me.Metric(MetricName_str, self.DebugMode_bol)
 
-    def mlens(self, LensName_str):
+    def change_lens(self, LensName_str):
         '''Function that modifies the self.LensObject_le object
         '''
 
@@ -89,22 +87,22 @@ class Mapper:
         self.LensObject_le = le.Lens(LensName_str, self.MetricObject_me,
                                 self.BinsObjebt_bi, self.DebugMode_bol)
 
-    def moverlap(self, OVERLAP_flt):
+    def change_overlap(self, OVERLAP_flt):
         '''Function that modifies the self.OVERLAP_flt object
         '''
 
 
         self.OVERLAP_flt = OVERLAP_flt
 
-    def mbins(self, BINNUMBER_int):
+    def change_bin_number(self, BINNUMBER_int):
         '''Function that modifies the self.BinsObjebt_bi object
         '''
 
 
         self.BinsObjebt_bi = BINNUMBER_int
 
-    def mclust(self, ClusterAlgorithm_str):
-        '''Function that modifies the self.ClustObject_cl object
+    def change_clust_alg(self, ClusterAlgorithm_str):
+        '''Function that modifies the self.ClustObject_cl object.  
         '''
 
 
@@ -112,43 +110,40 @@ class Mapper:
                                 ClusterAlgorithm_str, self.MetricObject_me,
                                 self.DebugMode_bol)
 
-    def addlabels(self, Labels_npArray):
+    def add_labels(self, Labels_npArray):
         '''Function that adds Labels_npArray to the graph in
-        self.GrapherObject_gr
-        '''
+        self.GrapherObject_gr.  '''
 
 
         self.Labels_npArray = Labels_npArray
-        self.GrapherObject_gr.addlabels(self.Labels_npArray)
-        G_graph = self.GrapherObject_gr.GetGraph()
-        print(G_graph.nodes(data=True)[0])
-        print(G_graph.edges(data=True)[0:5])
+        self.GrapherObject_gr.add_labels(self.Labels_npArray)
+        test_graph = self.GrapherObject_gr.get_graph()
+        print(test_graph.nodes(data=True)[0])
+        print(test_graph.edges(data=True)[0:5])
 
-    def AddFilterToGraph(self):
-        '''Function that adds meaned filter values to the nodes in the graph
-        in self.GrapherObject_gr
-        '''
+    def add_filter_to_graph(self):
+        '''Function that adds meaned filter values to the nodes in the
+        graph in self.GrapherObject_gr.  '''
 
 
         pass
 
-    def addproperties(self, Properties_npArray, PropertiesName_str):
-        '''Function that adds meaned properties values to the nodes in the
-        graph in self.GrapherObject_gr
-        '''
+    def add_properties(self, Properties_npArray, PropertiesName_str):
+        '''Function that adds meaned properties values to the nodes in
+        the graph in self.GrapherObject_gr.  '''
 
 
         self.Properties_dict = np.column_stack((self.Properties_dict,
                                                 Properties_npArray))
 
-    def visualize(self, DirectoryPath_str, FileName_str):
-        '''This function saves the graph in a map in .graphml format
+    def save_file_to_map(self, DirectoryPath_str, FileName_str):
+        '''This function saves the graph in a map in .graphml format.  
         '''
 
 
         pass
-	#nx.write_graphml(self.GrapherObject_gr.GetGraph(), DirectoryPath_str +\
-	#FileName_str + '.graphml')
+    #nx.write_graphml(self.GrapherObject_gr.get_graph(),
+    #DirectoryPath_str + FileName_str + '.graphml')
 
 
 
