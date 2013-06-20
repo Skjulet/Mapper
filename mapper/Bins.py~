@@ -6,8 +6,7 @@ import numpy as np
 
 
 class Bins:
-    def __init__(self, BINNUMBER_int, OVERLAP_flt,
-                Equalize_bol, DebugMode_bol):
+    def __init__(self,BINNUMBER_int, OVERLAP_flt,Equalize_bol,DebugMode_bol):
 
         self.BINNUMBER_int = BINNUMBER_int
         self.OVERLAP_flt = OVERLAP_flt

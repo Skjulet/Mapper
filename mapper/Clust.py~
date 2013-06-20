@@ -94,7 +94,7 @@ class Clust:
         
         X = data
     
-        Y = distance.pdist(X, metric=self.Metric_me.get_metric())
+        Y = distance.pdist(X, metric=self.Metric_me.getmetric())
         Y = Y / np.max(Y)
         Y[Y<0] = 0
     

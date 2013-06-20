@@ -6,5 +6,5 @@ class Metric:
 		self.metric = metric
 		
 
-	def get_metric(self):
+	def getmetric(self):
 		return self.metric

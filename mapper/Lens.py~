@@ -10,7 +10,7 @@ import Filters as fi
 
 class Lens:
     def __init__(self, LensName_str, MetricObject_me, BinsObject_bi,
-                 DebugMode_bol = False):
+                 DebugMode_bol=False):
         '''The Lens object is initiated with a set with four arguments.
         '''
         
