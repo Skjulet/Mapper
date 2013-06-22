@@ -1,6 +1,7 @@
 '''A class that clusters the points in each bin, depending on 
 clustering algorithm and the EPS_flt parameter.  '''
-+
+
+
 import numpy as np
 from scipy.spatial import distance
 from scipy.cluster.hierarchy import linkage

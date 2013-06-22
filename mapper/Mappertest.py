@@ -1,5 +1,7 @@
 '''This is a test program that we use to develop the mapper algorithm
 '''
+
+
 import numpy as np
 
 import Mapper as ma
