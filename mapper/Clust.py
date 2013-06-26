@@ -1,11 +1,13 @@
-'''A class that clusters the points in each bin, depending on 
+'''A class that clusters the PointBin_array in each bin, depending on 
 clustering algorithm and the EPS_flt parameter.  '''
 
 
 import numpy as np
+
 from scipy.spatial import distance
 from scipy.cluster.hierarchy import linkage
 from scipy.cluster.hierarchy import fcluster
+
 
 class Clust:
     def __init__(self, PointCloud_npArray, ClusterAlgorithm_str, EPS_flt,
@@ -20,9 +22,9 @@ class Clust:
         self.PointCloud_npArray = PointCloud_npArray
         self.ClusterAlgorithm_str = ClusterAlgorithm_str
         self.EPS_flt = EPS_flt
-        self.Metric_me = MetricObject_me
+        self.MetricObject_me = MetricObject_me
         self.BFPointCloud_npArray = None
-        self.size = len(PointCloud_npArray)
+        self.PointCloudSize_int = len(PointCloud_npArray)
         
     def create_clustering(self, BFPointCloud_npArray):
         '''Creates clustering from each bin given in the binning data 
@@ -34,75 +36,86 @@ class Clust:
             print("In clust.TESTmakeclustering:Data to be clustered:")
             print(self.BFPointCloud_npArray)
     
-        firstbin = [self.BFPointCloud_npArray[0,0]]
+        FirstBin_array = [self.BFPointCloud_npArray[0, 0]]
+        SecondBin_array = []
+        for PointNr_int in range(1, self.PointCloudSize_int):
 
-        secondbin = []
-        for index in range(1,len(self.BFPointCloud_npArray)):
+            if self.BFPointCloud_npArray[PointNr_int, 2] == 2:
+                FirstBin_array = FirstBin_array + \
+                [self.BFPointCloud_npArray[PointNr_int, 0]]
+                SecondBin_array = SecondBin_array + \
+                [self.BFPointCloud_npArray[PointNr_int, 0]]
+                
+            elif self.BFPointCloud_npArray[PointNr_int, 2] == 1 \
+                        and self.BFPointCloud_npArray[PointNr_int-1, 2] == 2:
+                self.cluster_bin(FirstBin_array,PointNr_int)
+                FirstBin_array = SecondBin_array
+                FirstBin_array = FirstBin_array + \
+                [self.BFPointCloud_npArray[PointNr_int,0]]
+                SecondBin_array = []
+                
+            elif self.BFPointCloud_npArray[PointNr_int, 2] == 1 \
+                        and self.BFPointCloud_npArray[PointNr_int-1, 2] == 1:
+                FirstBin_array = FirstBin_array + \
+                [self.BFPointCloud_npArray[PointNr_int, 0]]
 
-            if self.BFPointCloud_npArray[index,2] == 2:
-                firstbin = firstbin + [self.BFPointCloud_npArray[index,0]]
-                secondbin = secondbin + [self.BFPointCloud_npArray[index,0]]
-            elif self.BFPointCloud_npArray[index,2] == 1 \
-                            and self.BFPointCloud_npArray[index-1,2] == 2:
-                self.createclusters(firstbin,index)
-                firstbin = secondbin
-                firstbin = firstbin + [self.BFPointCloud_npArray[index,0]]
-                secondbin = []	
-            elif self.BFPointCloud_npArray[index,2] == 1 \
-                            and self.BFPointCloud_npArray[index-1,2] == 1:
-                firstbin = firstbin + [self.BFPointCloud_npArray[index,0]]
-
-        index = index +1
-        self.createclusters(firstbin,index)
+        PointNr_int = PointNr_int + 1    #compensates for last point
+        self.cluster_bin(FirstBin_array, PointNr_int)
 
         return self.BFPointCloud_npArray
 
-    def createclusters(self, points, loopnumber):
-        '''
-        '''
+    def cluster_bin(self, PointBin_array, PointNr_int):
+        '''Clusters a bin with a clustering algorithm specified in 
+        cluster_algorithm.  '''
         
         
         if self.DebugMode_bol == True:
             print("In clust.createclusters:")
-            print(points)
+            print(PointBin_array)
 
-        #gives each cluster unique index
+        #Gives each cluster a unique index.
         if self.BFPointCloud_npArray.shape[1] == 3:
-            maxclust = 0
+            MaxClustNr_int = 0
         else:
-            maxclust = max(self.BFPointCloud_npArray[:,-1])
+            MaxClustNr_int = max(self.BFPointCloud_npArray[:,-1])
     
-        a = np.append(np.ones(loopnumber-len(points))*(-2),
-                      [x+maxclust for x in 
-                       self.clusteringmethod(
-                        self.PointCloud_npArray[points,:])])
+        TempClust_array = np.append(np.ones(
+                        PointNr_int - len(PointBin_array))*(-2),
+                        [x + MaxClustNr_int for x in 
+                        self.cluster_algorithm(
+                        self.PointCloud_npArray[PointBin_array, :])])
     
         self.BFPointCloud_npArray = np.column_stack(
-                            (self.BFPointCloud_npArray,
-                             np.append(a,np.ones(self.size-loopnumber)*(-2))))
+                        (self.BFPointCloud_npArray,
+                        np.append(TempClust_array, 
+                        np.ones(self.PointCloudSize_int - PointNr_int)*(-2))))
 
-    def clusteringmethod(self, PointCloud_npArray):
-        '''
+    def cluster_algorithm(self, PointCloud_npArray):
+        '''This method implements the given clustering algorithm.
         '''
         
         
         if self.ClusterAlgorithm_str == 'CompleteLinkage':
-            return self.SLcluster( PointCloud_npArray, self.EPS_flt)
+            return self.complete_linkage_clustering(PointCloud_npArray,
+                                                    self.EPS_flt)
     
     
-    def SLcluster(self, data, EPS_flt):
-        '''
+    
+    #Ariel must fix variable names for this section since I
+    #(Gabriel) doesnt know what names are appropriate.
+    def complete_linkage_clustering(self, data, EPS_flt):
+        '''Complete Linkage clustering method.
         '''
         
         
         X = data
     
-        Y = distance.pdist(X, metric=self.Metric_me.get_metric())
+        Y = distance.pdist(X, metric = self.MetricObject_me.get_metric())
         Y = Y / np.max(Y)
-        Y[Y<0] = 0
+        Y[Y < 0] = 0
     
-        Z = linkage(Y,'complete')
+        Z = linkage(Y, 'complete')
     
-        labels = fcluster(Z,t=EPS_flt,criterion='distance')
+        labels = fcluster(Z, t=EPS_flt, criterion = 'distance')
     
         return labels
