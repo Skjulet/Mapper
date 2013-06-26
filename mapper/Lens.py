@@ -5,12 +5,12 @@
 import numpy as np
 
 import Metric as me
-import Filters as fi
+from Filter_Functions import FilterFunctions as ff
 
 
 class Lens:
-    def __init__(self, LensName_str, MetricObject_me, BinsObject_bi,
-                 DebugMode_bol = False):
+    def __init__(self, LensName_str, LensArguments_array, MetricObject_me,
+                BinsObject_bi, DebugMode_bol = False):
         '''The Lens object is initiated with a set with four arguments.
         '''
         
@@ -18,10 +18,12 @@ class Lens:
         self.DebugMode_bol = DebugMode_bol
         
         self.LensName_str = LensName_str
+        self.LensArguments_array = LensArguments_array
         self.MetricObject_me = MetricObject_me
         self.BinsObject_bi = BinsObject_bi
-        self.FiltersObject_fi = fi.Filters(self.LensName_str, 
-                                    self.MetricObject_me, self.DebugMode_bol)
+        
+        #self.FiltersObject_fi = fi.Filters(self.LensName_str, 
+        #                            self.MetricObject_me, self.DebugMode_bol)
         self.PointCloud_npArray = None
         
         #self.BFPointCloud_npArray works towards becoming a binned and
@@ -64,7 +66,8 @@ class Lens:
         
         #Creates filter value for each point.
         self.BFPointCloud_npArray = \
-            self.FiltersObject_fi.apply_filter(self.PointCloud_npArray)
+            ff.FilterFunctions().apply_filter(self.PointCloud_npArray,
+            self.MetricObject_me, self.LensName_str, self.LensArguments_array)
         if self.DebugMode_bol == True:
             print("In Lens.filterpoint: Cloud after added filthers:")
             print(self.BFPointCloud_npArray)

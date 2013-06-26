@@ -13,15 +13,17 @@ LabelData_npArray = np.load('../../Mapper_Data_Files/\
 npy_files/easygoing_neighborswords.npy')
 Cloud_npArray = WordData_npArray
 
-Metric_str = 'cosine'
-Lens_str = 'Semantic'
+MetricName_str = 'cosine'
+LensName_str = 'Semantic'
+LensArguments_array = []
 BINS_int = 5
 OVERLAP_flt = 0.9
 Clust_str = 'CompleteLinkage'
-EPS_flt = 0.92
+ClusterArguments_array = [0.92]    #The epsilon value
 
-testobject_ma = ma.Mapper(Cloud_npArray,Metric_str,Lens_str,BINS_int,
-    OVERLAP_flt,Clust_str,EPS_flt,DebugMode_bol = False)
+testobject_ma = ma.Mapper(Cloud_npArray, MetricName_str, LensName_str, 
+    LensArguments_array, BINS_int, OVERLAP_flt, Clust_str, 
+    ClusterArguments_array, DebugMode_bol = False)
 testobject_ma.add_labels('Labels', LabelData_npArray)
 testobject_ma.add_filter_to_graph()
 

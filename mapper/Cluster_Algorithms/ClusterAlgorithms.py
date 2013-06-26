@@ -10,8 +10,8 @@ from scipy.cluster.hierarchy import fcluster
 class ClusterAlgorithms:
     def __init__(self):
         '''A ClusterAlgorithm object is never used, the functions in 
-        the object however is used as clustering algorithms.
-        '''
+        the object however is used as clustering algorithms.  '''
+        
         
         self.MetricObject_me = None
                
@@ -30,8 +30,8 @@ class ClusterAlgorithms:
     #Ariel must fix variable names for this section since I
     #(Gabriel) doesnt know what names are appropriate.
     def complete_linkage_clustering(self, data, EPS_flt):
-        '''Complete Linkage clustering method.
-        '''
+        '''Complete Linkage clustering method. An epsilon (EPS_flt)
+        value is needed to execute the algorithm.  '''
         
         
         X = data

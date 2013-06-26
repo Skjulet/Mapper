@@ -15,9 +15,10 @@ import Grapher as gr
 
 
 class Mapper:
-    def __init__(self, PointCloud_npArray, MetricName_str, LensName_str,
-                BINNUMBER_int, OVERLAP_flt, ClusterAlgorithm_str,
-                EPS_flt, DebugMode_bol = False):
+    def __init__(self, PointCloud_npArray, MetricName_str, LensName_str, 
+                LensArguments_array, BINNUMBER_int, OVERLAP_flt, 
+                ClusterAlgorithm_str, ClusterArguments_array, 
+                DebugMode_bol = False):
         '''The Mapper object is initiated with a set PointCloud_npArray
         and dependes on several other variables (see above).  '''
 
@@ -35,12 +36,13 @@ class Mapper:
         self.OVERLAP_flt = OVERLAP_flt
         self.BinsObjebt_bi = bi.Bins(BINNUMBER_int, self.OVERLAP_flt,
                                 self.Equalize_bol, self.DebugMode_bol)	
-        self.LensObject_le = le.Lens(LensName_str, self.MetricObject_me,
-                                self.BinsObjebt_bi, DebugMode_bol)
+        self.LensObject_le = le.Lens(LensName_str, LensArguments_array,
+                    self.MetricObject_me, self.BinsObjebt_bi, DebugMode_bol)
 
-        self.EPS_flt = EPS_flt
+        self.ClusterArguments_array = ClusterArguments_array
         self.ClustObject_cl = cl.Clust(self.PointCloud_npArray, 
-                                ClusterAlgorithm_str, self.EPS_flt, 
+                                ClusterAlgorithm_str,
+                                self.ClusterArguments_array, 
                                 self.MetricObject_me, self.DebugMode_bol)
 
         self.Coloring_npArray = None

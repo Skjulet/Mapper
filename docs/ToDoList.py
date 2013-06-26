@@ -8,7 +8,6 @@ Short term:
         
     
 Middle term:
-    (M) Appropriate way to handle clusterings and filters in the code
     (M) Fix equalize == false in Bins.py.
     
     (L) Separate clusterdata, binningdata etc.

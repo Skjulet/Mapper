@@ -1,5 +1,5 @@
 '''A class that clusters the PointBin_array in each bin, depending on 
-clustering algorithm and the EPS_flt parameter.  '''
+clustering algorithm and the ClusterArguments_array parameter.  '''
 
 
 import numpy as np
@@ -12,10 +12,10 @@ from Cluster_Algorithms import ClusterAlgorithms as ca
 
 
 class Clust:
-    def __init__(self, PointCloud_npArray, ClusterAlgorithm_str, EPS_flt,
-                 MetricObject_me, DebugMode_bol=False):
+    def __init__(self, PointCloud_npArray, ClusterAlgorithm_str, 
+                ClusterArguments_array, MetricObject_me, DebugMode_bol=False):
         '''Initiates the object with a PointCloud_npArray, a clustering
-        algorithm and an EPS_flt value. The clustering is different 
+        algorithm and an ClusterArguments_array value. The clustering is different 
         depending on the given metric in the MetricObject_me.  '''
         
         
@@ -23,7 +23,7 @@ class Clust:
         
         self.PointCloud_npArray = PointCloud_npArray
         self.ClusterAlgorithm_str = ClusterAlgorithm_str
-        self.EPS_flt = EPS_flt
+        self.ClusterArguments_array = ClusterArguments_array
         self.MetricObject_me = MetricObject_me
         self.BFPointCloud_npArray = None
         self.PointCloudSize_int = len(PointCloud_npArray)
@@ -97,7 +97,8 @@ class Clust:
         '''
         
         
-        return ca.ClusterAlgorithms().cluster_algorithm(PointCloud_npArray, 
-        self.MetricObject_me, self.ClusterAlgorithm_str, [self.EPS_flt])
+        return ca.ClusterAlgorithms().cluster_algorithm(PointCloud_npArray,
+        self.MetricObject_me, self.ClusterAlgorithm_str,
+        self.ClusterArguments_array)
     
 
