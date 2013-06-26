@@ -10,8 +10,9 @@ Minor changes:
 
 26/6 2013 - Added function add_mean_properties() in mapper that adds 
             the mean of a property to each node.
-26/6 2013 - Linked FilterFunctions.py to Filters.py
-
+26/6 2013 - Linked FilterFunctions.py to Filters.py.
+26/6 2013 - Created map Cluster_Algorithms with ClusterAlgorithms 
+            class that handles the different clustering algorithms.
 
 Major changes:
 26/6 2013 - Finnished rewriting all code according to the style guide

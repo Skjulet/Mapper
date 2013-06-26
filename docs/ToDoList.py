@@ -3,14 +3,13 @@ Work to be done:
 
 Short term:
     (H) ArielArielAriel ArielAriel Ariel --> Fix variabel names in 
-        specified parts of FiltersFunctions.py and Clust.py.
-    
+        specified parts of FiltersFunctions.py and 
+        ClusterAlgorithms.py.
         
     
 Middle term:
     (M) Appropriate way to handle clusterings and filters in the code
     (M) Fix equalize == false in Bins.py.
-    (M/L) Clustering algorithms
     
     (L) Separate clusterdata, binningdata etc.
     (L) incorporate graphing + clustering into binning    

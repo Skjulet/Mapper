@@ -8,6 +8,8 @@ from scipy.spatial import distance
 from scipy.cluster.hierarchy import linkage
 from scipy.cluster.hierarchy import fcluster
 
+from Cluster_Algorithms import ClusterAlgorithms as ca
+
 
 class Clust:
     def __init__(self, PointCloud_npArray, ClusterAlgorithm_str, EPS_flt,
@@ -77,7 +79,7 @@ class Clust:
         if self.BFPointCloud_npArray.shape[1] == 3:
             MaxClustNr_int = 0
         else:
-            MaxClustNr_int = max(self.BFPointCloud_npArray[:,-1])
+            MaxClustNr_int = max(self.BFPointCloud_npArray[:, -1])
     
         TempClust_array = np.append(np.ones(
                         PointNr_int - len(PointBin_array))*(-2),
@@ -95,27 +97,7 @@ class Clust:
         '''
         
         
-        if self.ClusterAlgorithm_str == 'CompleteLinkage':
-            return self.complete_linkage_clustering(PointCloud_npArray,
-                                                    self.EPS_flt)
+        return ca.ClusterAlgorithms().cluster_algorithm(PointCloud_npArray, 
+        self.MetricObject_me, self.ClusterAlgorithm_str, [self.EPS_flt])
     
-    
-    
-    #Ariel must fix variable names for this section since I
-    #(Gabriel) doesnt know what names are appropriate.
-    def complete_linkage_clustering(self, data, EPS_flt):
-        '''Complete Linkage clustering method.
-        '''
-        
-        
-        X = data
-    
-        Y = distance.pdist(X, metric = self.MetricObject_me.get_metric())
-        Y = Y / np.max(Y)
-        Y[Y < 0] = 0
-    
-        Z = linkage(Y, 'complete')
-    
-        labels = fcluster(Z, t=EPS_flt, criterion = 'distance')
-    
-        return labels
+

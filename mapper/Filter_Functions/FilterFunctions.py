@@ -1,5 +1,6 @@
-'''Module with collections of Mapper filter functions
-'''
+'''Module with collections of Mapper filter functions. Every filter
+function returns a list with filter values in the same order as 
+PointCloud_npArray.  '''
 
 
 import numpy as np
