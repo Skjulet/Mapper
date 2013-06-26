@@ -20,8 +20,13 @@ class FilterFunctions:
         
     def apply_filter(self, PointCloud_npArray, MetricObject_me,
                         FilterType_str, FilterArguments_array):
-        '''This method implements the given filter function.
-        '''
+        '''This method implements the given filter function. This
+        function is always called when implementing a filter from
+        another object through 
+        FilterFunctions().apply_filter(PointCloud_npArray, 
+                                        MetricObject_me,
+                                        LensName_str,
+                                        LensArguments_array).  '''
         
         self.MetricObject_me = MetricObject_me
         

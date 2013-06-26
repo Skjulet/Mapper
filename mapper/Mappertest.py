@@ -21,12 +21,14 @@ OVERLAP_flt = 0.9
 Clust_str = 'CompleteLinkage'
 ClusterArguments_array = [0.92]    #The epsilon value
 
-testobject_ma = ma.Mapper(Cloud_npArray, MetricName_str, LensName_str, 
+#TestObjectTwo_ma = ma.Mapper()
+
+TestObject_ma = ma.Mapper(Cloud_npArray, MetricName_str, LensName_str, 
     LensArguments_array, BINS_int, OVERLAP_flt, Clust_str, 
     ClusterArguments_array, DebugMode_bol = False)
-testobject_ma.add_labels('Labels', LabelData_npArray)
-testobject_ma.add_filter_to_graph()
+TestObject_ma.add_labels('Labels', LabelData_npArray)
+TestObject_ma.add_filter_to_graph()
 
-testobject_ma.print_graph()
-#testobject_ma.save_file_to_map()
+TestObject_ma.print_graph()
+#TestObject_ma.save_file_to_map()
 

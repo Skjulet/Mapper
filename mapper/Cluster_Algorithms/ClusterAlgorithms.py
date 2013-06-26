@@ -17,7 +17,13 @@ class ClusterAlgorithms:
                
     def cluster_algorithm(self, PointCloud_npArray, MetricObject_me,
                         ClusterAlgorithm_str, ClusterArguments_array):
-        '''This method implements the given clustering algorithm.
+        '''This method implements the given clustering algorithm. This
+        function is always called when implementing a clustering 
+        algorithm from another object through 
+        ClusterAlgorithms().cluster_algorithm(PointCloud_npArray,
+                                            MetricObject_me, 
+                                            ClusterAlgorithm_str,
+                                            ClusterArguments_array).
         '''
         
         

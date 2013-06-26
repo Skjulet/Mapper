@@ -9,7 +9,9 @@ Short term:
     
 Middle term:
     (M) Fix equalize == false in Bins.py.
-    
+    (M) Functions that checks number of arguments for 
+        FiltersFunctions.py and ClusterAlgorithms.py.
+        
     (L) Separate clusterdata, binningdata etc.
     (L) incorporate graphing + clustering into binning    
     
@@ -23,5 +25,6 @@ Long term:
     
     (*) Optimize parameter choice (epsilons,bins,overlap, etc.)
     (*) Support for big files (?)
+
 
 '''

@@ -15,13 +15,18 @@ import Grapher as gr
 
 
 class Mapper:
-    def __init__(self, PointCloud_npArray, MetricName_str, LensName_str, 
-                LensArguments_array, BINNUMBER_int, OVERLAP_flt, 
-                ClusterAlgorithm_str, ClusterArguments_array, 
+    def __init__(self,
+                PointCloud_npArray,
+                MetricName_str = None,
+                LensName_str = None, 
+                LensArguments_array = None,
+                BINNUMBER_int = None,
+                OVERLAP_flt = None, 
+                ClusterAlgorithm_str = None,
+                ClusterArguments_array = None, 
                 DebugMode_bol = False):
         '''The Mapper object is initiated with a set PointCloud_npArray
         and dependes on several other variables (see above).  '''
-
 
         self.DebugMode_bol = DebugMode_bol
         if self.DebugMode_bol == True:
@@ -30,14 +35,16 @@ class Mapper:
 
         self.PointCloud_npArray = PointCloud_npArray
 
-        self.MetricObject_me = me.Metric(MetricName_str, self.DebugMode_bol)
+        self.MetricObject_me = me.Metric(MetricName_str, 
+        self.DebugMode_bol)
 
         self.Equalize_bol = True
         self.OVERLAP_flt = OVERLAP_flt
         self.BinsObjebt_bi = bi.Bins(BINNUMBER_int, self.OVERLAP_flt,
                                 self.Equalize_bol, self.DebugMode_bol)	
         self.LensObject_le = le.Lens(LensName_str, LensArguments_array,
-                    self.MetricObject_me, self.BinsObjebt_bi, DebugMode_bol)
+                    self.MetricObject_me, 
+                    self.BinsObjebt_bi, DebugMode_bol)
 
         self.ClusterArguments_array = ClusterArguments_array
         self.ClustObject_cl = cl.Clust(self.PointCloud_npArray, 
@@ -55,8 +62,8 @@ class Mapper:
         self.BFPointCloud_npArray = \
         self.LensObject_le.filter_point_cloud(self.PointCloud_npArray)
         if self.DebugMode_bol == True:
-             print("In Mapper__init__: Printing self.BFPointCloud_npArray in\
-             the Mapper object:")
+             print("In Mapper__init__: Printing self.BFPointCloud_npArray\
+             in the Mapper object:")
              print(self.BFPointCloud_npArray)	
 
         #Clusters the cloud.
@@ -73,7 +80,7 @@ class Mapper:
         self.GrapherObject_gr = gr.Grapher(self.PointCloud_npArray, 
                                     self.ClusteredPointCloud_npArray,
                                     self.DebugMode_bol)
-    
+
     def change_metric(self, MetricName_str):
         '''Function that modifies the self.MetricObject_me object
         '''
@@ -137,15 +144,18 @@ class Mapper:
         self.Properties_dict[PropertiesName_str] = Properties_npArray
         self.GrapherObject_gr.add_mean_properties(PropertiesName_str, 
                                                     Properties_npArray)
+
+    def save_configurations():
+    
+        pass
         
     def save_file_to_map(self, DirectoryPath_str, FileName_str):
         '''This function saves the graph in a map in .graphml format.  
         '''
 
 
-        pass
-        #nx.write_graphml(self.GrapherObject_gr.get_graph(),
-        #DirectoryPath_str + FileName_str + '.graphml')
+        nx.write_graphml(self.GrapherObject_gr.get_graph(),
+        DirectoryPath_str + FileName_str + '.graphml')
 
     def print_graph(self):
         '''Prints a portion of the graph specified in the code below.

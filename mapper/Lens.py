@@ -22,8 +22,6 @@ class Lens:
         self.MetricObject_me = MetricObject_me
         self.BinsObject_bi = BinsObject_bi
         
-        #self.FiltersObject_fi = fi.Filters(self.LensName_str, 
-        #                            self.MetricObject_me, self.DebugMode_bol)
         self.PointCloud_npArray = None
         
         #self.BFPointCloud_npArray works towards becoming a binned and
@@ -31,8 +29,9 @@ class Lens:
         self.BFPointCloud_npArray = None
   
     def filter_point_cloud(self,PointCloud_npArray):
-        '''filter_point_cloud  applies filter from Filters.py, sorts on
-        filter variable and places the points into bins.  '''
+        '''filter_point_cloud  applies filter from 
+        Filter_Functions/FiltersFunctions.py, sorts on filter variable
+        and places the points into bins.  '''
         
         
         self.PointCloud_npArray = PointCloud_npArray
