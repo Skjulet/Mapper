@@ -20,8 +20,11 @@ OVERLAP_flt = 0.9
 Clust_str = 'CompleteLinkage'
 EPS_flt = 0.92
 
-testobjekt_ma = ma.Mapper(Cloud_npArray,Metric_str,Lens_str,BINS_int,
+testobject_ma = ma.Mapper(Cloud_npArray,Metric_str,Lens_str,BINS_int,
     OVERLAP_flt,Clust_str,EPS_flt,DebugMode_bol = False)
-testobjekt_ma.add_labels(LabelData_npArray)
-#testobjekt_ma.save_file_to_map()
+testobject_ma.add_labels(LabelData_npArray)
+testobject_ma.add_filter_to_graph()
+
+testobject_ma.print_graph()
+#testobject_ma.save_file_to_map()
 

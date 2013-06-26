@@ -45,7 +45,7 @@ class Mapper:
 
         self.Coloring_npArray = None
         self.GrapherObject_gr = None
-        self.Properties_dict = None
+        self.Properties_dict = {}
         self.Labels_npArray = None
 
         #Bins and filters cloud on the lenses filter.
@@ -116,25 +116,24 @@ class Mapper:
 
         self.Labels_npArray = Labels_npArray
         self.GrapherObject_gr.add_labels(self.Labels_npArray)
-        test_graph = self.GrapherObject_gr.get_graph()
-        print(test_graph.nodes(data=True)[0])
-        print(test_graph.edges(data=True)[0:5])
-
+        
     def add_filter_to_graph(self):
         '''Function that adds meaned filter values to the nodes in the
         graph in self.GrapherObject_gr.  '''
 
 
-        pass
+        self.add_mean_properties(self.BFPointCloud_npArray[:, 1],
+                                'Filter Value')
 
-    def add_properties(self, Properties_npArray, PropertiesName_str):
+    def add_mean_properties(self, Properties_npArray, PropertiesName_str):
         '''Function that adds meaned properties values to the nodes in
         the graph in self.GrapherObject_gr.  '''
 
-
-        self.Properties_dict = np.column_stack((self.Properties_dict,
-                                                Properties_npArray))
-
+        
+        self.Properties_dict[PropertiesName_str] = Properties_npArray
+        self.GrapherObject_gr.add_mean_properties(Properties_npArray,
+                                                    PropertiesName_str)
+        
     def save_file_to_map(self, DirectoryPath_str, FileName_str):
         '''This function saves the graph in a map in .graphml format.  
         '''
@@ -144,7 +143,13 @@ class Mapper:
         #nx.write_graphml(self.GrapherObject_gr.get_graph(),
         #DirectoryPath_str + FileName_str + '.graphml')
 
-
+    def print_graph(self):
+        '''Prints a portion of the graph specified in the code below.
+        '''
+        
+        test_graph = self.GrapherObject_gr.get_graph()
+        print(test_graph.nodes(data=True)[0])
+        print(test_graph.edges(data=True)[0:5])
 
 
 

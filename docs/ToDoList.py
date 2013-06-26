@@ -7,8 +7,6 @@ Short term:
     (H) Filter functions from Mapper/mapper/Filter_Functions linked to
         Filters.py.
         
-    (M) INSERTION OF other PROPERTIES.
-    
     
 Middle term:
     (M) Appropriate way to handle clusterings and filters in the code

@@ -8,6 +8,9 @@ Minor changes:
             the graph is created.
 19/6 2013 - Created package structure out of the project.
 
+26/6 2013 - Added function add_mean_properties() in mapper that adds 
+            the mean of a property to each node.
+
 Major changes:
 26/6 2013 - Finnished rewriting all code according to the style guide
             in README.md.
