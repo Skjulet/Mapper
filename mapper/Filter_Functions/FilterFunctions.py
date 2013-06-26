@@ -1,5 +1,7 @@
 '''Module with collections of Mapper filter functions
 '''
+
+
 import numpy as np
 
 from scipy.spatial import distance
@@ -12,7 +14,11 @@ def gaussian_kde(PointCloud_npArray, Metric_me):
     ''' Filter that returns the estimated density of the
     points coordinates as filter value.
     '''
-    Kernel_kernel = stats.gaussian_kde(PointCloud_npArray.transpose())
+    
+    
+    Kernel
+    
+    _kernel = stats.gaussian_kde(PointCloud_npArray.transpose())
     FilterValues_npArray = Kernel_kernel(PointCloud_npArray.transpose())
     
     return FilterValues_npArray
@@ -22,12 +28,16 @@ def PCA(PointCloud_npArray, Metric_me, NTH_EIGENVECTOR_int=1):
     point cloud onto the nth principal component
     as filter value.
     '''
+    
+    
     return None
 
 def nth_neighbor(PointCloud_npArray, Metric_me, neighbor_int):
     ''' Filter that returns the distance to the nth 
     neighbor as filter value.
     '''
+    
+    
     DistanceMatrix_npArray = distance.squareform(
                 distance.pdist(PointCloud_npArray, 
                                metric=Metric_me.getmetric()))

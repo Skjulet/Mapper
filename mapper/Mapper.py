@@ -70,8 +70,7 @@ class Mapper:
         self.GrapherObject_gr = gr.Grapher(self.PointCloud_npArray, 
                                     self.ClusteredPointCloud_npArray,
                                     self.DebugMode_bol)
-        self.GrapherObject_gr.crete_graph()
-
+    
     def change_metric(self, MetricName_str):
         '''Function that modifies the self.MetricObject_me object
         '''
