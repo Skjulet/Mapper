@@ -46,6 +46,7 @@ class Mapper:
         self.Coloring_npArray = None
         self.GrapherObject_gr = None
         self.Properties_dict = {}
+        self.LabelName_str = None
         self.Labels_npArray = None
 
         #Bins and filters cloud on the lenses filter.
@@ -109,30 +110,31 @@ class Mapper:
                                 ClusterAlgorithm_str, self.MetricObject_me,
                                 self.DebugMode_bol)
 
-    def add_labels(self, Labels_npArray):
+    def add_labels(self, LabelName_str, Labels_npArray):
         '''Function that adds Labels_npArray to the graph in
         self.GrapherObject_gr.  '''
 
 
+        self.LabelName_str = LabelName_str
         self.Labels_npArray = Labels_npArray
-        self.GrapherObject_gr.add_labels(self.Labels_npArray)
+        self.GrapherObject_gr.add_labels(LabelName_str, self.Labels_npArray)
         
     def add_filter_to_graph(self):
         '''Function that adds meaned filter values to the nodes in the
         graph in self.GrapherObject_gr.  '''
 
 
-        self.add_mean_properties(self.BFPointCloud_npArray[:, 1],
-                                'Filter Value')
+        self.add_mean_properties('Filter Value', 
+                                self.BFPointCloud_npArray[:, 1])
 
-    def add_mean_properties(self, Properties_npArray, PropertiesName_str):
+    def add_mean_properties(self, PropertiesName_str, Properties_npArray):
         '''Function that adds meaned properties values to the nodes in
         the graph in self.GrapherObject_gr.  '''
 
         
         self.Properties_dict[PropertiesName_str] = Properties_npArray
-        self.GrapherObject_gr.add_mean_properties(Properties_npArray,
-                                                    PropertiesName_str)
+        self.GrapherObject_gr.add_mean_properties(PropertiesName_str, 
+                                                    Properties_npArray)
         
     def save_file_to_map(self, DirectoryPath_str, FileName_str):
         '''This function saves the graph in a map in .graphml format.  

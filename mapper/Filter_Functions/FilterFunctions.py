@@ -7,7 +7,7 @@ import numpy as np
 from scipy.spatial import distance
 from scipy import stats
 
-from .. import Metric as me
+import Metric as me
 
 
 def gaussian_kde(PointCloud_npArray, Metric_me):
@@ -53,3 +53,25 @@ def nth_neighbor(PointCloud_npArray, Metric_me, neighbor_int):
                 DistanceMatrix_npArray[n_int][Row.argmin()]
     
     return FilterValues_npArray
+    
+def semantic_filter(PointCloud_npArray, MetricObject_me):
+    '''A semantic filter.
+    '''
+
+
+    D = distance.squareform(distance.pdist(PointCloud_npArray,
+                                    metric=MetricObject_me.get_metric()))
+    values = np.zeros(len(PointCloud_npArray))
+    for n, row in enumerate(D):
+        D[n][row.argmin()]=np.inf
+        Iterations_int = 0
+        while Iterations_int < 6:
+            D[n][row.argmin()]=np.inf
+            Iterations_int += 1
+        values[n] = D[n][row.argmin()]
+        
+    return values
+    
+    
+    
+    

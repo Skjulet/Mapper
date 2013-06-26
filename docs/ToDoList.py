@@ -3,9 +3,8 @@ Work to be done:
 
 Short term:
     (H) ArielArielAriel ArielAriel Ariel --> Fix variabel names in 
-        specified parts of Filters.py and Clust.py.
-    (H) Filter functions from Mapper/mapper/Filter_Functions linked to
-        Filters.py.
+        specified parts of FiltersFunctions.py and Clust.py.
+    
         
     
 Middle term:

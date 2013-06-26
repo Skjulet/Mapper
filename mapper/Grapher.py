@@ -90,7 +90,7 @@ class Grapher:
                 self.TheGraph_graph.add_edge(AnEdge_array[0], AnEdge_array[1])
             UsedEdges_set.add((AnEdge_array[0], AnEdge_array[1]))
 
-    def add_labels(self, Labels_npArray):
+    def add_labels(self, LabelName_str, Labels_npArray):
         '''Adds labeling data to the nodes in self.TheGraph_graph.
         '''
         
@@ -98,17 +98,17 @@ class Grapher:
         UsedClusters_set = set()
         for aNode_array in self.NodeIndex_array:
             if aNode_array[0] not in UsedClusters_set:
-                self.TheGraph_graph.node[aNode_array[0]]['Label'] = \
+                self.TheGraph_graph.node[aNode_array[0]][LabelName_str] = \
                 str(Labels_npArray[
                         self.ClusteredPointCloud_npArray[aNode_array[1], 0]])
             else:
-                self.TheGraph_graph.node[aNode_array[0]]['Label'] = \
-                self.TheGraph_graph.node[aNode_array[0]]['Label'] + ', ' + \
-                str(Labels_npArray[
+                self.TheGraph_graph.node[aNode_array[0]][LabelName_str] = \
+                self.TheGraph_graph.node[aNode_array[0]][LabelName_str] + \
+                ', ' + str(Labels_npArray[
                         self.ClusteredPointCloud_npArray[aNode_array[1], 0]])
             UsedClusters_set.add(aNode_array[0])
                 
-    def add_mean_properties(self, Properties_npArray, PropertiesName_str):
+    def add_mean_properties(self, PropertiesName_str, Properties_npArray):
         '''Adds meaned properties to the nodes in the graph.
         '''
         

@@ -22,7 +22,7 @@ EPS_flt = 0.92
 
 testobject_ma = ma.Mapper(Cloud_npArray,Metric_str,Lens_str,BINS_int,
     OVERLAP_flt,Clust_str,EPS_flt,DebugMode_bol = False)
-testobject_ma.add_labels(LabelData_npArray)
+testobject_ma.add_labels('Labels', LabelData_npArray)
 testobject_ma.add_filter_to_graph()
 
 testobject_ma.print_graph()

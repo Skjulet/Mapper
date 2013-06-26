@@ -6,7 +6,7 @@ import numpy as np
 from scipy.spatial import distance
 
 import Metric as me
-import Filter_Functions as ff
+from Filter_Functions import FilterFunctions as ff
 
 
 class Filters:
@@ -23,30 +23,22 @@ class Filters:
         Filter functions are located in Mapper/mapper/Filter_Functions.
         Implementation of Mapper/mapper/Filter_Functions map needed.
         '''
-
+        
+        
+        FilterValues_npArray = None
 
         if self.FilterType_str == 'Test':
-
-	        return np.column_stack((range(0, PointCloud_npArray.shape[0]),
-                                np.random.sample(PointCloud_npArray.shape[0])))
-
-        #Ariel must fix variable names for this section since I
-        #(Gabriel) doesnt know what names are appropriate.
+            FilterValues_npArray = \
+            np.random.sample(PointCloud_npArray.shape[0])
+	    
         elif self.FilterType_str == 'Semantic':
-	        D = distance.squareform(distance.pdist(PointCloud_npArray,
-	                                metric=self.MetricObject_me.get_metric()))
-	        values = np.zeros(len(PointCloud_npArray))
-	        for n, row in enumerate(D):
-	            D[n][row.argmin()]=np.inf
-	            Iterations_int = 0
-	            while Iterations_int < 6:
-		        D[n][row.argmin()]=np.inf
-		        Iterations_int += 1
-	            values[n] = D[n][row.argmin()]
-
-	        return np.column_stack((range(0, PointCloud_npArray.shape[0]),
-	                                values))
+            FilterValues_npArray = ff.semantic_filter(PointCloud_npArray,
+                                                    self.MetricObject_me)
+	                                
         else:
 	        pass
+	    
+        return np.column_stack((range(0, PointCloud_npArray.shape[0]), \
+                                                        FilterValues_npArray))
 
 
