@@ -29,6 +29,13 @@ TestObject_ma = ma.Mapper(Cloud_npArray, MetricName_str, LensName_str,
 TestObject_ma.add_labels('Labels', LabelData_npArray)
 TestObject_ma.add_filter_to_graph()
 
-TestObject_ma.print_graph()
+TestObject_ma.save_configurations(
+                        '../../Mapper_Data_Files/config_files/','Testfile')
+
+aTest_ma = TestObject_ma.load_configurations(
+                        '../../Mapper_Data_Files/config_files/','Testfile')
+                        
+aTest_ma.print_graph()
+#TestObject_ma.print_graph()
 #TestObject_ma.save_file_to_map()
 

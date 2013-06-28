@@ -6,6 +6,7 @@ ones imported last.  '''
 import numpy as np
 
 import networkx as nx
+import pickle
 
 import Metric as me
 import Lens as le
@@ -145,12 +146,33 @@ class Mapper:
         self.GrapherObject_gr.add_mean_properties(PropertiesName_str, 
                                                     Properties_npArray)
 
-    def save_configurations():
-    
-        pass
+    def save_configurations(self, DirectoryPath_str, FileName_str):
+        '''A function that saves configuration to a file in a given
+        locantion.  '''
+        with open(DirectoryPath_str + FileName_str + '.pk', 'wb') as output:
+            pickle.dump(self, output, pickle.HIGHEST_PROTOCOL)
+        
+        
+        '''
+        with open('company_data.pk', 'wb') as output:
+            company1 = Company('banana', 40)
+            pickle.dump(company1, output, pickle.HIGHEST_PROTOCOL)
+
+            company2 = Company('spam', 42)
+            pickle.dump(company2, output, pickle.HIGHEST_PROTOCOL)
+        '''
+        
+        
+    def load_configurations(self, DirectoryPath_str, FileName_str):
+        '''A function that loads a configuration file, created with 
+        save_configurations, from a given locantion.  '''
+        with open(DirectoryPath_str + FileName_str + '.pk', 'rb') as input:
+            return(pickle.load(input))
+        
+        
         
     def save_file_to_map(self, DirectoryPath_str, FileName_str):
-        '''This function saves the graph in a map in .graphml format.  
+        '''This function saves the graph in a map in .graphml format.
         '''
 
 
