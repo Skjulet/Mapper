@@ -13,6 +13,8 @@ Minor changes:
 26/6 2013 - Linked FilterFunctions.py to Filters.py.
 26/6 2013 - Created map Cluster_Algorithms with ClusterAlgorithms 
             class that handles the different clustering algorithms.
+            
+28/6 2013 - Added functionality to save and load configuration files.
 
 Major changes:
 26/6 2013 - Finnished rewriting all code according to the style guide

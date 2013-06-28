@@ -32,10 +32,16 @@ TestObject_ma.add_filter_to_graph()
 TestObject_ma.save_configurations(
                         '../../Mapper_Data_Files/config_files/','Testfile')
 
-aTest_ma = TestObject_ma.load_configurations(
+TestObject_ma.print_graph()
+
+aTest_ma = ma.Mapper()
+
+aTest_ma.load_configurations(
                         '../../Mapper_Data_Files/config_files/','Testfile')
                         
-aTest_ma.print_graph()
+print('Printing aTest_ma')           
+aTest_ma.print_graph()   
 #TestObject_ma.print_graph()
 #TestObject_ma.save_file_to_map()
+
 

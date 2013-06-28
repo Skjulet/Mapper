@@ -17,7 +17,7 @@ import Grapher as gr
 
 class Mapper:
     def __init__(self,
-                PointCloud_npArray,
+                PointCloud_npArray = None,
                 MetricName_str = None,
                 LensName_str = None, 
                 LensArguments_array = None,
@@ -25,63 +25,102 @@ class Mapper:
                 OVERLAP_flt = None, 
                 ClusterAlgorithm_str = None,
                 ClusterArguments_array = None, 
-                DebugMode_bol = False):
+                DebugMode_bol = None):
         '''The Mapper object is initiated with a set PointCloud_npArray
         and dependes on several other variables (see above).  '''
-
+        
+        
+        self.PointCloud_npArray = PointCloud_npArray
+        self.MetricName_str = MetricName_str
+        self.LensName_str = LensName_str
+        self.LensArguments_array = LensArguments_array
+        self.BINNUMBER_int = BINNUMBER_int
+        self.OVERLAP_flt = OVERLAP_flt
+        self.ClusterAlgorithm_str = ClusterAlgorithm_str
+        self.ClusterArguments_array = ClusterArguments_array
         self.DebugMode_bol = DebugMode_bol
+        
+        self.checklist_list = None
+        
         if self.DebugMode_bol == True:
             print("In Mapper__init__: Mapper is now running in debug mode")
             print()	
-
-        self.PointCloud_npArray = PointCloud_npArray
-
-        self.MetricObject_me = me.Metric(MetricName_str, 
-        self.DebugMode_bol)
-
+            
         self.Equalize_bol = True
-        self.OVERLAP_flt = OVERLAP_flt
-        self.BinsObjebt_bi = bi.Bins(BINNUMBER_int, self.OVERLAP_flt,
-                                self.Equalize_bol, self.DebugMode_bol)	
-        self.LensObject_le = le.Lens(LensName_str, LensArguments_array,
-                    self.MetricObject_me, 
-                    self.BinsObjebt_bi, DebugMode_bol)
-
-        self.ClusterArguments_array = ClusterArguments_array
-        self.ClustObject_cl = cl.Clust(self.PointCloud_npArray, 
-                                ClusterAlgorithm_str,
-                                self.ClusterArguments_array, 
-                                self.MetricObject_me, self.DebugMode_bol)
 
         self.Coloring_npArray = None
         self.GrapherObject_gr = None
         self.Properties_dict = {}
         self.LabelName_str = None
         self.Labels_npArray = None
+        
+        self.MetricObject_me = None
+        self.BinsObjebt_bi = None
+        self.LensObject_le = None
+        self.ClustObject_cl = None
+        self.GrapherObject_gr = None
+        
+        self.BFPointCloud_npArray = None
+        self.ClusteredPointCloud_npArray = None
+        
+        self.analyse()
+        
+    def analyse(self):
+        '''A function that executes the mapper algorithm when all 
+        the required parameters are given.  '''
+        
+        
+        self.checklist_list = [int(self.PointCloud_npArray is None),
+                                int(self.MetricName_str is None),
+                                int(self.LensName_str is None),
+                                int(self.LensArguments_array is None),
+                                int(self.BINNUMBER_int is None),
+                                int(self.OVERLAP_flt is None),
+                                int(self.ClusterAlgorithm_str is None),
+                                int(self.ClusterArguments_array is None),
+                                int(self.DebugMode_bol is None)]
+        if sum(self.checklist_list) == 0:
+            #Initiates required objects.
+            self.MetricObject_me = me.Metric(self.MetricName_str, 
+                                        self.DebugMode_bol)
+            self.BinsObjebt_bi = bi.Bins(self.BINNUMBER_int, 
+                                        self.OVERLAP_flt,
+                                        self.Equalize_bol,
+                                        self.DebugMode_bol)	
+            self.LensObject_le = le.Lens(self.LensName_str, 
+                                        self.LensArguments_array,
+                                        self.MetricObject_me, 
+                                        self.BinsObjebt_bi,
+                                        self.DebugMode_bol)
+            self.ClustObject_cl = cl.Clust(self.PointCloud_npArray, 
+                                        self.ClusterAlgorithm_str,
+                                        self.ClusterArguments_array, 
+                                        self.MetricObject_me,
+                                        self.DebugMode_bol)
+                                    
+            #Bins and filters cloud on the lenses filter.
+            self.BFPointCloud_npArray = \
+            self.LensObject_le.filter_point_cloud(self.PointCloud_npArray)
+            if self.DebugMode_bol == True:
+                 print("In Mapper__init__: Printing self.BFPointCloud_npArray\
+                 in the Mapper object:")
+                 print(self.BFPointCloud_npArray)	
 
-        #Bins and filters cloud on the lenses filter.
-        self.BFPointCloud_npArray = \
-        self.LensObject_le.filter_point_cloud(self.PointCloud_npArray)
-        if self.DebugMode_bol == True:
-             print("In Mapper__init__: Printing self.BFPointCloud_npArray\
-             in the Mapper object:")
-             print(self.BFPointCloud_npArray)	
+            #Clusters the cloud.
+            self.ClusteredPointCloud_npArray = \
+            self.ClustObject_cl.create_clustering(self.BFPointCloud_npArray)
 
-        #Clusters the cloud.
-        self.ClusteredPointCloud_npArray = \
-        self.ClustObject_cl.create_clustering(self.BFPointCloud_npArray)
+            if self.DebugMode_bol == True:
+                print("In Mapper__init__: Printing\
+                self.ClusteredPointCloud_npArray:")
+                print(self.ClusteredPointCloud_npArray)
 
-        if self.DebugMode_bol == True:
-            print("In Mapper__init__: Printing\
-            self.ClusteredPointCloud_npArray:")
-            print(self.ClusteredPointCloud_npArray)
-
-        #Creates a graph from the self.PointCloud_npArray and
-        #clustering data.
-        self.GrapherObject_gr = gr.Grapher(self.PointCloud_npArray, 
-                                    self.ClusteredPointCloud_npArray,
-                                    self.DebugMode_bol)
-
+            #Creates a graph from the self.PointCloud_npArray and
+            #clustering data.
+            self.GrapherObject_gr = gr.Grapher(self.PointCloud_npArray, 
+                                        self.ClusteredPointCloud_npArray,
+                                        self.DebugMode_bol)
+        
     def change_metric(self, MetricName_str):
         '''Function that modifies the self.MetricObject_me object
         '''
@@ -149,27 +188,39 @@ class Mapper:
     def save_configurations(self, DirectoryPath_str, FileName_str):
         '''A function that saves configuration to a file in a given
         locantion.  '''
+        
+        
         with open(DirectoryPath_str + FileName_str + '.pk', 'wb') as output:
-            pickle.dump(self, output, pickle.HIGHEST_PROTOCOL)
-        
-        
-        '''
-        with open('company_data.pk', 'wb') as output:
-            company1 = Company('banana', 40)
-            pickle.dump(company1, output, pickle.HIGHEST_PROTOCOL)
-
-            company2 = Company('spam', 42)
-            pickle.dump(company2, output, pickle.HIGHEST_PROTOCOL)
-        '''
-        
+            pickle.dump(self.PointCloud_npArray, output,
+                        pickle.HIGHEST_PROTOCOL)
+            pickle.dump(self.MetricName_str, output, pickle.HIGHEST_PROTOCOL)
+            pickle.dump(self.LensName_str, output, pickle.HIGHEST_PROTOCOL)
+            pickle.dump(self.LensArguments_array, output,
+                        pickle.HIGHEST_PROTOCOL)
+            pickle.dump(self.BINNUMBER_int, output, pickle.HIGHEST_PROTOCOL)
+            pickle.dump(self.OVERLAP_flt, output, pickle.HIGHEST_PROTOCOL)
+            pickle.dump(self.ClusterAlgorithm_str, output,
+                        pickle.HIGHEST_PROTOCOL)
+            pickle.dump(self.ClusterArguments_array, output,
+                        pickle.HIGHEST_PROTOCOL)
+            pickle.dump(self.DebugMode_bol, output, pickle.HIGHEST_PROTOCOL)
         
     def load_configurations(self, DirectoryPath_str, FileName_str):
         '''A function that loads a configuration file, created with 
         save_configurations, from a given locantion.  '''
+        
+        
         with open(DirectoryPath_str + FileName_str + '.pk', 'rb') as input:
-            return(pickle.load(input))
-        
-        
+            self.PointCloud_npArray = pickle.load(input)
+            self.MetricName_str = pickle.load(input)
+            self.LensName_str = pickle.load(input)
+            self.LensArguments_array = pickle.load(input)
+            self.BINNUMBER_int = pickle.load(input)
+            self.OVERLAP_flt = pickle.load(input)
+            self.ClusterAlgorithm_str = pickle.load(input)
+            self.ClusterArguments_array = pickle.load(input)
+            self.DebugMode_bol = pickle.load(input)    
+        self.analyse()
         
     def save_file_to_map(self, DirectoryPath_str, FileName_str):
         '''This function saves the graph in a map in .graphml format.
