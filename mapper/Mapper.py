@@ -17,15 +17,15 @@ import Grapher as gr
 
 class Mapper:
     def __init__(self,
-                PointCloud_npArray = None,
-                MetricName_str = None,
-                LensName_str = None,
-                LensArguments_array = None,
-                BINNUMBER_int = None,
-                OVERLAP_flt = None,
-                ClusterAlgorithm_str = None,
-                ClusterArguments_array = None,
-                DebugMode_bol = None):
+                PointCloud_npArray=None,
+                MetricName_str=None,
+                LensName_str=None,
+                LensArguments_array=None,
+                BINNUMBER_int=None,
+                OVERLAP_flt=None,
+                ClusterAlgorithm_str=None,
+                ClusterArguments_array=None,
+                DebugMode_bol=None):
         '''The Mapper object is initiated with a set PointCloud_npArray
         and dependes on several other variables (see above).  '''
         
@@ -91,7 +91,8 @@ class Mapper:
                                         self.LensArguments_array,
                                         self.MetricObject_me, 
                                         self.BinsObjebt_bi,
-                                        self.DebugMode_bol)
+                                        self.DebugMode_bol,
+                                        self)
             self.ClustObject_cl = cl.Clust(self.PointCloud_npArray, 
                                         self.ClusterAlgorithm_str,
                                         self.ClusterArguments_array, 

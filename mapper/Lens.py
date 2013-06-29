@@ -11,14 +11,14 @@ from Filter_Functions import FilterFunctions as ff
 
 class Lens:
     def __init__(self, LensName_str, LensArguments_array, MetricObject_me,
-                BinsObject_bi, DebugMode_bol = False):
+                BinsObject_bi, DebugMode_bol=False, Mother_ma=None):
         '''The Lens object is initiated with a set with four arguments.
         '''
         
         
         self.DebugMode_bol = DebugMode_bol
         
-        self.LensName_str = LensName_str
+        self.LensName_str = Mother_ma.LensName_str
         self.LensArguments_array = LensArguments_array
         self.MetricObject_me = MetricObject_me
         self.BinsObject_bi = BinsObject_bi
