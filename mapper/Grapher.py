@@ -14,7 +14,7 @@ class Grapher:
         to generate the graph with self.create_graph().  '''
 
 
-        self.debugmode = DebugMode_bol
+        self.DebugMode_bol = DebugMode_bol
         
         self.PointCloud_npArray = PointCloud_npArray
         self.ClusteredPointCloud_npArray = ClusteredPointCloud_npArray
@@ -36,9 +36,9 @@ class Grapher:
         '''
         
         
-        if self.debugmode == True:
-            print("In Grapher.TESTmakegraph:Data to be graphed:")
-            print(self.ClusteredPointCloud_npArray[:, [0, 1, 2, 3]])
+        if self.DebugMode_bol == True:
+            print("In Grapher.create_graph():Data to be graphed:")
+            #print(self.ClusteredPointCloud_npArray[:, [0, 1, 2, 3]])
 
         RowCnt_int = 0
         ColumnCnt_int = 3
@@ -67,11 +67,6 @@ class Grapher:
         self.EdgeIndex_array and inserts them into self.TheGraph_graph.
         '''
         
-        
-        if self.debugmode == True:
-            #print("In Graph.insertgraph:")
-            #print(points)
-            pass
             
         UsedClusters_set = set()
         for aNode_array in self.NodeIndex_array:
