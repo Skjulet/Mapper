@@ -8,7 +8,7 @@ import numpy as np
 from scipy.spatial import distance
 from scipy import stats
 
-import Metric as me
+from .. import Metric as me
 
 class FilterFunctions:
     def __init__(self):
@@ -48,7 +48,7 @@ class FilterFunctions:
 
     def gaussian_kde(self, PointCloud_npArray, Metric_me):
         ''' Filter that returns the estimated density of the
-        points coordinates as filter value.
+        point cloud coordinates as filter value.
         '''
         
         
