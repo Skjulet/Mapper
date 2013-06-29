@@ -19,12 +19,12 @@ class Mapper:
     def __init__(self,
                 PointCloud_npArray = None,
                 MetricName_str = None,
-                LensName_str = None, 
+                LensName_str = None,
                 LensArguments_array = None,
                 BINNUMBER_int = None,
-                OVERLAP_flt = None, 
+                OVERLAP_flt = None,
                 ClusterAlgorithm_str = None,
-                ClusterArguments_array = None, 
+                ClusterArguments_array = None,
                 DebugMode_bol = None):
         '''The Mapper object is initiated with a set PointCloud_npArray
         and dependes on several other variables (see above).  '''
@@ -102,7 +102,7 @@ class Mapper:
             self.BFPointCloud_npArray = \
             self.LensObject_le.filter_point_cloud(self.PointCloud_npArray)
             if self.DebugMode_bol == True:
-                 print("In Mapper__init__: Printing self.BFPointCloud_npArray\
+                 print("In Mapper.analyse(): Printing self.BFPointCloud_npArray\
                  in the Mapper object:")
                  print(self.BFPointCloud_npArray)	
 
@@ -111,7 +111,7 @@ class Mapper:
             self.ClustObject_cl.create_clustering(self.BFPointCloud_npArray)
 
             if self.DebugMode_bol == True:
-                print("In Mapper__init__: Printing\
+                print("In Mapper.analyse(): Printing\
                 self.ClusteredPointCloud_npArray:")
                 print(self.ClusteredPointCloud_npArray)
 

@@ -1,3 +1,4 @@
+
 ''' The lens class applies the chosen lens to the point cloud data.
 '''
 
@@ -37,7 +38,8 @@ class Lens:
         self.PointCloud_npArray = PointCloud_npArray
 
         if self.DebugMode_bol == True:
-            print("In Lens.filtered: The PointCloud_npArray itself:")
+            print("In Lens.filter_point_cloud(): The PointCloud_npArray \
+                itself:")
             print(self.PointCloud_npArray)
 
         #self.BFPointCloud_npArray is filtered and sorted after filter
@@ -45,7 +47,7 @@ class Lens:
         self.filter_and_sort_points()
 
         if self.DebugMode_bol == True:
-            print("In Lens.filtered: PointCloud_npArray \
+            print("In Lens.filter_point_cloud(): PointCloud_npArray \
                     after filter + sorting")
             print(self.BFPointCloud_npArray)
 
@@ -68,7 +70,8 @@ class Lens:
             ff.FilterFunctions().apply_filter(self.PointCloud_npArray,
             self.MetricObject_me, self.LensName_str, self.LensArguments_array)
         if self.DebugMode_bol == True:
-            print("In Lens.filterpoint: Cloud after added filthers:")
+            print("In Lens.filter_and_sort_points(): Cloud after added \
+            filters:")
             print(self.BFPointCloud_npArray)
         
         #Sorts self.BFPointCloud_npArray on filter value.

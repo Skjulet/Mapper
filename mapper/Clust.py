@@ -35,7 +35,7 @@ class Clust:
         
         self.BFPointCloud_npArray = BFPointCloud_npArray
         if self.DebugMode_bol == True:
-            print("In clust.TESTmakeclustering:Data to be clustered:")
+            print("In clust.create_clustering():Data to be clustered:")
             print(self.BFPointCloud_npArray)
     
         FirstBin_array = [self.BFPointCloud_npArray[0, 0]]
@@ -72,7 +72,7 @@ class Clust:
         
         
         if self.DebugMode_bol == True:
-            print("In clust.createclusters:")
+            print("In Clust.cluster_bin():")
             print(PointBin_array)
 
         #Gives each cluster a unique index.
