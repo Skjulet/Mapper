@@ -8,15 +8,15 @@ import Mapper as ma
 
 
 WordData_npArray = np.load('../../Mapper_Data_Files/\
-npy_files/easygoing_neighbors.npy')
+npy_files/bnc_food.npy')
 LabelData_npArray = np.load('../../Mapper_Data_Files/\
-npy_files/easygoing_neighborswords.npy')
+npy_files/bnc_foodwords.npy')
 Cloud_npArray = WordData_npArray
 
 MetricName_str = 'cosine'
 LensName_str = 'Semantic'
 LensArguments_array = []
-BINS_int = 5
+BINS_int = 30
 OVERLAP_flt = 0.9
 Clust_str = 'CompleteLinkage'
 ClusterArguments_array = [0.92]    #The epsilon value
@@ -25,23 +25,17 @@ ClusterArguments_array = [0.92]    #The epsilon value
 
 TestObject_ma = ma.Mapper(Cloud_npArray, MetricName_str, LensName_str, 
     LensArguments_array, BINS_int, OVERLAP_flt, Clust_str, 
-    ClusterArguments_array, DebugMode_bol = False)
+    ClusterArguments_array, DebugMode_bol = True)
 TestObject_ma.add_labels('Labels', LabelData_npArray)
 TestObject_ma.add_filter_to_graph()
+
+TestObject_ma.save_file_to_map(
+                        '../../Mapper_Data_Files/graph_files/', 'bnc_food')
 
 TestObject_ma.save_configurations(
                         '../../Mapper_Data_Files/config_files/','Testfile')
 
 TestObject_ma.print_graph()
 
-aTest_ma = ma.Mapper()
-
-aTest_ma.load_configurations(
-                        '../../Mapper_Data_Files/config_files/','Testfile')
-                        
-print('Printing aTest_ma')           
-aTest_ma.print_graph()   
 #TestObject_ma.print_graph()
 #TestObject_ma.save_file_to_map()
-
-
