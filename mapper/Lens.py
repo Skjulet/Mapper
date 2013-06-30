@@ -66,11 +66,18 @@ class Lens:
         
         
         #Creates filter value for each point.
-        self.BFPointCloud_npArray = \
+        if self.Mother_ma.UnsortedFilterValues_npArray == None or \
+                    len(self.Mother_ma.UnsortedFilterValues_npArray) != \
+                    len(self.Mother_ma.PointCloud_npArray):
+            self.Mother_ma.UnsortedFilterValues_npArray = \
             ff.FilterFunctions().apply_filter(self.PointCloud_npArray,
-            self.MetricObject_me, self.LensName_str, self.LensArguments_array)
-        self.Mother_ma.UnsortedFilterValues_npArray = \
-        self.BFPointCloud_npArray[:, 1]
+                                                self.MetricObject_me, 
+                                                self.LensName_str, 
+                                                self.LensArguments_array)
+        self.BFPointCloud_npArray = \
+            np.column_stack((range(0, self.PointCloud_npArray.shape[0]),  
+                            self.Mother_ma.UnsortedFilterValues_npArray))
+        
         if self.Mother_ma.FilterAdded_ToGraphbol == True:
             self.Mother_ma.add_mean_properties('Filter Value', 
                                     self.BFPointCloud_npArray[:, 1])

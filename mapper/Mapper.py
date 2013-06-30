@@ -13,7 +13,7 @@ import Lens as le
 import Bins as bi
 import Clust as cl
 import Grapher as gr
-
+from Filter_Functions import FilterFunctions as ff
 
 class Mapper:
     def __init__(self,
@@ -239,7 +239,35 @@ class Mapper:
             self.DebugMode_bol = pickle.load(input)    
         self.analyse()
         
-    def save_file_to_map(self, DirectoryPath_str, FileName_str):
+    def save_filter_values(self, DirectoryPath_str, FileName_str):
+        '''A function that saves filter values, sorted in the same
+        order as the initial PointCloud_npArray, to a file on a 
+        given locantion.  '''
+        
+        
+        with open(DirectoryPath_str + FileName_str + '.pk', 'wb') as output:
+            if self.UnsortedFilterValues_npArray != None:
+                pickle.dump(self.UnsortedFilterValues_npArray, output,
+                            pickle.HIGHEST_PROTOCOL)
+            else:
+                self.UnsortedFilterValues_npArray = \
+                ff.FilterFunctions().apply_filter(self.PointCloud_npArray,
+                                                me.Metric(self.MetricName_str, 
+                                                        self.DebugMode_bol), 
+                                                self.LensName_str, 
+                                                self.LensArguments_array)
+                pickle.dump(self.UnsortedFilterValues_npArray, output,
+                            pickle.HIGHEST_PROTOCOL)
+    def load_filter_values(self, DirectoryPath_str, FileName_str):
+        '''A function that loads filter values, sorted in the same
+        order as the initial PointCloud_npArray, to a file on a 
+        given locantion.  '''
+        
+        with open(DirectoryPath_str + FileName_str + '.pk', 'rb') as input:
+            self.UnsortedFilterValues_npArray = pickle.load(input)
+        
+        
+    def save_graph(self, DirectoryPath_str, FileName_str):
         '''This function saves the graph in a map in .graphml format.
         '''
 

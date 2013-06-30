@@ -57,8 +57,7 @@ class FilterFunctions:
         else:
             pass
         
-        return np.column_stack((range(0, PointCloud_npArray.shape[0]), \
-                                                        FilterValues_npArray))
+        return FilterValues_npArray
 
 
     def gaussian_kde(self, PointCloud_npArray):

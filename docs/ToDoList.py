@@ -5,6 +5,7 @@ Short term:
     (H) ArielArielAriel ArielAriel Ariel --> Fix variabel names in 
         specified parts of FiltersFunctions.py and 
         ClusterAlgorithms.py.
+    (H) Rethink/redo some of the save_configurations in Mapper.py
     
 Middle term:
     (M) Fix equalize == false in Bins.py.
