@@ -17,7 +17,7 @@ class Lens:
         
         
         self.DebugMode_bol = DebugMode_bol
-        
+        self.Mother_ma = Mother_ma
         self.LensName_str = Mother_ma.LensName_str
         self.LensArguments_array = LensArguments_array
         self.MetricObject_me = MetricObject_me
@@ -69,6 +69,11 @@ class Lens:
         self.BFPointCloud_npArray = \
             ff.FilterFunctions().apply_filter(self.PointCloud_npArray,
             self.MetricObject_me, self.LensName_str, self.LensArguments_array)
+        self.Mother_ma.UnsortedFilterValues_npArray = \
+        self.BFPointCloud_npArray[:, 1]
+        if self.Mother_ma.FilterAdded_ToGraphbol == True:
+            self.Mother_ma.add_mean_properties('Filter Value', 
+                                    self.BFPointCloud_npArray[:, 1])
         if self.DebugMode_bol == True:
             print("In Lens.filter_and_sort_points(): Cloud after added \
             filters:")

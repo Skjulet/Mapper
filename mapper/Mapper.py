@@ -40,7 +40,10 @@ class Mapper:
         self.ClusterArguments_array = ClusterArguments_array
         self.DebugMode_bol = DebugMode_bol
         
-        self.checklist_list = None
+        self.UnsortedFilterValues_npArray = None
+        
+        self.CheckList_list = None
+        self.IsAnalysed_bol = False
         
         if self.DebugMode_bol == True:
             print("In Mapper__init__: Mapper is now running in debug mode")
@@ -51,6 +54,7 @@ class Mapper:
         self.Coloring_npArray = None
         self.GrapherObject_gr = None
         self.Properties_dict = {}
+        self.FilterAdded_ToGraphbol = True
         self.LabelName_str = None
         self.Labels_npArray = None
         
@@ -63,14 +67,13 @@ class Mapper:
         self.BFPointCloud_npArray = None
         self.ClusteredPointCloud_npArray = None
         
-        self.analyse()
         
     def analyse(self):
         '''A function that executes the mapper algorithm when all 
         the required parameters are given.  '''
         
         
-        self.checklist_list = [int(self.PointCloud_npArray is None),
+        self.CheckList_list = [int(self.PointCloud_npArray is None),
                                 int(self.MetricName_str is None),
                                 int(self.LensName_str is None),
                                 int(self.LensArguments_array is None),
@@ -79,7 +82,7 @@ class Mapper:
                                 int(self.ClusterAlgorithm_str is None),
                                 int(self.ClusterArguments_array is None),
                                 int(self.DebugMode_bol is None)]
-        if sum(self.checklist_list) == 0:
+        if sum(self.CheckList_list) == 0 and self.IsAnalysed_bol == False:
             #Initiates required objects.
             self.MetricObject_me = me.Metric(self.MetricName_str, 
                                         self.DebugMode_bol)
@@ -121,6 +124,15 @@ class Mapper:
             self.GrapherObject_gr = gr.Grapher(self.PointCloud_npArray, 
                                         self.ClusteredPointCloud_npArray,
                                         self.DebugMode_bol)
+            
+            if self.LabelName_str != None and self.Labels_npArray != None:
+                self.GrapherObject_gr.add_labels(self.LabelName_str,
+                                            self.Labels_npArray)
+            if self.Properties_dict != {}:
+                for Property_str in self.Properties_dict:
+                    self.GrapherObject_gr.add_mean_properties(Property_str, 
+                                            self.Properties_dict[Property_str])
+            self.IsAnalysed_bol = True
         
     def change_metric(self, MetricName_str):
         '''Function that modifies the self.MetricObject_me object
@@ -167,15 +179,18 @@ class Mapper:
 
         self.LabelName_str = LabelName_str
         self.Labels_npArray = Labels_npArray
-        self.GrapherObject_gr.add_labels(LabelName_str, self.Labels_npArray)
-        
+        if self.IsAnalysed_bol == True:
+            self.GrapherObject_gr.add_labels(self.LabelName_str,
+                                            self.Labels_npArray)
+    
     def add_filter_to_graph(self):
         '''Function that adds meaned filter values to the nodes in the
         graph in self.GrapherObject_gr.  '''
 
-
-        self.add_mean_properties('Filter Value', 
-                                self.BFPointCloud_npArray[:, 1])
+        if self.IsAnalysed_bol == True:
+            self.add_mean_properties('Filter Value', 
+                                    self.UnsortedFilterValues_npArray)
+        self.FilterAddedToGraph_bol = True
 
     def add_mean_properties(self, PropertiesName_str, Properties_npArray):
         '''Function that adds meaned properties values to the nodes in
@@ -183,7 +198,8 @@ class Mapper:
 
         
         self.Properties_dict[PropertiesName_str] = Properties_npArray
-        self.GrapherObject_gr.add_mean_properties(PropertiesName_str, 
+        if self.IsAnalysed_bol == True:
+            self.GrapherObject_gr.add_mean_properties(PropertiesName_str, 
                                                     Properties_npArray)
 
     def save_configurations(self, DirectoryPath_str, FileName_str):

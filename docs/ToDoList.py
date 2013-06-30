@@ -6,7 +6,6 @@ Short term:
         specified parts of FiltersFunctions.py and 
         ClusterAlgorithms.py.
     
-    
 Middle term:
     (M) Fix equalize == false in Bins.py.
     (M) Functions that checks number of arguments for 
