@@ -15,7 +15,7 @@ npy_files/easygoing_neighborswords.npy')
 Cloud_npArray = WordData_npArray
 
 MetricName_str = 'euclidean'
-LensName_str = 'Semantic'
+LensName_str = 'nth_neighbor'
 LensArguments_array = []
 BINS_int = 5
 OVERLAP_flt = 0.9

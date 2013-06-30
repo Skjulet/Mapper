@@ -8,7 +8,8 @@ import numpy as np
 from scipy.spatial import distance
 from scipy import stats
 
-from .. import Metric as me
+import Metric as me
+
 
 class FilterFunctions:
     def __init__(self):
@@ -97,8 +98,8 @@ class FilterFunctions:
             while Iterations_int < neighbor_int + 1:
                 DistanceMatrix_npArray[n_int][Row.argmin()] = np.inf
                 Iterations_int = Iterations_int + 1
-                FilterValues_npArray[n_int] = \
-                    DistanceMatrix_npArray[n_int][Row.argmin()]
+            FilterValues_npArray[n_int] = \
+                DistanceMatrix_npArray[n_int][Row.argmin()]
         
         return FilterValues_npArray
         
