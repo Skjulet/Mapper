@@ -15,6 +15,7 @@ import Clust as cl
 import Grapher as gr
 from Filter_Functions import FilterFunctions as ff
 
+
 class Mapper:
     def __init__(self,
                 PointCloud_npArray=None,
@@ -67,7 +68,7 @@ class Mapper:
         
         self.BFPointCloud_npArray = None
         self.ClusteredPointCloud_npArray = None
-        
+
     def analyse(self):
         '''A function that executes the mapper algorithm when all 
         the required parameters are given.  '''
@@ -85,13 +86,13 @@ class Mapper:
             #Initiates required objects.
             self.MetricObject_me = me.Metric(self.MetricName_str, 
                                         self)
-            self.BinsObjebt_bi = bi.Bins(self.BINNUMBER_int, 
+            self.BinsObjebt_bi = bi.Bins(self.BINNUMBER_int,
                                         self.OVERLAP_flt,
                                         self.Equalize_bol,
-                                        self)	
-            self.LensObject_le = le.Lens(self.LensName_str, 
+                                        self)
+            self.LensObject_le = le.Lens(self.LensName_str,
                                         self.LensArguments_array,
-                                        self.MetricObject_me, 
+                                        self.MetricObject_me,
                                         self.BinsObjebt_bi,
                                         self)
             self.ClustObject_cl = cl.Clust(self.PointCloud_npArray, 
