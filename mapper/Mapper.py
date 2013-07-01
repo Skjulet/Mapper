@@ -41,6 +41,7 @@ class Mapper:
         self.DebugMode_bol = DebugMode_bol
         
         self.UnsortedFilterValues_npArray = None
+        self.PointCloudDistanceMatrix_npArray = None
         
         self.CheckList_list = None
         self.IsAnalysed_bol = False
@@ -80,8 +81,7 @@ class Mapper:
                                 int(self.BINNUMBER_int is None),
                                 int(self.OVERLAP_flt is None),
                                 int(self.ClusterAlgorithm_str is None),
-                                int(self.ClusterArguments_array is None),
-                                int(self.DebugMode_bol is None)]
+                                int(self.ClusterArguments_array is None)]
         if sum(self.CheckList_list) == 0 and self.IsAnalysed_bol == False:
             #Initiates required objects.
             self.MetricObject_me = me.Metric(self.MetricName_str, 
@@ -134,44 +134,6 @@ class Mapper:
                                             self.Properties_dict[Property_str])
             self.IsAnalysed_bol = True
         
-    def change_metric(self, MetricName_str):
-        '''Function that modifies the self.MetricObject_me object
-        '''
-
-
-        self.MetricObject_me = me.Metric(MetricName_str, self.DebugMode_bol)
-
-    def change_lens(self, LensName_str):
-        '''Function that modifies the self.LensObject_le object
-        '''
-
-
-        self.LensObject_le = le.Lens(LensName_str, self.MetricObject_me,
-                                self.BinsObjebt_bi, self.DebugMode_bol)
-
-    def change_overlap(self, OVERLAP_flt):
-        '''Function that modifies the self.OVERLAP_flt object
-        '''
-
-
-        self.OVERLAP_flt = OVERLAP_flt
-
-    def change_bin_number(self, BINNUMBER_int):
-        '''Function that modifies the self.BinsObjebt_bi object
-        '''
-
-
-        self.BinsObjebt_bi = BINNUMBER_int
-
-    def change_clust_alg(self, ClusterAlgorithm_str):
-        '''Function that modifies the self.ClustObject_cl object.  
-        '''
-
-
-        self.ClustObject_cl = cl.Clust(self.PointCloud_npArray, 
-                                ClusterAlgorithm_str, self.MetricObject_me,
-                                self.DebugMode_bol)
-
     def add_labels(self, LabelName_str, Labels_npArray):
         '''Function that adds Labels_npArray to the graph in
         self.GrapherObject_gr.  '''
@@ -208,8 +170,6 @@ class Mapper:
         
         
         with open(DirectoryPath_str + FileName_str + '.pk', 'wb') as output:
-            pickle.dump(self.PointCloud_npArray, output,
-                        pickle.HIGHEST_PROTOCOL)
             pickle.dump(self.MetricName_str, output, pickle.HIGHEST_PROTOCOL)
             pickle.dump(self.LensName_str, output, pickle.HIGHEST_PROTOCOL)
             pickle.dump(self.LensArguments_array, output,
@@ -220,7 +180,6 @@ class Mapper:
                         pickle.HIGHEST_PROTOCOL)
             pickle.dump(self.ClusterArguments_array, output,
                         pickle.HIGHEST_PROTOCOL)
-            pickle.dump(self.DebugMode_bol, output, pickle.HIGHEST_PROTOCOL)
         
     def load_configurations(self, DirectoryPath_str, FileName_str):
         '''A function that loads a configuration file, created with 
@@ -228,16 +187,13 @@ class Mapper:
         
         
         with open(DirectoryPath_str + FileName_str + '.pk', 'rb') as input:
-            self.PointCloud_npArray = pickle.load(input)
             self.MetricName_str = pickle.load(input)
             self.LensName_str = pickle.load(input)
             self.LensArguments_array = pickle.load(input)
             self.BINNUMBER_int = pickle.load(input)
             self.OVERLAP_flt = pickle.load(input)
             self.ClusterAlgorithm_str = pickle.load(input)
-            self.ClusterArguments_array = pickle.load(input)
-            self.DebugMode_bol = pickle.load(input)    
-        self.analyse()
+            self.ClusterArguments_array = pickle.load(input)    
         
     def save_filter_values(self, DirectoryPath_str, FileName_str):
         '''A function that saves filter values, sorted in the same
@@ -258,6 +214,7 @@ class Mapper:
                                                 self.LensArguments_array)
                 pickle.dump(self.UnsortedFilterValues_npArray, output,
                             pickle.HIGHEST_PROTOCOL)
+                            
     def load_filter_values(self, DirectoryPath_str, FileName_str):
         '''A function that loads filter values, sorted in the same
         order as the initial PointCloud_npArray, to a file on a 

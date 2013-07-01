@@ -27,11 +27,11 @@ ClusterArguments_array = [0.92]    #The epsilon value
 TestObject_ma = ma.Mapper(Cloud_npArray, MetricName_str, LensName_str, 
     LensArguments_array, BINS_int, OVERLAP_flt, Clust_str, 
     ClusterArguments_array, DebugMode_bol = False)
-#TestObject_ma.save_filter_values('../../Mapper_Data_Files/filter_files/',
-#                                'easygoing_neighborsfilters')
-                                
-TestObject_ma.load_filter_values('../../Mapper_Data_Files/filter_files/',
+TestObject_ma.save_filter_values('../../Mapper_Data_Files/filter_files/',
                                 'easygoing_neighborsfilters')
+                                
+#TestObject_ma.load_filter_values('../../Mapper_Data_Files/filter_files/',
+#                                'easygoing_neighborsfilters')
 TestObject_ma.add_labels('Labels', LabelData_npArray)
 
 TestObject_ma.add_filter_to_graph()
