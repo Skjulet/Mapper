@@ -9,12 +9,12 @@ import networkx as nx
 
 class Grapher:
     def __init__(self, PointCloud_npArray, ClusteredPointCloud_npArray,
-                DebugMode_bol = False):
+                Mother_ma=None):
         '''PointCloud_npArray and ClusteredPointCloud_npArray are used
         to generate the graph with self.create_graph().  '''
 
 
-        self.DebugMode_bol = DebugMode_bol
+        self.DebugMode_bol = Mother_ma.DebugMode_bol
         
         self.PointCloud_npArray = PointCloud_npArray
         self.ClusteredPointCloud_npArray = ClusteredPointCloud_npArray

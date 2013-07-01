@@ -68,7 +68,6 @@ class Mapper:
         self.BFPointCloud_npArray = None
         self.ClusteredPointCloud_npArray = None
         
-        
     def analyse(self):
         '''A function that executes the mapper algorithm when all 
         the required parameters are given.  '''
@@ -85,22 +84,21 @@ class Mapper:
         if sum(self.CheckList_list) == 0 and self.IsAnalysed_bol == False:
             #Initiates required objects.
             self.MetricObject_me = me.Metric(self.MetricName_str, 
-                                        self.DebugMode_bol)
+                                        self)
             self.BinsObjebt_bi = bi.Bins(self.BINNUMBER_int, 
                                         self.OVERLAP_flt,
                                         self.Equalize_bol,
-                                        self.DebugMode_bol)	
+                                        self)	
             self.LensObject_le = le.Lens(self.LensName_str, 
                                         self.LensArguments_array,
                                         self.MetricObject_me, 
                                         self.BinsObjebt_bi,
-                                        self.DebugMode_bol,
                                         self)
             self.ClustObject_cl = cl.Clust(self.PointCloud_npArray, 
                                         self.ClusterAlgorithm_str,
                                         self.ClusterArguments_array, 
                                         self.MetricObject_me,
-                                        self.DebugMode_bol)
+                                        self)
                                     
             #Bins and filters cloud on the lenses filter.
             self.BFPointCloud_npArray = \
@@ -123,7 +121,7 @@ class Mapper:
             #clustering data.
             self.GrapherObject_gr = gr.Grapher(self.PointCloud_npArray, 
                                         self.ClusteredPointCloud_npArray,
-                                        self.DebugMode_bol)
+                                        self)
             
             if self.LabelName_str != None and self.Labels_npArray != None:
                 self.GrapherObject_gr.add_labels(self.LabelName_str,
@@ -241,7 +239,7 @@ class Mapper:
                 self.UnsortedFilterValues_npArray = \
                 ff.FilterFunctions().apply_filter(self.PointCloud_npArray,
                                                 me.Metric(self.MetricName_str, 
-                                                        self.DebugMode_bol), 
+                                                        self), 
                                                 self.LensName_str, 
                                                 self.LensArguments_array)
                 pickle.dump(self.UnsortedFilterValues_npArray, output,
@@ -254,7 +252,6 @@ class Mapper:
         
         with open(DirectoryPath_str + FileName_str + '.pk', 'rb') as input:
             self.UnsortedFilterValues_npArray = pickle.load(input)
-        
         
     def save_graph(self, DirectoryPath_str, FileName_str):
         '''This function saves the graph in a map in .graphml format.

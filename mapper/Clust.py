@@ -13,13 +13,13 @@ from Cluster_Algorithms import ClusterAlgorithms as ca
 
 class Clust:
     def __init__(self, PointCloud_npArray, ClusterAlgorithm_str, 
-                ClusterArguments_array, MetricObject_me, DebugMode_bol=False):
+                ClusterArguments_array, MetricObject_me, Mother_ma=None):
         '''Initiates the object with a PointCloud_npArray, a clustering
         algorithm and an ClusterArguments_array value. The clustering is different 
         depending on the given metric in the MetricObject_me.  '''
         
         
-        self.DebugMode_bol = DebugMode_bol
+        self.DebugMode_bol = Mother_ma.DebugMode_bol
         
         self.PointCloud_npArray = PointCloud_npArray
         self.ClusterAlgorithm_str = ClusterAlgorithm_str

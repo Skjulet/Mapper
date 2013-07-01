@@ -7,10 +7,10 @@ import numpy as np
 from scipy.spatial import distance
 
 class Metric:
-    def __init__(self, MetricName_str, DebugMode_bol = False):
+    def __init__(self, MetricName_str, Mother_ma=None):
         '''Initiates with MetricName_str.
         '''
-        
+        self.DebugMode_bol = Mother_ma.DebugMode_bol
         self.MetricName_str = MetricName_str
 
 

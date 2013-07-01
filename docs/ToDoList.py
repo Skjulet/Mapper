@@ -11,7 +11,6 @@ Middle term:
     (M) Fix equalize == false in Bins.py.
     (M) Functions that checks number of arguments for 
         FiltersFunctions.py and ClusterAlgorithms.py.
-    (M) Improve configuration files
         
     (L) Separate clusterdata, binningdata etc.
     (L) incorporate graphing + clustering into binning    

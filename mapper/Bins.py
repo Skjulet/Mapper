@@ -7,11 +7,12 @@ import numpy as np
 
 class Bins:
     def __init__(self, BINNUMBER_int, OVERLAP_flt,
-                Equalize_bol, DebugMode_bol):
-
+                Equalize_bol, Mother_ma=None):
+        
         self.BINNUMBER_int = BINNUMBER_int
         self.OVERLAP_flt = OVERLAP_flt
         self.Equalize_bol = Equalize_bol
+        self.DebugMode_bol = Mother_ma.DebugMode_bol
 
     def apply_bins(self, FilteredPointCloud_npArray):
         '''A method that adds a column to the data with
