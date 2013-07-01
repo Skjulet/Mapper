@@ -134,6 +134,38 @@ class Mapper:
                                             self.Properties_dict[Property_str])
             self.IsAnalysed_bol = True
         
+    def configure(self,
+                PointCloud_npArray=None,
+                MetricName_str=None,
+                LensName_str=None,
+                LensArguments_array=None,
+                BINNUMBER_int=None,
+                OVERLAP_flt=None,
+                ClusterAlgorithm_str=None,
+                ClusterArguments_array=None,
+                DebugMode_bol=None):
+        '''A function that adds or changes configurations in the mapper
+        object.  '''
+        
+        if PointCloud_npArray != None:
+            self.PointCloud_npArray = PointCloud_npArray
+        if MetricName_str != None:
+            self.MetricName_str = MetricName_str
+        if LensName_str != None:
+            self.LensName_str = LensName_str
+        if LensArguments_array != None:
+            self.LensArguments_array = LensArguments_array
+        if BINNUMBER_int != None:
+            self.BINNUMBER_int = BINNUMBER_int
+        if OVERLAP_flt != None:
+            self.OVERLAP_flt = OVERLAP_flt
+        if ClusterAlgorithm_str != None:
+            self.ClusterAlgorithm_str = ClusterAlgorithm_str
+        if ClusterArguments_array != None:
+            self.ClusterArguments_array = ClusterArguments_array
+        if DebugMode_bol != None:
+            self.DebugMode_bol = DebugMode_bol
+        
     def add_labels(self, LabelName_str, Labels_npArray):
         '''Function that adds Labels_npArray to the graph in
         self.GrapherObject_gr.  '''
