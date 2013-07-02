@@ -68,6 +68,7 @@ class Mapper:
         
         self.FilteredPointCloud_npArray = None
         self.Binning_array = None
+        self.Overlap_array = None
         self.Clustering_array = None
         self.ClusteredPointCloud_npArray = None
 
@@ -104,7 +105,8 @@ class Mapper:
                                         self)
                                     
             #Bins and filters cloud on the lenses filter.
-            [self.FilteredPointCloud_npArray, self.Binning_array]= \
+            [self.FilteredPointCloud_npArray, 
+            self.Binning_array, self.Overlap_array]= \
             self.LensObject_le.filter_point_cloud(self.PointCloud_npArray)
             if self.DebugMode_bol == True:
                  print("In Mapper.analyse(): Printing self.BFPointCloud_npArray\
@@ -123,8 +125,10 @@ class Mapper:
 
             #Creates a graph from the self.PointCloud_npArray and
             #clustering data.
-            self.GrapherObject_gr = gr.Grapher(self.PointCloud_npArray, 
+            self.GrapherObject_gr = gr.Grapher(self.PointCloud_npArray,
+                                        self.FilteredPointCloud_npArray,
                                         self.Clustering_array,
+                                        self.Overlap_array,
                                         self)
             
             if self.LabelName_str != None and self.Labels_npArray != None:
@@ -132,8 +136,9 @@ class Mapper:
                                             self.Labels_npArray)
             if self.Properties_dict != {}:
                 for Property_str in self.Properties_dict:
-                    self.GrapherObject_gr.add_mean_properties(Property_str, 
-                                            self.Properties_dict[Property_str])
+                    pass
+                    #self.GrapherObject_gr.add_mean_properties(Property_str, 
+                    #                        self.Properties_dict[Property_str])
             self.IsAnalysed_bol = True
         
     def configure(self,

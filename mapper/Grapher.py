@@ -9,7 +9,8 @@ import networkx as nx
 
 
 class Grapher:
-    def __init__(self, PointCloud_npArray, Clustering_array,
+    def __init__(self, PointCloud_npArray, FilteredPointCloud_npArray,
+                Clustering_array, Overlap_array,
                 Mother_ma=None):
         '''PointCloud_npArray and ClusteredPointCloud_npArray are used
         to generate the graph with self.create_graph().  '''
@@ -18,11 +19,15 @@ class Grapher:
         self.DebugMode_bol = Mother_ma.DebugMode_bol
         
         self.PointCloud_npArray = PointCloud_npArray
+        self.FilteredPointCloud_npArray = FilteredPointCloud_npArray
         self.TheGraph_graph = nx.Graph()
+        
         self.NodeIndex_array = Clustering_array
+        self.Overlap_array = Overlap_array
+        print(Overlap_array)
         self.EdgeIndex_array = []
         
-        self.create_graph()
+        self.initiate_graph()
 
     def get_graph(self):
         '''Returns the graph.
@@ -39,7 +44,8 @@ class Grapher:
         if self.DebugMode_bol == True:
             print("In Grapher.create_graph():Data to be graphed:")
             #print(self.ClusteredPointCloud_npArray[:, [0, 1, 2, 3]])
-
+        
+        
         RowCnt_int = 0
         ColumnCnt_int = 3
         while RowCnt_int < len(self.PointCloud_npArray):
@@ -100,8 +106,17 @@ class Grapher:
         
             
         UsedClusters_set = set()
+        UnfinishedEdges_array = []
         for aNode_array in self.NodeIndex_array:
-
+            if UnfinishedEdges_array != []:
+                if aNode_array[1] == UnfinishedEdges_array[0][1]:
+                    self.EdgeIndex_array = self.EdgeIndex_array + \
+                    [[aNode_array[1]] + UnfinishedEdges_array[0]]
+                    UnfinishedEdges_array.pop(0)
+            if aNode_array[1] == self.Overlap_array[0]:
+                self.Overlap_array.pop(0)
+                UnfinishedEdges_array = UnfinishedEdges_array + \
+                [[aNode_array[0], aNode_array[1]]]
             if aNode_array[0] not in UsedClusters_set:
                 self.TheGraph_graph.add_node(aNode_array[0],
                                             NumberOfPoints = 1)

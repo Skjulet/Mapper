@@ -38,12 +38,17 @@ class Bins:
         Point_int = 0
         CurrentBin_int = 1
         CurrentBin_array = []
+        Overlap_array = []
         while Point_int < len(FilteredPointCloud_npArray):
             if (CurrentBin_int - 1)*BININTERVAL_flt - OVERLAPINTERVAL_flt < \
                         PointsToCheck_array[Point_int] < \
                         CurrentBin_int*BININTERVAL_flt + OVERLAPINTERVAL_flt:
                 CurrentBin_array = CurrentBin_array + [Point_int]
                 
+            if (CurrentBin_int)*BININTERVAL_flt - OVERLAPINTERVAL_flt < \
+                        PointsToCheck_array[Point_int] < \
+                        CurrentBin_int*BININTERVAL_flt + OVERLAPINTERVAL_flt:
+                Overlap_array = Overlap_array + [Point_int]
             if PointsToCheck_array[Point_int] >= \
                         CurrentBin_int*BININTERVAL_flt + OVERLAPINTERVAL_flt:
                 CurrentBin_int = CurrentBin_int + 1
@@ -59,5 +64,5 @@ class Bins:
             Binning_npArray = Binning_npArray + [CurrentBin_array]
 		
         print(Binning_npArray)
-        return Binning_npArray
+        return [Binning_npArray, Overlap_array]
         

@@ -52,12 +52,14 @@ class Lens:
         
         #The self.BinsObject_bi.apply_bins function adds creates an
         #array with binning information.
-        self.Binning_array = \
+        [self.Binning_array, Overlap_array] = \
             self.BinsObject_bi.apply_bins(self.FilteredPointCloud_npArray)
             
         
         
-        return [self.FilteredPointCloud_npArray, self.Binning_array]
+        return [self.FilteredPointCloud_npArray, 
+                self.Binning_array, 
+                Overlap_array]
 
     def filter_and_sort_points(self):
         '''filter_points applies the filter specified as
