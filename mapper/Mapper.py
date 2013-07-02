@@ -66,7 +66,8 @@ class Mapper:
         self.ClustObject_cl = None
         self.GrapherObject_gr = None
         
-        self.BFPointCloud_npArray = None
+        self.FilteredPointCloud_npArray = None
+        self.Binning_array = None
         self.ClusteredPointCloud_npArray = None
 
     def analyse(self):
@@ -102,7 +103,7 @@ class Mapper:
                                         self)
                                     
             #Bins and filters cloud on the lenses filter.
-            self.BFPointCloud_npArray = \
+            [self.FilteredPointCloud_npArray, self.Binning_array]= \
             self.LensObject_le.filter_point_cloud(self.PointCloud_npArray)
             if self.DebugMode_bol == True:
                  print("In Mapper.analyse(): Printing self.BFPointCloud_npArray\
@@ -111,7 +112,7 @@ class Mapper:
 
             #Clusters the cloud.
             self.ClusteredPointCloud_npArray = \
-            self.ClustObject_cl.create_clustering(self.BFPointCloud_npArray)
+            self.ClustObject_cl.create_clustering(self.FilteredPointCloud_npArray)
 
             if self.DebugMode_bol == True:
                 print("In Mapper.analyse(): Printing\
