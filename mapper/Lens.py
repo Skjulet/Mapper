@@ -50,10 +50,8 @@ class Lens:
                     after filter + sorting")
             print(self.FilteredPointCloud_npArray)
         
-        
-        
-        #The self.BinsObject_bi.applybins function adds binning data to
-        #the self.BFPointCloud_npArray as a new column.
+        #The self.BinsObject_bi.apply_bins function adds creates an
+        #array with binning information.
         self.Binning_array = \
             self.BinsObject_bi.apply_bins(self.FilteredPointCloud_npArray)
             

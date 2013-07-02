@@ -68,6 +68,7 @@ class Mapper:
         
         self.FilteredPointCloud_npArray = None
         self.Binning_array = None
+        self.Clustering_array = None
         self.ClusteredPointCloud_npArray = None
 
     def analyse(self):
@@ -111,8 +112,9 @@ class Mapper:
                  print(self.BFPointCloud_npArray)	
 
             #Clusters the cloud.
-            self.ClusteredPointCloud_npArray = \
-            self.ClustObject_cl.create_clustering(self.FilteredPointCloud_npArray)
+            self.Clustering_array = self.ClustObject_cl.create_clustering(
+                                            self.FilteredPointCloud_npArray,
+                                            self.Binning_array)
 
             if self.DebugMode_bol == True:
                 print("In Mapper.analyse(): Printing\
@@ -122,7 +124,7 @@ class Mapper:
             #Creates a graph from the self.PointCloud_npArray and
             #clustering data.
             self.GrapherObject_gr = gr.Grapher(self.PointCloud_npArray, 
-                                        self.ClusteredPointCloud_npArray,
+                                        self.Clustering_array,
                                         self)
             
             if self.LabelName_str != None and self.Labels_npArray != None:

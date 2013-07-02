@@ -27,13 +27,52 @@ class Clust:
         self.MetricObject_me = MetricObject_me
         self.BFPointCloud_npArray = None
         self.PointCloudSize_int = len(PointCloud_npArray)
+
+    def create_clustering(self, FilteredPointCloud_npArray, Binning_array):
+        '''Creates clustering from each bin given in the binning data 
+        of Binning_array.  '''
         
-    def create_clustering(self, BFPointCloud_npArray):
+        
+        self.FilteredPointCloud_npArray = FilteredPointCloud_npArray
+        self.Binning_array = Binning_array
+        self.Clustering_array = []
+        if self.DebugMode_bol == True:
+            print("In clust.create_clustering():Data to be clustered:")
+            print(self.FilteredPointCloud_npArray)
+        
+        for aBin_array in self.Binning_array:
+            self.cluster_bin(aBin_array)
+        
+        print(self.Clustering_array)
+        return self.Clustering_array
+
+    def cluster_bin(self, aBin_array):
+        '''Clusters a bin with a clustering algorithm specified in 
+        cluster_algorithm.  '''
+        
+        
+        if self.DebugMode_bol == True:
+            print("In Clust.cluster_bin():")
+            print(PointBin_array)
+
+        #Gives each cluster a unique index.
+        if self.Clustering_array == []:
+            MaxClustNr_int = 0
+        else:
+            MaxClustNr_int = max(self.Clustering_array[-1])
+        
+        self.Clustering_array = self.Clustering_array + \
+                        [[x + MaxClustNr_int for x in 
+                        self.cluster_algorithm(
+                        self.PointCloud_npArray[aBin_array, :])]]
+
+    def MOCKcreate_clustering(self, BFPointCloud_npArray, Binning_array):
         '''Creates clustering from each bin given in the binning data 
         of BFPointCloud_npArray.  '''
         
         
         self.BFPointCloud_npArray = BFPointCloud_npArray
+        self.Binning_array = Binning_array
         if self.DebugMode_bol == True:
             print("In clust.create_clustering():Data to be clustered:")
             print(self.BFPointCloud_npArray)
@@ -66,7 +105,7 @@ class Clust:
 
         return self.BFPointCloud_npArray
 
-    def cluster_bin(self, PointBin_array, PointNr_int):
+    def MOCKcluster_bin(self, PointBin_array, PointNr_int):
         '''Clusters a bin with a clustering algorithm specified in 
         cluster_algorithm.  '''
         

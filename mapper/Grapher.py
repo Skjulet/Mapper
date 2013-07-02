@@ -9,7 +9,7 @@ import networkx as nx
 
 
 class Grapher:
-    def __init__(self, PointCloud_npArray, ClusteredPointCloud_npArray,
+    def __init__(self, PointCloud_npArray, Clustering_array,
                 Mother_ma=None):
         '''PointCloud_npArray and ClusteredPointCloud_npArray are used
         to generate the graph with self.create_graph().  '''
@@ -18,9 +18,8 @@ class Grapher:
         self.DebugMode_bol = Mother_ma.DebugMode_bol
         
         self.PointCloud_npArray = PointCloud_npArray
-        self.ClusteredPointCloud_npArray = ClusteredPointCloud_npArray
         self.TheGraph_graph = nx.Graph()
-        self.NodeIndex_array = []
+        self.NodeIndex_array = Clustering_array
         self.EdgeIndex_array = []
         
         self.create_graph()
@@ -33,6 +32,37 @@ class Grapher:
         return self.TheGraph_graph
 
     def create_graph(self):
+        '''create_graph creates the graph when object is initiated.
+        '''
+        
+        
+        if self.DebugMode_bol == True:
+            print("In Grapher.create_graph():Data to be graphed:")
+            #print(self.ClusteredPointCloud_npArray[:, [0, 1, 2, 3]])
+
+        RowCnt_int = 0
+        ColumnCnt_int = 3
+        while RowCnt_int < len(self.PointCloud_npArray):
+            if RowCnt_int > 0 and \
+            self.ClusteredPointCloud_npArray[RowCnt_int, ColumnCnt_int] == -2:
+                while self.ClusteredPointCloud_npArray[RowCnt_int - 1, 2] == 2:
+	                RowCnt_int = RowCnt_int - 1
+                ColumnCnt_int = ColumnCnt_int + 1
+            if ColumnCnt_int > 3 and \
+            self.ClusteredPointCloud_npArray[RowCnt_int, 
+            ColumnCnt_int-1] != -2:
+                self.EdgeIndex_array = self.EdgeIndex_array + \
+                [[self.ClusteredPointCloud_npArray[RowCnt_int, ColumnCnt_int],
+                self.ClusteredPointCloud_npArray[RowCnt_int, ColumnCnt_int-1],
+                RowCnt_int]]
+            self.NodeIndex_array = self.NodeIndex_array + \
+            [[self.ClusteredPointCloud_npArray[RowCnt_int, ColumnCnt_int],
+            RowCnt_int]]
+            RowCnt_int = RowCnt_int + 1
+
+        self.initiate_graph()
+
+    def MOCKcreate_graph(self):
         '''create_graph creates the graph when object is initiated.
         '''
         
