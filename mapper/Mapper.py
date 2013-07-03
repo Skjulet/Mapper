@@ -56,7 +56,7 @@ class Mapper:
         self.Coloring_npArray = None
         self.GrapherObject_gr = None
         self.Properties_dict = {}
-        self.FilterAdded_ToGraphbol = True
+        self.FilterAddedToGraph_bol = False
         self.LabelName_str = None
         self.Labels_npArray = None
         
@@ -136,9 +136,8 @@ class Mapper:
                                             self.Labels_npArray)
             if self.Properties_dict != {}:
                 for Property_str in self.Properties_dict:
-                    pass
-                    #self.GrapherObject_gr.add_mean_properties(Property_str, 
-                    #                        self.Properties_dict[Property_str])
+                    self.GrapherObject_gr.add_mean_properties(Property_str, 
+                                            self.Properties_dict[Property_str])
             self.IsAnalysed_bol = True
         
     def configure(self,
@@ -187,10 +186,11 @@ class Mapper:
     def add_filter_to_graph(self):
         '''Function that adds meaned filter values to the nodes in the
         graph in self.GrapherObject_gr.  '''
-
-        if self.IsAnalysed_bol == True:
+        
+        
+        if self.FilterAddedToGraph_bol == True:
             self.add_mean_properties('Filter Value', 
-                                    self.UnsortedFilterValues_npArray)
+                                        self.UnsortedFilterValues_npArray)
         self.FilterAddedToGraph_bol = True
 
     def add_mean_properties(self, PropertiesName_str, Properties_npArray):

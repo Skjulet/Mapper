@@ -81,7 +81,7 @@ class Lens:
             np.column_stack((range(0, self.PointCloud_npArray.shape[0]),  
                             self.Mother_ma.UnsortedFilterValues_npArray))
         
-        if self.Mother_ma.FilterAdded_ToGraphbol == True:
+        if self.Mother_ma.FilterAddedToGraph_bol == True:
             self.Mother_ma.add_mean_properties('Filter Value', 
                                     self.FilteredPointCloud_npArray[:, 1])
         if self.DebugMode_bol == True:
