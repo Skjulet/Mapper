@@ -12,7 +12,7 @@ class Grapher:
     def __init__(self, PointCloud_npArray, FilteredPointCloud_npArray,
                 Clustering_array, Overlap_array,
                 Mother_ma=None):
-        '''PointCloud_npArray and ClusteredPointCloud_npArray are used
+        '''PointCloud_npArray and FilteredPointCloud_npArray are used
         to generate the graph with self.create_graph().  '''
 
 
@@ -43,26 +43,26 @@ class Grapher:
         
         if self.DebugMode_bol == True:
             print("In Grapher.create_graph():Data to be graphed:")
-            #print(self.ClusteredPointCloud_npArray[:, [0, 1, 2, 3]])
+            #print(self.FilteredPointCloud_npArray[:, [0, 1, 2, 3]])
         
         
         RowCnt_int = 0
         ColumnCnt_int = 3
         while RowCnt_int < len(self.PointCloud_npArray):
             if RowCnt_int > 0 and \
-            self.ClusteredPointCloud_npArray[RowCnt_int, ColumnCnt_int] == -2:
-                while self.ClusteredPointCloud_npArray[RowCnt_int - 1, 2] == 2:
+            self.FilteredPointCloud_npArray[RowCnt_int, ColumnCnt_int] == -2:
+                while self.FilteredPointCloud_npArray[RowCnt_int - 1, 2] == 2:
 	                RowCnt_int = RowCnt_int - 1
                 ColumnCnt_int = ColumnCnt_int + 1
             if ColumnCnt_int > 3 and \
-            self.ClusteredPointCloud_npArray[RowCnt_int, 
+            self.FilteredPointCloud_npArray[RowCnt_int, 
             ColumnCnt_int-1] != -2:
                 self.EdgeIndex_array = self.EdgeIndex_array + \
-                [[self.ClusteredPointCloud_npArray[RowCnt_int, ColumnCnt_int],
-                self.ClusteredPointCloud_npArray[RowCnt_int, ColumnCnt_int-1],
+                [[self.FilteredPointCloud_npArray[RowCnt_int, ColumnCnt_int],
+                self.FilteredPointCloud_npArray[RowCnt_int, ColumnCnt_int-1],
                 RowCnt_int]]
             self.NodeIndex_array = self.NodeIndex_array + \
-            [[self.ClusteredPointCloud_npArray[RowCnt_int, ColumnCnt_int],
+            [[self.FilteredPointCloud_npArray[RowCnt_int, ColumnCnt_int],
             RowCnt_int]]
             RowCnt_int = RowCnt_int + 1
 
@@ -75,25 +75,25 @@ class Grapher:
         
         if self.DebugMode_bol == True:
             print("In Grapher.create_graph():Data to be graphed:")
-            #print(self.ClusteredPointCloud_npArray[:, [0, 1, 2, 3]])
+            #print(self.FilteredPointCloud_npArray[:, [0, 1, 2, 3]])
 
         RowCnt_int = 0
         ColumnCnt_int = 3
         while RowCnt_int < len(self.PointCloud_npArray):
             if RowCnt_int > 0 and \
-            self.ClusteredPointCloud_npArray[RowCnt_int, ColumnCnt_int] == -2:
-                while self.ClusteredPointCloud_npArray[RowCnt_int - 1, 2] == 2:
+            self.FilteredPointCloud_npArray[RowCnt_int, ColumnCnt_int] == -2:
+                while self.FilteredPointCloud_npArray[RowCnt_int - 1, 2] == 2:
 	                RowCnt_int = RowCnt_int - 1
                 ColumnCnt_int = ColumnCnt_int + 1
             if ColumnCnt_int > 3 and \
-            self.ClusteredPointCloud_npArray[RowCnt_int, 
+            self.FilteredPointCloud_npArray[RowCnt_int, 
             ColumnCnt_int-1] != -2:
                 self.EdgeIndex_array = self.EdgeIndex_array + \
-                [[self.ClusteredPointCloud_npArray[RowCnt_int, ColumnCnt_int],
-                self.ClusteredPointCloud_npArray[RowCnt_int, ColumnCnt_int-1],
+                [[self.FilteredPointCloud_npArray[RowCnt_int, ColumnCnt_int],
+                self.FilteredPointCloud_npArray[RowCnt_int, ColumnCnt_int-1],
                 RowCnt_int]]
             self.NodeIndex_array = self.NodeIndex_array + \
-            [[self.ClusteredPointCloud_npArray[RowCnt_int, ColumnCnt_int],
+            [[self.FilteredPointCloud_npArray[RowCnt_int, ColumnCnt_int],
             RowCnt_int]]
             RowCnt_int = RowCnt_int + 1
 
@@ -111,7 +111,7 @@ class Grapher:
             if UnfinishedEdges_array != []:
                 if aNode_array[1] == UnfinishedEdges_array[0][1]:
                     self.EdgeIndex_array = self.EdgeIndex_array + \
-                    [[aNode_array[1]] + UnfinishedEdges_array[0]]
+                    [[aNode_array[0]] + UnfinishedEdges_array[0]]
                     UnfinishedEdges_array.pop(0)
             if aNode_array[1] == self.Overlap_array[0]:
                 self.Overlap_array.pop(0)
@@ -141,12 +141,12 @@ class Grapher:
             if aNode_array[0] not in UsedClusters_set:
                 self.TheGraph_graph.node[aNode_array[0]][LabelName_str] = \
                 str(Labels_npArray[
-                        self.ClusteredPointCloud_npArray[aNode_array[1], 0]])
+                        self.FilteredPointCloud_npArray[aNode_array[1], 0]])
             else:
                 self.TheGraph_graph.node[aNode_array[0]][LabelName_str] = \
                 self.TheGraph_graph.node[aNode_array[0]][LabelName_str] + \
                 ', ' + str(Labels_npArray[
-                        self.ClusteredPointCloud_npArray[aNode_array[1], 0]])
+                        self.FilteredPointCloud_npArray[aNode_array[1], 0]])
             UsedClusters_set.add(aNode_array[0])
                 
     def add_mean_properties(self, PropertiesName_str, Properties_npArray):
@@ -159,12 +159,12 @@ class Grapher:
             if aNode_array[0] not in UsedClusters_set:
                 self.TheGraph_graph.node[aNode_array[0]][PropertiesName_str] =\
                 float(Properties_npArray[
-                self.ClusteredPointCloud_npArray[aNode_array[1], 0]])
+                self.FilteredPointCloud_npArray[aNode_array[1], 0]])
             else:
                 self.TheGraph_graph.node[aNode_array[0]][PropertiesName_str] =\
                 self.TheGraph_graph.node[aNode_array[0]][PropertiesName_str] +\
                 float(Properties_npArray[
-                self.ClusteredPointCloud_npArray[aNode_array[1], 0]])
+                self.FilteredPointCloud_npArray[aNode_array[1], 0]])
             UsedClusters_set.add(aNode_array[0])
         
         for aNode_int in self.TheGraph_graph:
