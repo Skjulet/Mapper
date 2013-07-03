@@ -276,7 +276,7 @@ class Mapper:
         
         test_graph = self.GrapherObject_gr.get_graph()
         print(test_graph.nodes(data=True)[0])
-        print(test_graph.edges(data=True)[0:5])
+        print(test_graph.edges(data=True))
 
 
 

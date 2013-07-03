@@ -53,7 +53,7 @@ class Clust:
                 aBin_array[BinIndex_int]]]
             MaxClust_int = MaxClust_int + max(TemporaryClustering_array)
         
-        print(self.Clustering_array)
+        #print(self.Clustering_array)
         return self.Clustering_array
 
     def cluster_bin(self, aBin_array):

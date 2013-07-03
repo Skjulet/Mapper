@@ -109,7 +109,9 @@ class Grapher:
         UnfinishedEdges_array = []
         for aNode_array in self.NodeIndex_array:
             if UnfinishedEdges_array != []:
+                
                 if aNode_array[1] == UnfinishedEdges_array[0][1]:
+                    print(UnfinishedEdges_array)
                     self.EdgeIndex_array = self.EdgeIndex_array + \
                     [[aNode_array[0]] + UnfinishedEdges_array[0]]
                     UnfinishedEdges_array.pop(0)
@@ -124,7 +126,7 @@ class Grapher:
                 self.TheGraph_graph.node[aNode_array[0]]['NumberOfPoints'] = \
                 1 + self.TheGraph_graph.node[aNode_array[0]]['NumberOfPoints']
             UsedClusters_set.add(aNode_array[0])
-
+        print(self.EdgeIndex_array)
         UsedEdges_set = set()
         for AnEdge_array in self.EdgeIndex_array:
             if (AnEdge_array[0], AnEdge_array[1]) not in UsedEdges_set:
