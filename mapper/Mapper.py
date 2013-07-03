@@ -108,6 +108,8 @@ class Mapper:
             [self.FilteredPointCloud_npArray, 
             self.Binning_array, self.Overlap_array]= \
             self.LensObject_le.filter_point_cloud(self.PointCloud_npArray)
+            print(self.FilteredPointCloud_npArray)
+            print(self.Binning_array)
             if self.DebugMode_bol == True:
                  print("In Mapper.analyse(): Printing self.BFPointCloud_npArray\
                  in the Mapper object:")

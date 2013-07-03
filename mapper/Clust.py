@@ -45,8 +45,10 @@ class Clust:
             print(self.FilteredPointCloud_npArray)
         TemporaryClustering_array = None
         for aBin_array in self.Binning_array:
+            print(aBin_array)
             TemporaryClustering_array = self.cluster_algorithm(
                         self.PointCloud_npArray[aBin_array, :])
+            print(TemporaryClustering_array)
             for BinIndex_int in range(0,len(aBin_array)):
                 self.Clustering_array = self.Clustering_array + \
                 [[TemporaryClustering_array[BinIndex_int] + MaxClust_int,\
