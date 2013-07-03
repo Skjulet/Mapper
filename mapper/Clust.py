@@ -70,7 +70,7 @@ class Clust:
         '''Clusters a bin with a clustering algorithm specified in 
         cluster_algorithm.  '''
         
-        
+        print(PointBin_array)
         if self.DebugMode_bol == True:
             print("In Clust.cluster_bin():")
             print(PointBin_array)
