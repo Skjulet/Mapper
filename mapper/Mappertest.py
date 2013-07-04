@@ -20,31 +20,32 @@ LensArguments_array = []
 BINS_int = 5
 OVERLAP_flt = 0.9
 Clust_str = 'CompleteLinkage'
-ClusterArguments_array = [0.92]    #The epsilon value
+ClusterArguments_array = [0.92] #The epsilon value
 
 #TestObjectTwo_ma = ma.Mapper()
 
-TestObject_ma = ma.Mapper(Cloud_npArray, MetricName_str, LensName_str, 
-    LensArguments_array, BINS_int, OVERLAP_flt, Clust_str, 
+TestObject_ma = ma.Mapper(Cloud_npArray, MetricName_str, LensName_str,
+    LensArguments_array, BINS_int, OVERLAP_flt, Clust_str,
     ClusterArguments_array, DebugMode_bol = False)
 #TestObject_ma.save_filter_values('../../Mapper_Data_Files/filter_files/',
-#                                'easygoing_neighborsfilters')
+# 'easygoing_neighborsfilters')
                                 
-TestObject_ma.load_filter_values('../../Mapper_Data_Files/filter_files/',
-                                'easygoing_neighborsfilters')
-TestObject_ma.add_labels('Labels', LabelData_npArray)
+#TestObject_ma.load_filter_values('../../Mapper_Data_Files/filter_files/',
+# 'easygoing_neighborsfilters')
 
 TestObject_ma.add_filter_to_graph()
-
 TestObject_ma.analyse()
 
+TestObject_ma.add_labels('Labels', LabelData_npArray)
+
+
+
 #TestObject_ma.save_file_to_map(
-#                        '../../Mapper_Data_Files/graph_files/', 'bnc_food')
+# '../../Mapper_Data_Files/graph_files/', 'bnc_food')
 
 #TestObject_ma.save_configurations(
-#                        '../../Mapper_Data_Files/config_files/','Testfile')
-
-TestObject_ma.print_graph()
+# '../../Mapper_Data_Files/config_files/','Testfile')
 
 #TestObject_ma.print_graph()
-#TestObject_ma.save_graph()
+TestObject_ma.save_graph('../../Mapper_Data_Files/graph_files/',
+                            'Testfile_master')
