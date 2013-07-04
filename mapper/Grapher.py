@@ -24,10 +24,9 @@ class Grapher:
         
         self.NodeIndex_array = Clustering_array
         self.Overlap_array = Overlap_array
-        print(Overlap_array)
         self.EdgeIndex_array = []
         
-        self.initiate_graph()
+        self.create_graph()
 
     def get_graph(self):
         '''Returns the graph.
@@ -37,69 +36,6 @@ class Grapher:
         return self.TheGraph_graph
 
     def create_graph(self):
-        '''create_graph creates the graph when object is initiated.
-        '''
-        
-        
-        if self.DebugMode_bol == True:
-            print("In Grapher.create_graph():Data to be graphed:")
-            #print(self.FilteredPointCloud_npArray[:, [0, 1, 2, 3]])
-        
-        
-        RowCnt_int = 0
-        ColumnCnt_int = 3
-        while RowCnt_int < len(self.PointCloud_npArray):
-            if RowCnt_int > 0 and \
-            self.FilteredPointCloud_npArray[RowCnt_int, ColumnCnt_int] == -2:
-                while self.FilteredPointCloud_npArray[RowCnt_int - 1, 2] == 2:
-	                RowCnt_int = RowCnt_int - 1
-                ColumnCnt_int = ColumnCnt_int + 1
-            if ColumnCnt_int > 3 and \
-            self.FilteredPointCloud_npArray[RowCnt_int, 
-            ColumnCnt_int-1] != -2:
-                self.EdgeIndex_array = self.EdgeIndex_array + \
-                [[self.FilteredPointCloud_npArray[RowCnt_int, ColumnCnt_int],
-                self.FilteredPointCloud_npArray[RowCnt_int, ColumnCnt_int-1],
-                RowCnt_int]]
-            self.NodeIndex_array = self.NodeIndex_array + \
-            [[self.FilteredPointCloud_npArray[RowCnt_int, ColumnCnt_int],
-            RowCnt_int]]
-            RowCnt_int = RowCnt_int + 1
-
-        self.initiate_graph()
-
-    def MOCKcreate_graph(self):
-        '''create_graph creates the graph when object is initiated.
-        '''
-        
-        
-        if self.DebugMode_bol == True:
-            print("In Grapher.create_graph():Data to be graphed:")
-            #print(self.FilteredPointCloud_npArray[:, [0, 1, 2, 3]])
-
-        RowCnt_int = 0
-        ColumnCnt_int = 3
-        while RowCnt_int < len(self.PointCloud_npArray):
-            if RowCnt_int > 0 and \
-            self.FilteredPointCloud_npArray[RowCnt_int, ColumnCnt_int] == -2:
-                while self.FilteredPointCloud_npArray[RowCnt_int - 1, 2] == 2:
-	                RowCnt_int = RowCnt_int - 1
-                ColumnCnt_int = ColumnCnt_int + 1
-            if ColumnCnt_int > 3 and \
-            self.FilteredPointCloud_npArray[RowCnt_int, 
-            ColumnCnt_int-1] != -2:
-                self.EdgeIndex_array = self.EdgeIndex_array + \
-                [[self.FilteredPointCloud_npArray[RowCnt_int, ColumnCnt_int],
-                self.FilteredPointCloud_npArray[RowCnt_int, ColumnCnt_int-1],
-                RowCnt_int]]
-            self.NodeIndex_array = self.NodeIndex_array + \
-            [[self.FilteredPointCloud_npArray[RowCnt_int, ColumnCnt_int],
-            RowCnt_int]]
-            RowCnt_int = RowCnt_int + 1
-
-        self.initiate_graph()
-
-    def initiate_graph(self):
         '''Inserts the nodes and edges from self.NodeIndex_array and 
         self.EdgeIndex_array and inserts them into self.TheGraph_graph.
         '''
@@ -111,7 +47,6 @@ class Grapher:
             if UnfinishedEdges_array != []:
                 
                 if aNode_array[1] == UnfinishedEdges_array[0][1]:
-                    #print(UnfinishedEdges_array)
                     self.EdgeIndex_array = self.EdgeIndex_array + \
                     [[aNode_array[0]] + UnfinishedEdges_array[0]]
                     UnfinishedEdges_array.pop(0)
@@ -126,7 +61,6 @@ class Grapher:
                 self.TheGraph_graph.node[aNode_array[0]]['NumberOfPoints'] = \
                 1 + self.TheGraph_graph.node[aNode_array[0]]['NumberOfPoints']
             UsedClusters_set.add(aNode_array[0])
-        #print(self.EdgeIndex_array)
         UsedEdges_set = set()
         for AnEdge_array in self.EdgeIndex_array:
             if (AnEdge_array[0], AnEdge_array[1]) not in UsedEdges_set:

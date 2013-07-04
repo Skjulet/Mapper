@@ -45,41 +45,16 @@ class Clust:
             print(self.FilteredPointCloud_npArray)
         TemporaryClustering_array = None
         for aBin_array in self.Binning_array:
-            print(aBin_array)
-            print(self.FilteredPointCloud_npArray[aBin_array, 0])
             TemporaryClustering_array = self.cluster_algorithm(
                     self.PointCloud_npArray[
                     self.FilteredPointCloud_npArray[aBin_array, 0].tolist(),
                     :])
-            print(TemporaryClustering_array)
             for BinIndex_int in range(0,len(aBin_array)):
                 self.Clustering_array = self.Clustering_array + \
                 [[TemporaryClustering_array[BinIndex_int] + MaxClust_int,\
                 aBin_array[BinIndex_int]]]
             MaxClust_int = MaxClust_int + max(TemporaryClustering_array)
-        
-        #print(self.Clustering_array)
         return self.Clustering_array
-
-    def cluster_bin(self, aBin_array):
-        '''Clusters a bin with a clustering algorithm specified in 
-        cluster_algorithm.  '''
-        
-        
-        if self.DebugMode_bol == True:
-            print("In Clust.cluster_bin():")
-            print(PointBin_array)
-
-        #Gives each cluster a unique index.
-        if self.Clustering_array == []:
-            MaxClustNr_int = 0
-        else:
-            MaxClustNr_int = max(self.Clustering_array[-1])
-        
-        self.Clustering_array = self.Clustering_array + \
-                        [[x + MaxClustNr_int for x in 
-                        self.cluster_algorithm(
-                        self.PointCloud_npArray[aBin_array, :])]]
 
     def cluster_algorithm(self, PointCloud_npArray):
         '''This method implements the given clustering algorithm.

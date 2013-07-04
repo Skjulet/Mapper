@@ -58,11 +58,8 @@ class Bins:
                 while (CurrentBin_int - 1)*BININTERVAL_flt - \
                         OVERLAPINTERVAL_flt < PointsToCheck_array[Point_int]:
                     Point_int = Point_int - 1
-                    
             Point_int = Point_int + 1
         if CurrentBin_array != []:
             Binning_npArray = Binning_npArray + [CurrentBin_array]
-		
-        #print(Binning_npArray)
         return [Binning_npArray, Overlap_array]
         
