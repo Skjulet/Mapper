@@ -46,8 +46,11 @@ class Clust:
         TemporaryClustering_array = None
         for aBin_array in self.Binning_array:
             print(aBin_array)
+            print(self.FilteredPointCloud_npArray[aBin_array, 0])
             TemporaryClustering_array = self.cluster_algorithm(
-                        self.PointCloud_npArray[aBin_array, :])
+                    self.PointCloud_npArray[
+                    self.FilteredPointCloud_npArray[aBin_array, 0].tolist(),
+                    :])
             print(TemporaryClustering_array)
             for BinIndex_int in range(0,len(aBin_array)):
                 self.Clustering_array = self.Clustering_array + \
