@@ -56,7 +56,7 @@ class Mapper:
         self.Coloring_npArray = None
         self.GrapherObject_gr = None
         self.Properties_dict = {}
-        self.FilterAdded_ToGraphbol = True
+        self.FilterAddedToGraph_bol = False
         self.LabelName_str = None
         self.Labels_npArray = None
         
@@ -66,7 +66,10 @@ class Mapper:
         self.ClustObject_cl = None
         self.GrapherObject_gr = None
         
-        self.BFPointCloud_npArray = None
+        self.FilteredPointCloud_npArray = None
+        self.Binning_array = None
+        self.Overlap_array = None
+        self.Clustering_array = None
         self.ClusteredPointCloud_npArray = None
 
     def analyse(self):
@@ -102,7 +105,8 @@ class Mapper:
                                         self)
                                     
             #Bins and filters cloud on the lenses filter.
-            self.BFPointCloud_npArray = \
+            [self.FilteredPointCloud_npArray, 
+            self.Binning_array, self.Overlap_array]= \
             self.LensObject_le.filter_point_cloud(self.PointCloud_npArray)
             if self.DebugMode_bol == True:
                  print("In Mapper.analyse(): Printing self.BFPointCloud_npArray\
@@ -110,8 +114,9 @@ class Mapper:
                  print(self.BFPointCloud_npArray)	
 
             #Clusters the cloud.
-            self.ClusteredPointCloud_npArray = \
-            self.ClustObject_cl.create_clustering(self.BFPointCloud_npArray)
+            self.Clustering_array = self.ClustObject_cl.create_clustering(
+                                            self.FilteredPointCloud_npArray,
+                                            self.Binning_array)
 
             if self.DebugMode_bol == True:
                 print("In Mapper.analyse(): Printing\
@@ -120,8 +125,10 @@ class Mapper:
 
             #Creates a graph from the self.PointCloud_npArray and
             #clustering data.
-            self.GrapherObject_gr = gr.Grapher(self.PointCloud_npArray, 
-                                        self.ClusteredPointCloud_npArray,
+            self.GrapherObject_gr = gr.Grapher(self.PointCloud_npArray,
+                                        self.FilteredPointCloud_npArray,
+                                        self.Clustering_array,
+                                        self.Overlap_array,
                                         self)
             
             if self.LabelName_str != None and self.Labels_npArray != None:
@@ -179,10 +186,11 @@ class Mapper:
     def add_filter_to_graph(self):
         '''Function that adds meaned filter values to the nodes in the
         graph in self.GrapherObject_gr.  '''
-
+        
+        
         if self.IsAnalysed_bol == True:
             self.add_mean_properties('Filter Value', 
-                                    self.UnsortedFilterValues_npArray)
+                                        self.UnsortedFilterValues_npArray)
         self.FilterAddedToGraph_bol = True
 
     def add_mean_properties(self, PropertiesName_str, Properties_npArray):

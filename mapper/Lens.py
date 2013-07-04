@@ -24,11 +24,10 @@ class Lens:
         self.BinsObject_bi = BinsObject_bi
         
         self.PointCloud_npArray = None
+        self.FilteredPointCloud_npArray = None
         
-        #self.BFPointCloud_npArray works towards becoming a binned and
-        #filtered point cloud throughout the algorithm.
-        self.BFPointCloud_npArray = None
-  
+        self.Binning_array = None
+        
     def filter_point_cloud(self,PointCloud_npArray):
         '''filter_point_cloud  applies filter from 
         Filter_Functions/FiltersFunctions.py, sorts on filter variable
@@ -42,27 +41,31 @@ class Lens:
                 itself:")
             print(self.PointCloud_npArray)
 
-        #self.BFPointCloud_npArray is filtered and sorted after filter
-        #size.
+        #self.FilteredPointCloud_npArray is filtered and sorted after 
+        #filter size.
         self.filter_and_sort_points()
 
         if self.DebugMode_bol == True:
             print("In Lens.filter_point_cloud(): PointCloud_npArray \
                     after filter + sorting")
-            print(self.BFPointCloud_npArray)
-
-        #The self.BinsObject_bi.applybins function adds binning data to
-        #the self.BFPointCloud_npArray as a new column.
-        self.BFPointCloud_npArray = \
-            self.BinsObject_bi.apply_bins(self.BFPointCloud_npArray)
+            print(self.FilteredPointCloud_npArray)
         
-        return self.BFPointCloud_npArray
+        #The self.BinsObject_bi.apply_bins function adds creates an
+        #array with binning information.
+        [self.Binning_array, Overlap_array] = \
+            self.BinsObject_bi.apply_bins(self.FilteredPointCloud_npArray)
+            
+        
+        
+        return [self.FilteredPointCloud_npArray, 
+                self.Binning_array, 
+                Overlap_array]
 
     def filter_and_sort_points(self):
         '''filter_points applies the filter specified as
         LensName_str to each point in the self.PointCloud_npArray and
-        sorts self.BFPointCloud_npArray after each points filter size.
-        '''
+        sorts self.FilteredPointCloud_npArray after each points filter
+        size.  '''
         
         
         #Creates filter value for each point.
@@ -74,29 +77,29 @@ class Lens:
                                                 self.MetricObject_me, 
                                                 self.LensName_str, 
                                                 self.LensArguments_array)
-        self.BFPointCloud_npArray = \
+        self.FilteredPointCloud_npArray = \
             np.column_stack((range(0, self.PointCloud_npArray.shape[0]),  
                             self.Mother_ma.UnsortedFilterValues_npArray))
         
-        if self.Mother_ma.FilterAdded_ToGraphbol == True:
+        if self.Mother_ma.FilterAddedToGraph_bol == True:
             self.Mother_ma.add_mean_properties('Filter Value', 
-                                    self.BFPointCloud_npArray[:, 1])
+                                    self.FilteredPointCloud_npArray[:, 1])
         if self.DebugMode_bol == True:
             print("In Lens.filter_and_sort_points(): Cloud after added \
             filters:")
-            print(self.BFPointCloud_npArray)
+            print(self.FilteredPointCloud_npArray)
         
-        #Sorts self.BFPointCloud_npArray on filter value.
+        #Sorts self.FilteredPointCloud_npArray on filter value.
         TemporaryFiltered_npArray = np.zeros((
-                self.BFPointCloud_npArray.shape[0], 
-                self.BFPointCloud_npArray.shape[1]))
+                self.FilteredPointCloud_npArray.shape[0], 
+                self.FilteredPointCloud_npArray.shape[1]))
         CountVariable_int = 0
-        for Index_flt in np.lexsort((self.BFPointCloud_npArray[:,0],
-                                    self.BFPointCloud_npArray[:,1])):
+        for Index_flt in np.lexsort((self.FilteredPointCloud_npArray[:,0],
+                                    self.FilteredPointCloud_npArray[:,1])):
             TemporaryFiltered_npArray[CountVariable_int] = \
-            self.BFPointCloud_npArray[Index_flt, :]
+            self.FilteredPointCloud_npArray[Index_flt, :]
             CountVariable_int = CountVariable_int + 1
-        self.BFPointCloud_npArray = TemporaryFiltered_npArray
+        self.FilteredPointCloud_npArray = TemporaryFiltered_npArray
 
 
 

@@ -33,6 +33,7 @@ TestObject_ma = ma.Mapper(Cloud_npArray, MetricName_str, LensName_str,
 #TestObject_ma.load_filter_values('../../Mapper_Data_Files/filter_files/',
 # 'easygoing_neighborsfilters')
 
+
 TestObject_ma.add_filter_to_graph()
 TestObject_ma.analyse()
 
@@ -49,3 +50,4 @@ TestObject_ma.add_labels('Labels', LabelData_npArray)
 #TestObject_ma.print_graph()
 TestObject_ma.save_graph('../../Mapper_Data_Files/graph_files/',
                             'Testfile_master')
+

@@ -28,69 +28,33 @@ class Clust:
         self.BFPointCloud_npArray = None
         self.PointCloudSize_int = len(PointCloud_npArray)
         
-    def create_clustering(self, BFPointCloud_npArray):
+
+    def create_clustering(self, FilteredPointCloud_npArray, 
+                        Binning_array):
         '''Creates clustering from each bin given in the binning data 
-        of BFPointCloud_npArray.  '''
+        of Binning_array.  '''
         
         
-        self.BFPointCloud_npArray = BFPointCloud_npArray
+        
+        self.FilteredPointCloud_npArray = FilteredPointCloud_npArray
+        self.Binning_array = Binning_array
+        self.Clustering_array = []
+        MaxClust_int = 0
         if self.DebugMode_bol == True:
             print("In clust.create_clustering():Data to be clustered:")
-            print(self.BFPointCloud_npArray)
-    
-        FirstBin_array = [self.BFPointCloud_npArray[0, 0]]
-        SecondBin_array = []
-        for PointNr_int in range(1, self.PointCloudSize_int):
-
-            if self.BFPointCloud_npArray[PointNr_int, 2] == 2:
-                FirstBin_array = FirstBin_array + \
-                [self.BFPointCloud_npArray[PointNr_int, 0]]
-                SecondBin_array = SecondBin_array + \
-                [self.BFPointCloud_npArray[PointNr_int, 0]]
-                
-            elif self.BFPointCloud_npArray[PointNr_int, 2] == 1 \
-                        and self.BFPointCloud_npArray[PointNr_int-1, 2] == 2:
-                self.cluster_bin(FirstBin_array,PointNr_int)
-                FirstBin_array = SecondBin_array
-                FirstBin_array = FirstBin_array + \
-                [self.BFPointCloud_npArray[PointNr_int,0]]
-                SecondBin_array = []
-                
-            elif self.BFPointCloud_npArray[PointNr_int, 2] == 1 \
-                        and self.BFPointCloud_npArray[PointNr_int-1, 2] == 1:
-                FirstBin_array = FirstBin_array + \
-                [self.BFPointCloud_npArray[PointNr_int, 0]]
-
-        PointNr_int = PointNr_int + 1    #compensates for last point
-        self.cluster_bin(FirstBin_array, PointNr_int)
-
-        return self.BFPointCloud_npArray
-
-    def cluster_bin(self, PointBin_array, PointNr_int):
-        '''Clusters a bin with a clustering algorithm specified in 
-        cluster_algorithm.  '''
-        
-        
-        if self.DebugMode_bol == True:
-            print("In Clust.cluster_bin():")
-            print(PointBin_array)
-
-        #Gives each cluster a unique index.
-        if self.BFPointCloud_npArray.shape[1] == 3:
-            MaxClustNr_int = 0
-        else:
-            MaxClustNr_int = max(self.BFPointCloud_npArray[:, -1])
-    
-        TempClust_array = np.append(np.ones(
-                        PointNr_int - len(PointBin_array))*(-2),
-                        [x + MaxClustNr_int for x in 
-                        self.cluster_algorithm(
-                        self.PointCloud_npArray[PointBin_array, :])])
-    
-        self.BFPointCloud_npArray = np.column_stack(
-                        (self.BFPointCloud_npArray,
-                        np.append(TempClust_array, 
-                        np.ones(self.PointCloudSize_int - PointNr_int)*(-2))))
+            print(self.FilteredPointCloud_npArray)
+        TemporaryClustering_array = None
+        for aBin_array in self.Binning_array:
+            TemporaryClustering_array = self.cluster_algorithm(
+                    self.PointCloud_npArray[
+                    self.FilteredPointCloud_npArray[aBin_array, 0].tolist(),
+                    :])
+            for BinIndex_int in range(0,len(aBin_array)):
+                self.Clustering_array = self.Clustering_array + \
+                [[TemporaryClustering_array[BinIndex_int] + MaxClust_int,\
+                aBin_array[BinIndex_int]]]
+            MaxClust_int = MaxClust_int + max(TemporaryClustering_array)
+        return self.Clustering_array
 
     def cluster_algorithm(self, PointCloud_npArray):
         '''This method implements the given clustering algorithm.
