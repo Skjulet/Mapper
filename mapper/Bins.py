@@ -29,10 +29,13 @@ class Bins:
             BININTERVAL_flt = \
                 len(FilteredPointCloud_npArray)/float(self.BINNUMBER_int)
         else:
-            #PointsToCheck_array =
+            PointsToCheck_array = FilteredPointCloud_npArray[:,1]
             BININTERVAL_flt = \
                 len(FilteredPointCloud_npArray)/float(self.BINNUMBER_int)
-
+        #print(FilteredPointCloud_npArray[:,1],
+        #FilteredPointCloud_npArray[:,1][-1], 
+        #FilteredPointCloud_npArray[:,1][0])
+        
         OVERLAPINTERVAL_flt = (BININTERVAL_flt * self.OVERLAP_flt) / 2
         
         Point_int = 0
