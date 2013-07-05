@@ -9,12 +9,10 @@ Short term:
     (H) Rethink/redo some of the save_configurations in Mapper.py
     
 Middle term:
-    (M) Fix equalize == false in Bins.py.
     (M) Functions that checks number of arguments for 
         FiltersFunctions.py and ClusterAlgorithms.py.
         
-    (L) Separate clusterdata, binningdata etc.
-    (L) incorporate graphing + clustering into binning    
+    (L) Separate clusterdata, binningdata etc.   
     
 
 Long term:
