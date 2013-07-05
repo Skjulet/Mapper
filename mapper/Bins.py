@@ -26,15 +26,15 @@ class Bins:
         CountInterval_int = 1	
         if self.Equalize_bol == True:
             PointsToCheck_array = range(len(FilteredPointCloud_npArray))
+            INTERVALSTART_flt = 0
             BININTERVAL_flt = \
                 len(FilteredPointCloud_npArray)/float(self.BINNUMBER_int)
         else:
             PointsToCheck_array = FilteredPointCloud_npArray[:,1]
+            INTERVALSTART_flt = FilteredPointCloud_npArray[0,1]
             BININTERVAL_flt = \
-                len(FilteredPointCloud_npArray)/float(self.BINNUMBER_int)
-        #print(FilteredPointCloud_npArray[:,1],
-        #FilteredPointCloud_npArray[:,1][-1], 
-        #FilteredPointCloud_npArray[:,1][0])
+                (FilteredPointCloud_npArray[-1,1] - \
+                FilteredPointCloud_npArray[0,1])/float(self.BINNUMBER_int)
         
         OVERLAPINTERVAL_flt = (BININTERVAL_flt * self.OVERLAP_flt) / 2
         
@@ -43,26 +43,31 @@ class Bins:
         CurrentBin_array = []
         Overlap_array = []
         while Point_int < len(FilteredPointCloud_npArray):
-            if (CurrentBin_int - 1)*BININTERVAL_flt - OVERLAPINTERVAL_flt <= \
-                        PointsToCheck_array[Point_int] < \
-                        CurrentBin_int*BININTERVAL_flt + OVERLAPINTERVAL_flt:
+            if INTERVALSTART_flt + (CurrentBin_int - 1)*BININTERVAL_flt - \
+                        OVERLAPINTERVAL_flt <= PointsToCheck_array[Point_int] \
+                        < INTERVALSTART_flt + CurrentBin_int*BININTERVAL_flt +\
+                        OVERLAPINTERVAL_flt:
                 CurrentBin_array = CurrentBin_array + [Point_int]
                 
-            if (CurrentBin_int)*BININTERVAL_flt - OVERLAPINTERVAL_flt <= \
-                        PointsToCheck_array[Point_int] < \
-                        CurrentBin_int*BININTERVAL_flt + OVERLAPINTERVAL_flt:
+            if INTERVALSTART_flt + (CurrentBin_int)*BININTERVAL_flt - \
+                        OVERLAPINTERVAL_flt <= PointsToCheck_array[Point_int] \
+                        < INTERVALSTART_flt + CurrentBin_int*BININTERVAL_flt +\
+                        OVERLAPINTERVAL_flt:
                 Overlap_array = Overlap_array + [Point_int]
             if PointsToCheck_array[Point_int] >= \
-                        CurrentBin_int*BININTERVAL_flt + OVERLAPINTERVAL_flt:
+                        INTERVALSTART_flt + CurrentBin_int*BININTERVAL_flt + \
+                        OVERLAPINTERVAL_flt:
                 CurrentBin_int = CurrentBin_int + 1
                 if CurrentBin_array != []:
                     Binning_npArray = Binning_npArray + [CurrentBin_array]
                     CurrentBin_array = []
-                while (CurrentBin_int - 1)*BININTERVAL_flt - \
+                while INTERVALSTART_flt + \
+                        (CurrentBin_int - 1)*BININTERVAL_flt - \
                         OVERLAPINTERVAL_flt < PointsToCheck_array[Point_int]:
                     Point_int = Point_int - 1
             Point_int = Point_int + 1
         if CurrentBin_array != []:
             Binning_npArray = Binning_npArray + [CurrentBin_array]
+        
         return [Binning_npArray, Overlap_array]
         

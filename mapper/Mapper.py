@@ -51,7 +51,7 @@ class Mapper:
             print("In Mapper__init__: Mapper is now running in debug mode")
             print()	
             
-        self.Equalize_bol = True
+        self.Equalize_bol = False
 
         self.Coloring_npArray = None
         self.GrapherObject_gr = None

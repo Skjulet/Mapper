@@ -47,7 +47,7 @@ TestObject_ma.add_labels('Labels', LabelData_npArray)
 #TestObject_ma.save_configurations(
 # '../../Mapper_Data_Files/config_files/','Testfile')
 
-#TestObject_ma.print_graph()
-TestObject_ma.save_graph('../../Mapper_Data_Files/graph_files/',
-                            'Testfile_master')
+TestObject_ma.print_graph()
+#TestObject_ma.save_graph('../../Mapper_Data_Files/graph_files/',
+#                            'Testfile_master')
 

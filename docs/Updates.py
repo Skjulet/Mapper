@@ -17,6 +17,7 @@ Minor changes:
 28/6 2013 - Added functionality to save and load configuration files.
 
 30/6 2013 - Added functionality to save and load filter arrays.
+05/7 2013 - Enabled Equalize == False.
 
 Major changes:
 26/6 2013 - Finnished rewriting all code according to the style guide
