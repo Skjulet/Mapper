@@ -22,6 +22,7 @@ class Mapper:
                 MetricName_str=None,
                 LensName_str=None,
                 LensArguments_array=None,
+                Equalize_bol=True,
                 BINNUMBER_int=None,
                 OVERLAP_flt=None,
                 ClusterAlgorithm_str=None,
@@ -51,8 +52,8 @@ class Mapper:
             print("In Mapper__init__: Mapper is now running in debug mode")
             print()	
             
-        self.Equalize_bol = False
-
+        self.Equalize_bol = Equalize_bol
+        
         self.Coloring_npArray = None
         self.GrapherObject_gr = None
         self.Properties_dict = {}
@@ -145,6 +146,7 @@ class Mapper:
                 MetricName_str=None,
                 LensName_str=None,
                 LensArguments_array=None,
+                Equalize_bol=None,
                 BINNUMBER_int=None,
                 OVERLAP_flt=None,
                 ClusterAlgorithm_str=None,
@@ -161,6 +163,8 @@ class Mapper:
             self.LensName_str = LensName_str
         if LensArguments_array != None:
             self.LensArguments_array = LensArguments_array
+        if Equalize_bol != None:
+            self.Equalize_bol = Equalize_bol
         if BINNUMBER_int != None:
             self.BINNUMBER_int = BINNUMBER_int
         if OVERLAP_flt != None:
