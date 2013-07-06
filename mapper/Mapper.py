@@ -238,29 +238,25 @@ class Mapper:
         '''A function that saves filter values, sorted in the same
         order as the initial PointCloud_npArray, to a file on a 
         given locantion.  '''
-        
-        
-        with open(DirectoryPath_str + FileName_str + '.pk', 'wb') as output:
-            if self.UnsortedFilterValues_npArray != None:
-                pickle.dump(self.UnsortedFilterValues_npArray, output,
-                            pickle.HIGHEST_PROTOCOL)
-            else:
-                self.UnsortedFilterValues_npArray = \
-                ff.FilterFunctions().apply_filter(self.PointCloud_npArray,
-                                                me.Metric(self.MetricName_str, 
-                                                        self), 
-                                                self.LensName_str, 
-                                                self.LensArguments_array)
-                pickle.dump(self.UnsortedFilterValues_npArray, output,
-                            pickle.HIGHEST_PROTOCOL)
+        if self.UnsortedFilterValues_npArray != None:
+                np.save(DirectoryPath_str + FileName_str, 
+                        self.UnsortedFilterValues_npArray)
+        else:
+            self.UnsortedFilterValues_npArray = \
+            ff.FilterFunctions().apply_filter(self.PointCloud_npArray,
+                                            me.Metric(self.MetricName_str, 
+                                                    self), 
+                                            self.LensName_str, 
+                                            self.LensArguments_array)
+            np.save(DirectoryPath_str + FileName_str, 
+                    self.UnsortedFilterValues_npArray)
                             
     def load_filter_values(self, DirectoryPath_str, FileName_str):
         '''A function that loads filter values, sorted in the same
         order as the initial PointCloud_npArray, to a file on a 
         given locantion.  '''
-        
-        with open(DirectoryPath_str + FileName_str + '.pk', 'rb') as input:
-            self.UnsortedFilterValues_npArray = pickle.load(input)
+        self.UnsortedFilterValues_npArray = np.load(DirectoryPath_str + 
+                                                    FileName_str + '.npy')
         
     def save_graph(self, DirectoryPath_str, FileName_str):
         '''This function saves the graph in a map in .graphml format.

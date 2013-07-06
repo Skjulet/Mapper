@@ -87,7 +87,7 @@ class FilterFunctions:
         
         
         DistanceMatrix_npArray = distance.squareform(
-                    distance.pdist(PointCloud_npArray, 
+                    distance.pdist(np.array(PointCloud_npArray, dtype=np.int32), 
                                    metric=self.MetricObject_me.get_metric()))
         FilterValues_npArray = np.zeros(len(PointCloud_npArray))
         

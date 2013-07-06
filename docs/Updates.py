@@ -18,6 +18,7 @@ Minor changes:
 
 30/6 2013 - Added functionality to save and load filter arrays.
 05/7 2013 - Enabled Equalize == False.
+6/7 2013 - Fixed saving filter values as numpy files.
 
 Major changes:
 26/6 2013 - Finnished rewriting all code according to the style guide

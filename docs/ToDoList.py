@@ -5,7 +5,6 @@ Short term:
     (H) ArielArielAriel ArielAriel Ariel --> Fix variabel names in 
         specified parts of FiltersFunctions.py and 
         ClusterAlgorithms.py.
-    (H) Ariel - Fix save filter as .npy file.
     (H) Rethink/redo some of the save_configurations in Mapper.py
     
 Middle term:
