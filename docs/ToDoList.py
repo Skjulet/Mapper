@@ -7,6 +7,10 @@ Short term:
         ClusterAlgorithms.py.
     (H) Rethink/redo some of the save_configurations in Mapper.py
     
+    (M) Add bin number as propertie value
+    
+    (M) Add all columns as propertie
+    
 Middle term:
     (M) Functions that checks number of arguments for 
         FiltersFunctions.py and ClusterAlgorithms.py.
