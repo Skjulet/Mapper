@@ -43,7 +43,6 @@ class ClusterAlgorithms:
         X = data
     
         Y = distance.pdist(X, metric = self.MetricObject_me.get_metric())
-        Y = Y / np.max(Y)
         Y[Y < 0] = 0
     
         Z = linkage(Y, 'complete')
