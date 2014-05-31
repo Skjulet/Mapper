@@ -53,7 +53,11 @@ class FilterFunctions:
             else:
                 FilterValues_npArray = self.PCA(PointCloud_npArray, 
                                                     FilterArguments_array[0])
-            
+        
+        elif FilterType_str == 'word_distance':
+            FilterValues_npArray = self.word_distance(PointCloud_npArray,
+                                                    FilterArguments_array[0])
+        
         else:
             pass
         
@@ -87,8 +91,8 @@ class FilterFunctions:
         
         
         DistanceMatrix_npArray = distance.squareform(
-                    distance.pdist(np.array(PointCloud_npArray, dtype=np.int32), 
-                                   metric=self.MetricObject_me.get_metric()))
+                distance.pdist(np.array(PointCloud_npArray, dtype=np.int32),
+                               metric=self.MetricObject_me.get_metric()))
         FilterValues_npArray = np.zeros(len(PointCloud_npArray))
         
         for n_int, Row in enumerate(DistanceMatrix_npArray):
@@ -102,6 +106,19 @@ class FilterFunctions:
         
         return FilterValues_npArray
         
+    def word_distance(self, PointCloud_npArray, WordVector_npArray):
+        '''A function that measures the distance between a given word (given 
+        as a vector np.array) and every other word and saves the distance as 
+        an np.array.  '''
+        
+        FilterValues_npArray = np.zeros(len(PointCloud_npArray))
+        FilterValues_npArray = \
+        distance.cdist(np.array(PointCloud_npArray, dtype=np.int32),
+                        WordVector_npArray,
+                        metric=self.MetricObject_me.get_metric())
+                
+        
+        return FilterValues_npArray
         
         
         
