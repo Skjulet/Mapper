@@ -29,24 +29,46 @@ class ClusterAlgorithms:
         
         self.MetricObject_me = MetricObject_me
         
-        if ClusterAlgorithm_str == 'CompleteLinkage':
+        if ClusterAlgorithm_str == 'SingleLinkage':
+            return self.single_linkage_clustering(PointCloud_npArray,
+                                                    ClusterArguments_array[0])
+
+        elif ClusterAlgorithm_str == 'CompleteLinkage':
             return self.complete_linkage_clustering(PointCloud_npArray,
                                                     ClusterArguments_array[0])
-                                                                                                      
-    #Ariel must fix variable names for this section since I
-    #(Gabriel) doesnt know what names are appropriate.
-    def complete_linkage_clustering(self, data, EPS_flt):
+
+    def single_linkage_clustering(self, PointCloud_npArray, EPS_flt):
+        '''Complete Linkage clustering method. An epsilon (EPS_flt)
+        value is needed to execute the algorithm.  '''
+
+        PairwiseDistances_npArray = distance.pdist( PointCloud_npArray,
+                                    metric = self.MetricObject_me.get_metric())
+
+        # Remove values less then zero. Values less than zero might come from
+        # floating point errors. Needs to be examined more closely.
+        PairwiseDistances_npArray[PairwiseDistances_npArray < 0] = 0
+
+        Z = linkage(PairwiseDistances_npArray, 'single')
+
+        labels = fcluster(Z, t=EPS_flt, criterion = 'distance')
+
+        return labels
+
+    def complete_linkage_clustering(self, PointCloud_npArray, EPS_flt):
         '''Complete Linkage clustering method. An epsilon (EPS_flt)
         value is needed to execute the algorithm.  '''
         
-        
-        X = data
+        PairwiseDistances_npArray = distance.pdist(PointCloud_npArray,
+                                    metric = self.MetricObject_me.get_metric())
+
+        # Remove values less then zero. Values less than zero might come from
+        # floating point errors. Needs to be examined more closely.
+        PairwiseDistances_npArray[PairwiseDistances_npArray < 0] = 0
     
-        Y = distance.pdist(X, metric = self.MetricObject_me.get_metric())
-        Y[Y < 0] = 0
+        HierarchicalClustering_ndArray = linkage(PairwiseDistances_npArray,
+                                                 'complete')
     
-        Z = linkage(Y, 'complete')
-    
-        labels = fcluster(Z, t=EPS_flt, criterion = 'distance')
+        labels = fcluster(HierarchicalClustering_ndArray, t=EPS_flt,
+                          criterion = 'distance')
     
         return labels
