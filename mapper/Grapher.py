@@ -107,7 +107,24 @@ class Grapher:
             self.TheGraph_graph.node[aNode_int][PropertiesName_str] = \
             self.TheGraph_graph.node[aNode_int][PropertiesName_str] / \
             float(self.TheGraph_graph.node[aNode_int]['NumberOfPoints'])
-
+            
+    def add_summed_properties(self, PropertiesName_str, Properties_npArray):
+        '''Adds summed properties to the nodes in the graph.
+        '''
+        
+        
+        UsedClusters_set = set()
+        for aNode_array in self.NodeIndex_array:
+            if aNode_array[0] not in UsedClusters_set:
+                self.TheGraph_graph.node[aNode_array[0]][PropertiesName_str] =\
+                float(Properties_npArray[
+                self.FilteredPointCloud_npArray[aNode_array[1], 0]])
+            else:
+                self.TheGraph_graph.node[aNode_array[0]][PropertiesName_str] =\
+                self.TheGraph_graph.node[aNode_array[0]][PropertiesName_str] +\
+                float(Properties_npArray[
+                self.FilteredPointCloud_npArray[aNode_array[1], 0]])
+            UsedClusters_set.add(aNode_array[0])
 
 
 

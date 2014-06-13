@@ -207,6 +207,16 @@ class Mapper:
             self.GrapherObject_gr.add_mean_properties(PropertiesName_str, 
                                                     Properties_npArray)
 
+    def add_summed_properties(self, PropertiesName_str, Properties_npArray):
+        '''Function that adds summed properties values to the nodes in
+        the graph in self.GrapherObject_gr.  '''
+
+        
+        self.Properties_dict[PropertiesName_str] = Properties_npArray
+        if self.IsAnalysed_bol == True:
+            self.GrapherObject_gr.add_summed_properties(PropertiesName_str, 
+                                                    Properties_npArray)
+                                                    
     def save_configurations(self, DirectoryPath_str, FileName_str):
         '''A function that saves configuration to a file in a given
         locantion.  '''
@@ -261,6 +271,8 @@ class Mapper:
         given locantion.  '''
         self.UnsortedFilterValues_npArray = np.load(DirectoryPath_str + 
                                                     FileName_str + '.npy')
+        self.UnsortedFilterValues_npArray = np.array(
+        self.UnsortedFilterValues_npArray, dtype=np.float64)
         
     def save_graph(self, DirectoryPath_str, FileName_str):
         '''This function saves the graph in a map in .graphml format.
